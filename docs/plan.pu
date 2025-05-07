@@ -1,0 +1,39 @@
+```uml
+@startuml OtenkiApp
+package "フロントエンド" {
+  [Webブラウザ] as WebBrowser
+  [スマホ{Flutter}] as SmartPhone
+}
+
+cloud {
+  [気象庁API] as JMA
+  [YouTube] as YouTube
+}
+
+package "AWS" {
+	frame "フロントエンド {Lambda}" {
+		[Next.js] as NextJs
+	}
+	frame "バックエンド {Lambda}" {
+		[APIサーバ{FastAPI}] as API
+	}
+	frame "定期実行 {Lambda}" {
+		[ライブストリーミングの推論] as InferenceProcessor
+		[気象情報] as TaskSchedule
+	}
+
+	database "データベース" {
+		[DynamoDB] as DB
+	}
+}
+
+WebBrowser --> NextJs : 表示
+NextJs --> API : リクエスト送信
+SmartPhone --> API : リクエスト送信
+API --> DB : 気象情報・推論結果取得
+TaskSchedule --> JMA : 天気情報取得
+InferenceProcessor --> YouTube : ライブストリーミング取得
+InferenceProcessor --> DB : 推論結果保存
+TaskSchedule --> DB : 天気情報保存
+@enduml
+```

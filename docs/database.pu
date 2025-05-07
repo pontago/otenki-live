@@ -1,0 +1,118 @@
+@startuml Database
+package Entity <<Rectangle>> {
+  package JMA <<Rectangle>> {
+    entity WeatherForecast {
+      * ID: Number
+      --
+      # エリアコード: String
+      データ: Json <<ForecastData>>
+      予報日: Date
+      発表日時: DateTime 
+      登録日時: DateTime
+    }
+
+    entity ForecastData <<Json>> {
+      天気: String
+      風: String
+      波: String
+      降水確率: Json <<ForecastDataPop>>
+      気温: Json <<ForecastDataTemp>>
+    }
+
+    entity ForecastDataPop <<Json>> {
+      日時: DateTime
+      降水量: Number
+    }
+
+    entity ForecastDataTemp <<Json>> {
+      日時: DateTime
+      気温: Number
+    }
+
+    WeatherForecast ||--|| ForecastData
+    ForecastData ||--|| ForecastDataPop
+    ForecastData ||--|| ForecastDataTemp
+
+    hide <<Json>> circle
+  }
+
+  package YouTube <<Rectangle>> {
+    entity LiveChannel {
+      * チャンネルID: String
+      --
+      # エリアコード: String
+      チャンネル名: String
+      ストリームURL: String
+      ステータス: Number
+      最終更新日時: DateTime
+      登録日時: DateTime
+    }
+
+    entity LiveStreamDetect {
+      * ID: Number
+      - チャンネルID: String
+      --
+      傘人数: Number
+      半袖人数: Number
+      長袖人数: Number
+      人数: Number
+      登録日時: DateTime
+    }
+  }
+
+}
+
+package DynamoDB <<Rectangle>> {
+  entity WeatherForecast {
+    * PK: String <<Partition key>> [エリアコード]
+    * SK: String <<Sort key>> [予報日#発表日時]
+    --
+    data: Map [データ]
+    createdAt: DateTime [登録日時]
+  }
+
+  entity LiveChannel {
+    * PK: String <<Partition key>> [チャンネルID]
+    * SK: String <<Sort key>> [ステータス]
+    --
+    areaCode: String [エリアコード]
+    name: String [チャンネル名]
+    streamUrl: String [ストリームURL]
+    processedAt: DateTime [最終更新日時]
+    updatedAt: DateTime [更新日時]
+  }
+
+  entity LiveStreamDetect {
+    * PK: String <<Partition key>> [エリアコード]
+    * SK: String <<Sort key>> [登録日時]
+    --
+    channelId: String [チャンネルID]
+    umbrella: Number [傘人数]
+    tshirt: Number [半袖人数]
+    longSleeve: Number [長袖人数]
+    total: Number [人数]
+  }
+
+  object WeatherForecastTable {
+    <#lightgray,#black>|=PK|=SK|=data|
+    <#white>|1300000|2025-05-01#2025-05-01T12:00:00|{}|
+    <#white>|1300000|2025-05-01#2025-05-01T13:00:00|{}|
+  }
+
+  object LiveChannelTable {
+    <#lightgray,#black>|=PK|=SK|=areaCode|=name|=streamUrl|=processedAt|=updatedAt|
+    <#white>|1234|1|1300000|テストチャンネル|https://localhost/|2025-05-01T12:00:00|2025-05-01T12:00:00|
+  }
+
+  object LiveStreamDetectTable {
+    <#lightgray,#black>|=PK|=SK|=channelId|=umbrella|=tshirt|=longSleeve|=total|
+    <#white>|1300000|2025-05-01T12:00:00|1234|1|1|1|3|
+  }
+
+  WeatherForecast ||--|| WeatherForecastTable
+  LiveChannel ||--|| LiveChannelTable
+  LiveStreamDetect ||--|| LiveStreamDetectTable
+
+  ForecastData ||----|| WeatherForecast
+}
+@enduml

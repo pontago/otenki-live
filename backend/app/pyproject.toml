@@ -7,12 +7,14 @@ requires-python = ">=3.12"
 dependencies = [
     "boto3>=1.38.10",
     "fastapi[all]>=0.115.12",
+    "pynamodb>=6.0.2",
     "typer>=0.15.3",
 ]
 
 [dependency-groups]
 dev = [
     "boto3-stubs[dynamodb]>=1.38.10",
+    "mypy>=1.15.0",
     "ruff>=0.11.8",
 ]
 

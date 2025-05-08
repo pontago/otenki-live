@@ -26,3 +26,4 @@ Temporary Items
 .apdisk
 
 backend/docker/data/
+.env

@@ -2,7 +2,10 @@ import boto3
 import typer
 from boto3.dynamodb.conditions import Key
 
+app = typer.Typer()
 
+
+@app.command()
 def main():
     dynamodb = boto3.resource(
         "dynamodb",
@@ -45,5 +48,12 @@ def main():
     print(items)
 
 
+@app.command()
+def update_forecast():
+    from batch.weather_forecast.update_forecast import update_forecast
+
+    update_forecast()
+
+
 if __name__ == "__main__":
-    typer.run(main)
+    app()

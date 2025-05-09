@@ -6,7 +6,7 @@ from usecases.weather_forecast.repository import IWeatherForecastRepository
 
 class MockWeatherForecastRepository(IWeatherForecastRepository):
     def __init__(self):
-        self.forcasts = {
+        self.forecasts = {
             "13000000": [
                 WeatherForecast(
                     areaCode="13000000",
@@ -22,5 +22,5 @@ class MockWeatherForecastRepository(IWeatherForecastRepository):
             ]
         }
 
-    def get_forecast(self, areaCode: str, date: date) -> list[WeatherForecast]:
-        return self.forcasts.get(areaCode, [])
+    def get_forecast(self, area_code: str, date: date) -> list[WeatherForecast]:
+        return self.forecasts.get(area_code, [])

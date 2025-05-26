@@ -12,20 +12,20 @@ class Settings(BaseSettings):
     region_name: str | None = None
     aws_access_key_id: str | None = None
     aws_secret_access_key: str | None = None
+    endpoint_url: str | None = None
 
     """
     DynamoDB Settings
     """
-    dynamodb_endpoint_url: str | None = None
-    dynamodb_billing_mode: str | None = None
+    dynamodb_billing_mode: str | None = "PAY_PER_REQUEST"
 
     weather_forecast_ttl_days: int = 30
 
     """
     SQS Queue Settings
     """
-    live_streams_queue_name: str = (
-        "otenki-live-queue-live-streams" + "" if os.environ.get("ENV", "prod") else f"-{os.environ.get('ENV')}"
+    live_streams_queue_name: str = "otenki-live-queue-live-streams" + (
+        "" if os.environ.get("ENV") == "prod" else f"-{os.environ.get('ENV', 'dev')}"
     )
 
 

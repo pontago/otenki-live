@@ -1,3 +1,4 @@
+import boto3
 import pytest
 
 from app.core.settings import AppSettings
@@ -7,7 +8,8 @@ from app.infrastructure.repositories.sqs_repository import SQSRepository
 
 @pytest.fixture
 def repository():
-    return SQSRepository()
+    session = boto3.session.Session()
+    return SQSRepository(session=session)
 
 
 def test_send_message(repository):

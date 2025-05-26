@@ -4,13 +4,14 @@ import yaml
 
 from app.core.settings import AppSettings
 from app.domain.repositories.live_channel_repository import ILiveChannelRepository
+from app.infrastructure.dto.dynamodb.live_channel.live_channel_status import LiveChannelStatus
 from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
 
 
 class LiveChannelRepository(ILiveChannelRepository):
     def __init__(self):
         if not LiveChannelDto.exists():
-            LiveChannelDto.create_table(wait=True)
+            LiveChannelDto.create_table(wait=True, billing_mode=AppSettings.dynamodb_billing_mode)
             self.seed_loader()
 
     def seed_loader(self):
@@ -24,3 +25,11 @@ class LiveChannelRepository(ILiveChannelRepository):
 
     def add_channel(self, live_channel: LiveChannelDto):
         live_channel.save()
+
+    def get_channels(self, channel_ids: list[str], status: LiveChannelStatus) -> list[LiveChannelDto]:
+        channels = list(
+            LiveChannelDto.status_index.query(
+                hash_key=status.value, filter_condition=LiveChannelDto.pk.is_in(*channel_ids)
+            )
+        )
+        return channels

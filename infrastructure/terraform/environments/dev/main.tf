@@ -9,13 +9,17 @@
 #   }
 # }
 
-# provider "aws" {
-#   alias = "dev"
-  # access_key = "dummy"
-  # secret_key = "dummy"
+module "app" {
+  source = "../../modules"
+}
+
+provider "aws" {
+  #region = "ap-northeast-1"
   # skip_credentials_validation = true
   # skip_requesting_account_id = true
   # skip_metadata_api_check = true
+  # access_key = "dummy"
+  # secret_key = "dummy"
 
   # endpoints {
   #   apigatewayv2 = "http://localhost:4566"
@@ -24,29 +28,29 @@
   #   sqs = "http://localhost:4566"
   #   s3 = "http://localhost:4566"
   # }
-# }
-
-module "app" {
-  source = "../../modules"
 }
 
 module "backend" {
   source = "../../modules/backend"
   env = "dev"
-  region = "ap-northeast-1"
   runtime = "python3.13"
+  # environment = {
+  #   "DYNAMODB_BILLING_MODE" = "PAY_PER_REQUEST"
+  # }
 
   # providers = {
   #   aws = aws
   # }
 }
 
-# output "lambda_live_weather_forecast_arn" {
-#   value = module.app.live_weather_forecast.arn # aws_lambda_function.live_weather_forecast.arn
-#   description = "ARN of the Lambda function - otenki-live-weather-forecast"
-# }
+output "lambda_live_weather_forecast_arn" {
+  value = module.backend.lambda_live_weather_forecast_arn
+}
 
-# output "lambda_queue_live_streams_arn" {
-#   value = aws_lambda_function.queue_live_streams.arn
-#   description = "ARN of the Lambda function - otenki-live-queue-live-streams"
-# }
+output "lambda_queue_live_streams_arn" {
+  value = module.backend.lambda_queue_live_streams_arn
+}
+
+output "sqs_queue_live_streams_arn" {
+  value = module.backend.sqs_queue_live_streams_arn
+}

@@ -1,16 +1,13 @@
 import os
 
-import boto3
-
-from app.core.settings import AppSettings
-from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
-
 os.environ["ENV"] = "test"
 
+import boto3
 import pytest
 from moto import mock_aws
 
 from app.core.di.container import Container
+from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
 from app.infrastructure.dto.dynamodb.weather_forecast.model import WeatherForecastDto
 
 
@@ -27,6 +24,8 @@ def setup():
 @mock_aws
 @pytest.fixture(scope="session", autouse=True)
 def mock_dynamodb():
+    from app.core.settings import AppSettings
+
     mock = mock_aws()
     mock.start()
 
@@ -36,7 +35,7 @@ def mock_dynamodb():
     if not LiveChannelDto.exists():
         LiveChannelDto.create_table(wait=True)
 
-    sqs = boto3.client("sqs")
+    sqs = boto3.client("sqs", region_name=AppSettings.region_name)
     sqs.create_queue(QueueName=AppSettings.live_streams_queue_name)
 
     yield
@@ -50,5 +49,5 @@ def container():
     # container.config.from_pydantic(Settings(_env_file=".env.test"))  # type: ignore
     # container.wire(modules=[__name__])
     # print(container.config.dynamodb_endpoint_url())
-    # print(AppSettings.dynamodb_endpoint_url)
+    # print(AppSettings.endpoint_url)
     return container

@@ -1,5 +1,6 @@
 from datetime import date
 
+from app.core.settings import AppSettings
 from app.domain.repositories.weather_forecast_repository import IWeatherForecastRepository
 from app.infrastructure.dto.dynamodb.weather_forecast.model import WeatherForecastDto
 
@@ -9,7 +10,7 @@ class WeatherForecastRepository(IWeatherForecastRepository):
         self.forcasts = []
 
         if not WeatherForecastDto.exists():
-            WeatherForecastDto.create_table(wait=True)
+            WeatherForecastDto.create_table(wait=True, billing_mode=AppSettings.dynamodb_billing_mode)
 
     def get_forecast(self, area_code: str, date: date, limit: int | None) -> list[WeatherForecastDto]:
         return list(WeatherForecastDto.query(area_code, scan_index_forward=False, limit=limit))

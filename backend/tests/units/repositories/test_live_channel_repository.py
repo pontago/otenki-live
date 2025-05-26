@@ -2,6 +2,7 @@ from datetime import UTC, datetime
 
 import pytest
 
+from app.infrastructure.dto.dynamodb.live_channel.live_channel_status import LiveChannelStatus
 from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
 from app.infrastructure.repositories.live_channel_repository import LiveChannelRepository
 
@@ -21,7 +22,6 @@ def mock_channels(repository: LiveChannelRepository):
             area_code="",
             status=0,
             processed_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC),
         ),
         LiveChannelDto(
             pk="UCCLnJzwda_Kcdkok3et7n0A",
@@ -30,32 +30,39 @@ def mock_channels(repository: LiveChannelRepository):
             area_code="",
             status=0,
             processed_at=datetime.now(UTC),
-            updated_at=datetime.now(UTC),
         ),
     ]
     return channels
 
 
-def test_add_channel(repository: LiveChannelRepository, mock_channels: list[LiveChannelDto]):
-    # for mock_channel in mock_channels:
-    #     repository.add_channel(mock_channel)
-
-    repository.seed_loader()
+def test_add_channel(repository, mock_channels):
+    for mock_channel in mock_channels:
+        repository.add_channel(mock_channel)
 
     channels = list(LiveChannelDto.scan())
-    print(channels)
 
     assert channels
     assert len(channels) == 2
     assert filter(lambda x: x.pk == mock_channels[0].pk, channels)
 
 
-def test_get_active_channels(repository: LiveChannelRepository, mock_channels: list[LiveChannelDto]):
-    # for mock_channel in mock_channels:
-    #     repository.add_channel(mock_channel)
+def test_get_active_channels(repository, mock_channels):
+    for mock_channel in mock_channels:
+        repository.add_channel(mock_channel)
 
     channels = repository.get_active_channels()
 
     assert channels is not None
     assert len(channels) == 1
     assert channels[0].pk == mock_channels[1].pk
+
+
+def test_get_channels(repository, mock_channels):
+    for mock_channel in mock_channels:
+        repository.add_channel(mock_channel)
+
+    channel_ids = [channel.channel_id for channel in mock_channels]
+    channels = repository.get_channels(channel_ids, LiveChannelStatus.NONE)
+
+    assert channels is not None
+    assert len(channels) == 2

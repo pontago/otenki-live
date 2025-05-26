@@ -69,25 +69,6 @@ sqs = [
 ]
 
 [[package]]
-name = "boto3-stubs-custom"
-version = "1.38.22"
-source = { path = "vendored/boto3_stubs_custom-1.38.22-py3-none-any.whl" }
-dependencies = [
-    { name = "botocore-stubs" },
-    { name = "types-s3transfer" },
-]
-wheels = [
-    { filename = "boto3_stubs_custom-1.38.22-py3-none-any.whl", hash = "sha256:3eb9f05f2f01bae178f49cf73611eb85d353beab8d91c2e88d0843d60e3fb80c" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "botocore-stubs" },
-    { name = "types-s3transfer" },
-    { name = "typing-extensions", marker = "python_full_version < '3.12'" },
-]
-
-[[package]]
 name = "botocore"
 version = "1.38.10"
 source = { registry = "https://pypi.org/simple" }
@@ -606,7 +587,6 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
-    { name = "boto3-stubs-custom" },
     { name = "moto" },
     { name = "mypy" },
     { name = "pytest" },
@@ -634,7 +614,6 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "boto3-stubs-custom", path = "vendored/boto3_stubs_custom-1.38.22-py3-none-any.whl" },
     { name = "moto", specifier = ">=5.1.4" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pytest", specifier = ">=8.3.5" },

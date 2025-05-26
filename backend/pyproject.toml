@@ -24,7 +24,6 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "boto3-stubs-custom",
     "moto>=5.1.4",
     "mypy>=1.15.0",
     "pytest>=8.3.5",
@@ -78,5 +77,5 @@ ignore = [
 [tool.ruff.lint.isort]
 known-third-party = ["fastapi", "pydantic", "starlette"]
 
-[tool.uv.sources]
-boto3-stubs-custom = { path = "vendored/boto3_stubs_custom-1.38.22-py3-none-any.whl" }
+#[tool.uv.sources]
+#boto3-stubs-custom = { path = "vendored/boto3_stubs_custom-1.38.22-py3-none-any.whl" }

@@ -1,6 +1,7 @@
 from pynamodb.attributes import NumberAttribute, UnicodeAttribute, UTCDateTimeAttribute
 
 from app.infrastructure.dto.dynamodb.live_channel.active_index import ActiveIndex
+from app.infrastructure.dto.dynamodb.live_channel.status_index import StatusIndex
 from app.infrastructure.dto.dynamodb.pynamodb_model import PynamoDBModel
 
 
@@ -14,9 +15,9 @@ class LiveChannelDto(PynamoDBModel):
     name = UnicodeAttribute()
     status = NumberAttribute()
     processed_at = UTCDateTimeAttribute()
-    updated_at = UTCDateTimeAttribute()
 
     active_index = ActiveIndex()
+    status_index = StatusIndex()
 
     @property
     def channel_id(self) -> str:

@@ -2,38 +2,42 @@
 package Entity <<Rectangle>> {
   package JMA <<Rectangle>> {
     entity WeatherForecast {
-      * ID: Number
+      * 予報日: Date
       --
       # エリアコード: String
-      データ: Json <<ForecastData>>
-      予報日: Date
+      エリア名: String
+      天気コード: Number
+      風: String
+      波: String
+      降水確率: Map <<ForecastDataPop>>
+      気温: Map <<ForecastDataTemp>>
       発表日時: DateTime 
       登録日時: DateTime
     }
 
-    entity ForecastData <<Json>> {
-      天気: String
+    entity ForecastDataWeather <<Map>> {
+      日時: DateTime
+      天気コード: Number
       風: String
       波: String
-      降水確率: Json <<ForecastDataPop>>
-      気温: Json <<ForecastDataTemp>>
     }
 
-    entity ForecastDataPop <<Json>> {
+    entity ForecastDataPop <<Map>> {
       日時: DateTime
       降水量: Number
     }
 
-    entity ForecastDataTemp <<Json>> {
+    entity ForecastDataTemp <<Map>> {
       日時: DateTime
-      気温: Number
+      最高気温: Number
+      最低気温: Number
     }
 
-    WeatherForecast ||--|| ForecastData
-    ForecastData ||--|| ForecastDataPop
-    ForecastData ||--|| ForecastDataTemp
+    WeatherForecast ||--|| ForecastDataWeather
+    WeatherForecast ||--|| ForecastDataPop
+    WeatherForecast ||--|| ForecastDataTemp
 
-    hide <<Json>> circle
+    hide <<Map>> circle
   }
 
   package YouTube <<Rectangle>> {
@@ -113,6 +117,6 @@ package DynamoDB <<Rectangle>> {
   LiveChannel ||--|| LiveChannelTable
   LiveStreamDetect ||--|| LiveStreamDetectTable
 
-  ForecastData ||----|| WeatherForecast
+  Entity.JMA.WeatherForecast ||----|| WeatherForecast
 }
 @enduml

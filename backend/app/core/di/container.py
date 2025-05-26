@@ -1,11 +1,16 @@
-from core.settings import Settings
 from dependency_injector import containers, providers
-from infrastructure.repositories.jma.repository import JmaRepository
-from infrastructure.repositories.weather_forecast.repository import WeatherForecastRepository
+
+from app.core.settings import Settings
+from app.infrastructure.repositories.jma_repository import JmaRepository
+from app.infrastructure.repositories.live_channel_repository import LiveChannelRepository
+from app.infrastructure.repositories.sqs_repository import SQSRepository
+from app.infrastructure.repositories.weather_forecast_repository import WeatherForecastRepository
 
 
 class Container(containers.DeclarativeContainer):
     config = providers.Configuration(pydantic_settings=[Settings()])
 
     weather_forecast_repository = providers.Factory(WeatherForecastRepository)
-    jma_repository = providers.Factory(providers.Singleton(JmaRepository))
+    jma_repository = providers.Factory(JmaRepository)
+    live_channel_repository = providers.Factory(LiveChannelRepository)
+    sqs_repository = providers.Factory(SQSRepository)

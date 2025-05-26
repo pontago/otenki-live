@@ -1,8 +1,8 @@
-from dataclasses import dataclass
 from datetime import datetime
 
+from pydantic import BaseModel
 
-@dataclass
-class PopData:
+
+class PopData(BaseModel):
     date_time: datetime
     pop: int

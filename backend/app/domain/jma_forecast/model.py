@@ -1,16 +1,18 @@
-from dataclasses import dataclass
 from datetime import datetime
 
-from domain.jma_forecast.pop_data import PopData
-from domain.jma_forecast.temp_data import TempData
-from domain.jma_forecast.weather_data import WeatherData
+from pydantic import BaseModel
+
+from app.domain.jma_forecast.pop_data import PopData
 
 
-@dataclass
-class JmaForecast:
+class JmaForecast(BaseModel):
     report_date_time: datetime
+    date_time: datetime
     area_code: str
     area_name: str
-    weathers: list[WeatherData]
+    weather_code: int
+    wind: str | None
+    wave: str | None
     pops: list[PopData]
-    temps: TempData
+    temp_min: int | None
+    temp_max: int | None

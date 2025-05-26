@@ -1,0 +1,30 @@
+{
+  "folders": [
+    {
+      "name": "workspaces",
+      "path": "."
+    },
+    {
+      "name": "infrastructure",
+      "path": "./infrastructure"
+    },
+    {
+      "name": "backend",
+      "path": "./backend"
+    },
+    {
+      "name": "docs",
+      "path": "./docs"
+    }
+  ],
+  "settings": {
+    "terminal.integrated.profiles.osx": {
+      "venv-shell": {
+        "path": "fish",
+        "args": ["-c", "source .venv/bin/activate.fish; exec fish"]
+      }
+    },
+    "terminal.integrated.defaultProfile.osx": "venv-shell"
+  },
+  "extensions": {}
+}

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from app.domain.jma_forecast.model import JmaForecast
+from app.domain.entities.jma_forecast.entity import JmaForecast
 
 
 class IJmaRepository(ABC):

@@ -4,7 +4,7 @@
   area_code: ""
   status: 0
   processed_at: 2025-01-01T00:00:00
-  updated_at:
+  updated_at: 2025-01-01T00:00:00
 
 - pk: "UCCLnJzwda_Kcdkok3et7n0A"
   is_active: 1
@@ -12,4 +12,4 @@
   area_code: ""
   status: 0
   processed_at: 2025-01-01T00:00:00
-  updated_at:
+  updated_at: 2025-01-01T00:00:00

@@ -1,9 +1,6 @@
-from pynamodb.attributes import ListAttribute, MapAttribute, NumberAttribute, UnicodeAttribute, UTCDateTimeAttribute
+from pynamodb.attributes import ListAttribute, MapAttribute, NumberAttribute, UnicodeAttribute
 
-
-class ForecastPopData(MapAttribute):
-    date_time = UTCDateTimeAttribute()
-    pop = NumberAttribute()
+from app.infrastructure.dto.dynamodb.weather_forecast.forecast_pop_data import ForecastPopData
 
 
 class ForecastData(MapAttribute):

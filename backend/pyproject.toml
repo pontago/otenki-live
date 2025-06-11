@@ -12,22 +12,34 @@ dependencies = [
     "loguru>=0.7.3",
     "pynamodb>=6.0.2",
     "requests>=2.32.3",
-    "typer>=0.15.3",
     "yt-dlp>=2025.4.30",
     "aws-lambda-typing>=2.20.0",
     "types-requests>=2.32.0.20250328",
     "pyyaml>=6.0.2",
     "types-pyyaml>=6.0.12.20250516",
-    "boto3-stubs[dynamodb,sqs]>=1.38.10",
-    "mypy-boto3-sqs>=1.38.0",
+    "boto3-stubs[boto3,s3,dynamodb,sqs]>=1.38.10",
+    "boto3-stubs-custom",
+    #    "pytest-env>=1.1.5",
+    "torchvision>=0.22.0",
+    "sahi>=0.11.23",
+    "torch>=2.7.0",
+    "packaging>=25.0",
+    "ultralytics>=8.3.152",
+    "onnx>=1.18.0",
+    "onnxruntime>=1.22.0",
 ]
 
 [dependency-groups]
 dev = [
+    "memory-profiler>=0.61.0",
+    "memray>=1.17.2",
     "moto>=5.1.4",
     "mypy>=1.15.0",
+    "psutil>=7.0.0",
     "pytest>=8.3.5",
+    "pytest-memray>=1.7.0",
     "ruff>=0.11.8",
+    "types-psutil>=7.0.0.20250601",
 ]
 
 
@@ -38,6 +50,9 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["app"]
 
+#[tool.pytest_env]
+#ENV="test"
+
 [tool.pytest.ini_options]
 pythonpath = "app"
 testpaths = ["tests",]
@@ -47,7 +62,7 @@ filterwarnings = ["ignore::DeprecationWarning:botocore.*"]
 plugins = ['pydantic.mypy']
 
 [[tool.mypy.overrides]]
-module = ['yt_dlp', 'ffmpeg']
+module = ["yt_dlp", "ffmpeg", "torchvision.*", "sahi.*", "onnxruntime"]
 ignore_missing_imports = true
 
 [tool.ruff]
@@ -77,5 +92,16 @@ ignore = [
 [tool.ruff.lint.isort]
 known-third-party = ["fastapi", "pydantic", "starlette"]
 
-#[tool.uv.sources]
-#boto3-stubs-custom = { path = "vendored/boto3_stubs_custom-1.38.22-py3-none-any.whl" }
+[tool.uv.sources]
+boto3-stubs-custom = { path = "vendored/boto3_stubs_custom-1.38.10-py3-none-any.whl" }
+#torch = [
+#    { index = "pytorch-cpu" },
+#]
+#torchvision = [
+#    { index = "pytorch-cpu" },
+#]
+
+#[[tool.uv.index]]
+#name = "pytorch-cpu"
+#url = "https://download.pytorch.org/whl/cpu"
+#explicit = true

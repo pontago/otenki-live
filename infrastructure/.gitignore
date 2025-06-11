@@ -18,3 +18,7 @@ override.tf.json
 *_override.tf.json
 docker/volume/
 docker/data/
+
+shell/packages/
+shell/build_backend_docker.sh
+terraform/environments/*/packages/

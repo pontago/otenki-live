@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from app.infrastructure.dto.dynamodb.live_channel.live_channel_status import LiveChannelStatus
-from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
+from app.domain.entities.live_channel.entity import LiveChannel
+from app.domain.entities.live_channel.live_channel_status import LiveChannelStatus
 
 
 class ILiveChannelRepository(ABC):
@@ -10,13 +10,17 @@ class ILiveChannelRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def get_active_channels(self) -> list[LiveChannelDto]:
+    def get_active_channels(self) -> list[LiveChannel]:
         raise NotImplementedError
 
     @abstractmethod
-    def add_channel(self, live_channel: LiveChannelDto):
+    def save(self, data: LiveChannel):
         raise NotImplementedError
 
     @abstractmethod
-    def get_channels(self, channel_ids: list[str], status: LiveChannelStatus) -> list[LiveChannelDto]:
+    def get_channels(self, channel_ids: list[str], status: LiveChannelStatus) -> list[LiveChannel]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def update_status(self, data: LiveChannel | list[LiveChannel]):
         raise NotImplementedError

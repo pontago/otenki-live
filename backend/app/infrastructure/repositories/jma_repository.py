@@ -5,8 +5,8 @@ import requests
 from loguru import logger
 
 from app.core.settings import AppAPIConfig
-from app.domain.jma_forecast.model import JmaForecast
-from app.domain.jma_forecast.pop_data import PopData
+from app.domain.entities.jma_forecast.entity import JmaForecast
+from app.domain.entities.jma_forecast.pop_data import PopData
 from app.domain.repositories.jma_repository import IJmaRepository
 from app.infrastructure.exceptions import RequestError, ResponseInvalidError
 
@@ -56,7 +56,7 @@ class JmaRepository(IJmaRepository):
 
                     jmaForecast = JmaForecast(
                         report_date_time=forecast["srf"]["reportDatetime"],
-                        date_time=date_time,
+                        date_time=date_time.date(),
                         area_code=forecast["officeCode"],
                         area_name=forecast["name"],
                         weather_code=int(forecast["srf"]["timeSeries"][0]["areas"]["weatherCodes"][index]),
@@ -93,7 +93,7 @@ class JmaRepository(IJmaRepository):
                     temps_max = int(weekly_weather_temps_max[index]) if weekly_weather_temps_max[index] else None
                     jmaForecast = JmaForecast(
                         report_date_time=forecast["week"]["reportDatetime"],
-                        date_time=date_time,
+                        date_time=date_time.date(),
                         area_code=forecast["officeCode"],
                         area_name=forecast["name"],
                         weather_code=int(weekly_weather_codes[index]),
@@ -106,7 +106,7 @@ class JmaRepository(IJmaRepository):
                     results.append(jmaForecast)
         except KeyError as e:
             logger.error(f"JMA API response is invalid: {e}.")
-            raise ResponseInvalidError
+            raise ResponseInvalidError from e
         except Exception as e:
             logger.error(f"Failed to weekly forecast response: {e}.")
             raise

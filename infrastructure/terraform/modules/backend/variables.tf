@@ -1,7 +1,13 @@
 variable "env" {
     type = string
 }
-variable "runtime" {
+variable "project" {
+    type = string
+}
+variable "backend_dir" {
+    type = string
+}
+variable "ecr_backend_name" {
     type = string
 }
 # variable "environment" {

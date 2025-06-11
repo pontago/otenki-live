@@ -1,18 +1,18 @@
 from abc import ABC, abstractmethod
 from datetime import date
 
-from app.infrastructure.dto.dynamodb.weather_forecast.model import WeatherForecastDto
+from app.domain.entities.jma_forecast.entity import JmaForecast
 
 
 class IWeatherForecastRepository(ABC):
     @abstractmethod
-    def get_forecast(self, area_code: str, date: date, limit: int | None) -> list[WeatherForecastDto]:
+    def get_forecasts(self, area_code: str, date: date, limit: int | None) -> list[JmaForecast]:
         raise NotImplementedError
 
     @abstractmethod
-    def add_forecast(self, forecast: WeatherForecastDto):
+    def save(self, data: JmaForecast):
         raise NotImplementedError
 
-    @abstractmethod
-    def add_forecasts(self, forecasts: list[WeatherForecastDto]):
-        raise NotImplementedError
+    # @abstractmethod
+    # def add_forecasts(self, forecasts: list[WeatherForecastDto]):
+    #     raise NotImplementedError

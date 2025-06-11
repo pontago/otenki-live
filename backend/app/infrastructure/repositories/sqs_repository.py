@@ -14,9 +14,9 @@ class SQSRepository(ISQSRepository):
     def send_message(self, queue_name: str, body: str) -> str:
         try:
             sqs_queue = self.sqs.get_queue_url(QueueName=queue_name)
-        except self.sqs.exceptions.QueueDoesNotExist:
+        except self.sqs.exceptions.QueueDoesNotExist as e:
             logger.error(f"Queue does not exist.[{queue_name}]")
-            raise SQSGetQueueError
+            raise SQSGetQueueError from e
 
         try:
             response = self.sqs.send_message(
@@ -26,6 +26,6 @@ class SQSRepository(ISQSRepository):
             )
         except Exception as e:
             logger.error(f"Failed to SQS send message: {e}")
-            raise SQSSendMessageError
+            raise SQSSendMessageError from e
 
         return response["MessageId"]

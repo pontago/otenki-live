@@ -15,4 +15,6 @@ packages/
 package.zip
 requirements.txt
 output.log
-vendored/
+checkpoints/
+demo_data/
+cookies/

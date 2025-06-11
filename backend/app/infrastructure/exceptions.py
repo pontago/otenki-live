@@ -19,3 +19,27 @@ class SQSGetQueueError(InfraError):
 
 class SQSSendMessageError(InfraError):
     pass
+
+
+class LiveStreamFFmpegError(InfraError):
+    pass
+
+
+class LiveStreamGetInfoError(InfraError):
+    pass
+
+
+class ModelPathNotSetError(InfraError):
+    pass
+
+
+class ModelDownloadError(InfraError):
+    pass
+
+
+class CookiePathNotSetError(InfraError):
+    pass
+
+
+class CookieDownloadError(InfraError):
+    pass

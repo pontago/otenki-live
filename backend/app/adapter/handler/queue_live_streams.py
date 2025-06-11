@@ -11,16 +11,24 @@ container = Container()
 container.wire(modules=[__name__])
 
 
-def lambda_handler(event: dict[str, Any], context: Context | None):
+def lambda_handler(event: dict[str, Any], context: Context):
     usecase = CheckLiveStreamsInteractor()
     message_ids = usecase.execute()
 
+    response = None
     if message_ids:
-        logger.info(f"Queue message ids: {message_ids}")
+        response = {
+            "statusCode": 200,
+            "body": f"Queue message ids: {message_ids}."
+        }
     else:
-        logger.warning("No active channels.")
+        response = {
+            "statusCode": 204,
+            "body": "No active channels."
+        }
+    return response
+
 
 
 if __name__ == "__main__":
-    # lambda_handler({}, None)
-    print(timeit("lambda_handler({}, None)", number=1, globals=globals()))
+    logger.debug(timeit("lambda_handler({}, None)", number=1, globals=globals()))

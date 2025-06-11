@@ -4,7 +4,10 @@ from dependency_injector import containers, providers
 from app.core.settings import Settings
 from app.infrastructure.repositories.jma_repository import JmaRepository
 from app.infrastructure.repositories.live_channel_repository import LiveChannelRepository
+from app.infrastructure.repositories.live_detect_repository import LiveDetectRepository
+from app.infrastructure.repositories.live_stream_repository import LiveStreamRepository
 from app.infrastructure.repositories.sqs_repository import SQSRepository
+from app.infrastructure.repositories.storage_repository import StorageRepository
 from app.infrastructure.repositories.weather_forecast_repository import WeatherForecastRepository
 
 
@@ -13,8 +16,8 @@ class Container(containers.DeclarativeContainer):
 
     session = providers.Resource(
         boto3.session.Session,
-        aws_access_key_id=config.aws_access_key_id,
-        aws_secret_access_key=config.aws_secret_access_key,
+        # aws_access_key_id=config.aws_access_key_id,
+        # aws_secret_access_key=config.aws_secret_access_key,
         region_name=config.region_name,
     )
 
@@ -22,3 +25,6 @@ class Container(containers.DeclarativeContainer):
     jma_repository = providers.Factory(JmaRepository)
     live_channel_repository = providers.Factory(LiveChannelRepository)
     sqs_repository = providers.Factory(SQSRepository, session=session)
+    live_stream_repository = providers.Factory(LiveStreamRepository)
+    live_detect_repository = providers.Factory(LiveDetectRepository)
+    storage_repository = providers.Factory(StorageRepository, session=session)

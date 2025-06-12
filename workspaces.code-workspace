@@ -5,6 +5,10 @@
       "path": "."
     },
     {
+      "name": "docs",
+      "path": "./docs"
+    },
+    {
       "name": "infrastructure",
       "path": "./infrastructure"
     },
@@ -13,8 +17,8 @@
       "path": "./backend"
     },
     {
-      "name": "docs",
-      "path": "./docs"
+      "name": "frontend",
+      "path": "./frontend"
     }
   ],
   "settings": {

@@ -7,6 +7,7 @@ from loguru import logger
 from app.core.settings import AppAPIConfig
 from app.domain.entities.jma_forecast.entity import JmaForecast
 from app.domain.entities.jma_forecast.pop_data import PopData
+from app.domain.entities.jma_hourly_forecast.entity import JmaHourlyForecast
 from app.domain.repositories.jma_repository import IJmaRepository
 from app.infrastructure.exceptions import RequestError, ResponseInvalidError
 
@@ -110,5 +111,18 @@ class JmaRepository(IJmaRepository):
         except Exception as e:
             logger.error(f"Failed to weekly forecast response: {e}.")
             raise
+
+        return results
+
+    def get_hourly_forecast(self) -> list[JmaHourlyForecast]:
+        results: list[JmaHourlyForecast] = []
+
+        try:
+            url = urljoin(base=AppAPIConfig.jma_api_base_url, url="jmatile/data/wdist/VPFD/130010.json")
+            response = requests.get(url)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as e:
+            logger.error(f"Failed to get weekly forecast: {e}.")
+            raise RequestError
 
         return results

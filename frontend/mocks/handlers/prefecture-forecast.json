@@ -1,0 +1,1036 @@
+[
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "hokkaido",
+    "areaName": "北海道",
+    "areaId": "01100",
+    "regionCode": "hokkaido",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 15
+      }
+    ],
+    "tempMin": 8,
+    "tempMax": 18,
+    "liveDetectData": {
+      "person": 12,
+      "umbrella": 2,
+      "tshirt": 5,
+      "longSleeve": 7
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "aomori",
+    "areaName": "青森県",
+    "areaId": "02100",
+    "regionCode": "tohoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 20
+      }
+    ],
+    "tempMin": 10,
+    "tempMax": 20,
+    "liveDetectData": {
+      "person": 14,
+      "umbrella": 3,
+      "tshirt": 6,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "iwate",
+    "areaName": "岩手県",
+    "areaId": "03100",
+    "regionCode": "tohoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 18
+      }
+    ],
+    "tempMin": 11,
+    "tempMax": 21,
+    "liveDetectData": {
+      "person": 13,
+      "umbrella": 2,
+      "tshirt": 7,
+      "longSleeve": 6
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "miyagi",
+    "areaName": "宮城県",
+    "areaId": "04100",
+    "regionCode": "tohoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 22
+      }
+    ],
+    "tempMin": 12,
+    "tempMax": 22,
+    "liveDetectData": {
+      "person": 16,
+      "umbrella": 4,
+      "tshirt": 8,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "akita",
+    "areaName": "秋田県",
+    "areaId": "05100",
+    "regionCode": "tohoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 19
+      }
+    ],
+    "tempMin": 10,
+    "tempMax": 20,
+    "liveDetectData": {
+      "person": 11,
+      "umbrella": 2,
+      "tshirt": 5,
+      "longSleeve": 6
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "yamagata",
+    "areaName": "山形県",
+    "areaId": "06100",
+    "regionCode": "tohoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 21
+      }
+    ],
+    "tempMin": 11,
+    "tempMax": 21,
+    "liveDetectData": {
+      "person": 15,
+      "umbrella": 3,
+      "tshirt": 7,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "fukushima",
+    "areaName": "福島県",
+    "areaId": "07100",
+    "regionCode": "tohoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 23
+      }
+    ],
+    "tempMin": 13,
+    "tempMax": 23,
+    "liveDetectData": {
+      "person": 17,
+      "umbrella": 4,
+      "tshirt": 9,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "ibaraki",
+    "areaName": "茨城県",
+    "areaId": "08100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 24
+      }
+    ],
+    "tempMin": 14,
+    "tempMax": 24,
+    "liveDetectData": {
+      "person": 18,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "tochigi",
+    "areaName": "栃木県",
+    "areaId": "09100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 25
+      }
+    ],
+    "tempMin": 13,
+    "tempMax": 23,
+    "liveDetectData": {
+      "person": 16,
+      "umbrella": 3,
+      "tshirt": 8,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "gunma",
+    "areaName": "群馬県",
+    "areaId": "10100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 26
+      }
+    ],
+    "tempMin": 12,
+    "tempMax": 22,
+    "liveDetectData": {
+      "person": 14,
+      "umbrella": 3,
+      "tshirt": 7,
+      "longSleeve": 7
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "saitama",
+    "areaName": "埼玉県",
+    "areaId": "11100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 27
+      }
+    ],
+    "tempMin": 15,
+    "tempMax": 25,
+    "liveDetectData": {
+      "person": 19,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "chiba",
+    "areaName": "千葉県",
+    "areaId": "12100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 28
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 20,
+      "umbrella": 5,
+      "tshirt": 11,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "tokyo",
+    "areaName": "東京都",
+    "areaId": "13100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 25
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 18,
+      "umbrella": 3,
+      "tshirt": 9,
+      "longSleeve": 6
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "kanagawa",
+    "areaName": "神奈川県",
+    "areaId": "14100",
+    "regionCode": "kanto",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 29
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 21,
+      "umbrella": 5,
+      "tshirt": 12,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "niigata",
+    "areaName": "新潟県",
+    "areaId": "15100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 30
+      }
+    ],
+    "tempMin": 14,
+    "tempMax": 24,
+    "liveDetectData": {
+      "person": 16,
+      "umbrella": 4,
+      "tshirt": 8,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "toyama",
+    "areaName": "富山県",
+    "areaId": "16100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 31
+      }
+    ],
+    "tempMin": 13,
+    "tempMax": 23,
+    "liveDetectData": {
+      "person": 15,
+      "umbrella": 3,
+      "tshirt": 7,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "ishikawa",
+    "areaName": "石川県",
+    "areaId": "17100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 32
+      }
+    ],
+    "tempMin": 14,
+    "tempMax": 24,
+    "liveDetectData": {
+      "person": 17,
+      "umbrella": 4,
+      "tshirt": 9,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "fukui",
+    "areaName": "福井県",
+    "areaId": "18100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 33
+      }
+    ],
+    "tempMin": 15,
+    "tempMax": 25,
+    "liveDetectData": {
+      "person": 18,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "yamanashi",
+    "areaName": "山梨県",
+    "areaId": "19100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 34
+      }
+    ],
+    "tempMin": 13,
+    "tempMax": 23,
+    "liveDetectData": {
+      "person": 14,
+      "umbrella": 3,
+      "tshirt": 7,
+      "longSleeve": 7
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "nagano",
+    "areaName": "長野県",
+    "areaId": "20100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 35
+      }
+    ],
+    "tempMin": 12,
+    "tempMax": 22,
+    "liveDetectData": {
+      "person": 13,
+      "umbrella": 2,
+      "tshirt": 6,
+      "longSleeve": 7
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "gifu",
+    "areaName": "岐阜県",
+    "areaId": "21100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 36
+      }
+    ],
+    "tempMin": 14,
+    "tempMax": 24,
+    "liveDetectData": {
+      "person": 16,
+      "umbrella": 3,
+      "tshirt": 8,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "shizuoka",
+    "areaName": "静岡県",
+    "areaId": "22100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 37
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 19,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "aichi",
+    "areaName": "愛知県",
+    "areaId": "23100",
+    "regionCode": "chubu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 38
+      }
+    ],
+    "tempMin": 15,
+    "tempMax": 25,
+    "liveDetectData": {
+      "person": 18,
+      "umbrella": 4,
+      "tshirt": 9,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "mie",
+    "areaName": "三重県",
+    "areaId": "24100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 39
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 20,
+      "umbrella": 5,
+      "tshirt": 11,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "shiga",
+    "areaName": "滋賀県",
+    "areaId": "25100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 40
+      }
+    ],
+    "tempMin": 15,
+    "tempMax": 25,
+    "liveDetectData": {
+      "person": 17,
+      "umbrella": 4,
+      "tshirt": 9,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "kyoto",
+    "areaName": "京都府",
+    "areaId": "26100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 41
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 19,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "osaka",
+    "areaName": "大阪府",
+    "areaId": "27100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 42
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 22,
+      "umbrella": 5,
+      "tshirt": 12,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "hyogo",
+    "areaName": "兵庫県",
+    "areaId": "28100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 43
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 20,
+      "umbrella": 4,
+      "tshirt": 11,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "nara",
+    "areaName": "奈良県",
+    "areaId": "29100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 44
+      }
+    ],
+    "tempMin": 15,
+    "tempMax": 25,
+    "liveDetectData": {
+      "person": 16,
+      "umbrella": 3,
+      "tshirt": 8,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "wakayama",
+    "areaName": "和歌山県",
+    "areaId": "30100",
+    "regionCode": "kansai",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 45
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 21,
+      "umbrella": 5,
+      "tshirt": 12,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "tottori",
+    "areaName": "鳥取県",
+    "areaId": "31100",
+    "regionCode": "chugoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 46
+      }
+    ],
+    "tempMin": 14,
+    "tempMax": 24,
+    "liveDetectData": {
+      "person": 15,
+      "umbrella": 3,
+      "tshirt": 7,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "shimane",
+    "areaName": "島根県",
+    "areaId": "32100",
+    "regionCode": "chugoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 47
+      }
+    ],
+    "tempMin": 15,
+    "tempMax": 25,
+    "liveDetectData": {
+      "person": 16,
+      "umbrella": 3,
+      "tshirt": 8,
+      "longSleeve": 8
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "okayama",
+    "areaName": "岡山県",
+    "areaId": "33100",
+    "regionCode": "chugoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 48
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 18,
+      "umbrella": 4,
+      "tshirt": 9,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "hiroshima",
+    "areaName": "広島県",
+    "areaId": "34100",
+    "regionCode": "chugoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 49
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 20,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "yamaguchi",
+    "areaName": "山口県",
+    "areaId": "35100",
+    "regionCode": "chugoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 50
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 17,
+      "umbrella": 3,
+      "tshirt": 8,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "tokushima",
+    "areaName": "徳島県",
+    "areaId": "36100",
+    "regionCode": "shikoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 51
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 19,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "kagawa",
+    "areaName": "香川県",
+    "areaId": "37100",
+    "regionCode": "shikoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 52
+      }
+    ],
+    "tempMin": 16,
+    "tempMax": 26,
+    "liveDetectData": {
+      "person": 18,
+      "umbrella": 4,
+      "tshirt": 9,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "ehime",
+    "areaName": "愛媛県",
+    "areaId": "38100",
+    "regionCode": "shikoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 53
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 20,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "kochi",
+    "areaName": "高知県",
+    "areaId": "39100",
+    "regionCode": "shikoku",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 54
+      }
+    ],
+    "tempMin": 18,
+    "tempMax": 28,
+    "liveDetectData": {
+      "person": 22,
+      "umbrella": 5,
+      "tshirt": 12,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "fukuoka",
+    "areaName": "福岡県",
+    "areaId": "40100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 55
+      }
+    ],
+    "tempMin": 18,
+    "tempMax": 28,
+    "liveDetectData": {
+      "person": 23,
+      "umbrella": 5,
+      "tshirt": 13,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "saga",
+    "areaName": "佐賀県",
+    "areaId": "41100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 56
+      }
+    ],
+    "tempMin": 17,
+    "tempMax": 27,
+    "liveDetectData": {
+      "person": 19,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 9
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "nagasaki",
+    "areaName": "長崎県",
+    "areaId": "42100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 57
+      }
+    ],
+    "tempMin": 18,
+    "tempMax": 28,
+    "liveDetectData": {
+      "person": 21,
+      "umbrella": 5,
+      "tshirt": 11,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "kumamoto",
+    "areaName": "熊本県",
+    "areaId": "43100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 58
+      }
+    ],
+    "tempMin": 19,
+    "tempMax": 29,
+    "liveDetectData": {
+      "person": 24,
+      "umbrella": 6,
+      "tshirt": 13,
+      "longSleeve": 11
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "oita",
+    "areaName": "大分県",
+    "areaId": "44100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 59
+      }
+    ],
+    "tempMin": 18,
+    "tempMax": 28,
+    "liveDetectData": {
+      "person": 20,
+      "umbrella": 4,
+      "tshirt": 10,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "miyazaki",
+    "areaName": "宮崎県",
+    "areaId": "45100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 60
+      }
+    ],
+    "tempMin": 19,
+    "tempMax": 29,
+    "liveDetectData": {
+      "person": 22,
+      "umbrella": 5,
+      "tshirt": 12,
+      "longSleeve": 10
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "kagoshima",
+    "areaName": "鹿児島県",
+    "areaId": "46100",
+    "regionCode": "kyushu",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 61
+      }
+    ],
+    "tempMin": 20,
+    "tempMax": 30,
+    "liveDetectData": {
+      "person": 25,
+      "umbrella": 6,
+      "tshirt": 14,
+      "longSleeve": 11
+    }
+  },
+  {
+    "dateTime": "2025-06-18T00:00:00",
+    "areaCode": "okinawa",
+    "areaName": "沖縄県",
+    "areaId": "47100",
+    "regionCode": "okinawa",
+    "weatherCode": 101,
+    "pops": [
+      {
+        "dateTime": "2025-06-18T00:00:00",
+        "pop": 62
+      }
+    ],
+    "tempMin": 22,
+    "tempMax": 32,
+    "liveDetectData": {
+      "person": 28,
+      "umbrella": 7,
+      "tshirt": 16,
+      "longSleeve": 12
+    }
+  }
+]

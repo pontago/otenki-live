@@ -1,62 +1,76 @@
-import { Footer } from '@/components/footer';
-import { Header } from '@/components/header';
-import { japanRegions } from '@/features/weather/libs/japan-regions';
-import { WeatherData } from '@/types/weather';
-import { Card, Skeleton } from '@radix-ui/themes';
-import { AlertTriangle } from 'lucide-react';
+import { Shirt, ThermometerSnowflake, ThermometerSun, Umbrella, Users } from 'lucide-react';
 import Image from 'next/image';
 
-const WeatherOverlay: React.FC<{ regionName: string }> = ({ regionName }) => (
-  // <div className='p-2 bg-card/80 rounded-lg shadow-lg flex flex-col items-center w-28 text-center backdrop-blur-sm'>
-  <Card className='p-1 rounded-lg shadow-lg w-16 text-center flex flex-col items-center backdrop-blur-sm'>
-    <p className='text-[9px] font-semibold text-card-foreground mb-0.5 truncate w-full' title={regionName}>
-      {regionName}
-    </p>
-    <Image src='/icons/weather/100.png' alt='Weather Icon' width={28} height={28} className='text-primary' />
-    <p className='text-[9px] font-bold text-card-foreground'>10°C</p>
-    <p className='text-[9px] text-muted-foreground capitalize truncate w-full'>晴れ</p>
-  </Card>
-  // </div>
-);
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-const OverlaySkeleton: React.FC<{ regionName: string }> = ({ regionName }) => (
-  <div className='p-2 bg-card/70 rounded-lg shadow-lg flex flex-col items-center w-28 text-center backdrop-blur-sm'>
-    <p className='text-xs font-semibold text-card-foreground mb-0.5 truncate w-full' title={regionName}>
-      {regionName}
-    </p>
-    <Skeleton className='w-7 h-7 rounded-full my-0.5' />
-    <Skeleton className='h-5 w-10 my-0.5' />
-    <Skeleton className='h-3 w-16' />
-  </div>
-);
+import { regionalForecasts } from '@/features/weather/api/forecast';
+import { RegionalWeatherMap } from '@/features/weather/components/regional-weather-map';
 
-const OverlayError: React.FC<{ regionName: string }> = ({ regionName }) => (
-  <div className='p-2 bg-destructive/70 rounded-lg shadow-lg flex flex-col items-center w-28 text-center backdrop-blur-sm'>
-    <p className='text-xs font-semibold text-destructive-foreground mb-0.5 truncate w-full' title={regionName}>
-      {regionName}
-    </p>
-    <AlertTriangle className='w-7 h-7 text-destructive-foreground my-1' />
-    <p className='text-xs text-destructive-foreground'>Error</p>
-  </div>
-);
+export default async function IndexPage() {
+  const forecasts = await regionalForecasts();
 
-export default function IndexPage() {
   return (
-    <main className='w-full max-w-4xl'>
-      <div className='w-full h-full items-center flex flex-col'>
-        <div className='relative items-center flex flex-col'>
-          <Image src='/images/map.png' alt='日本地図' width={400} height={400} />
-          {japanRegions.map((region) => (
-            <div
-              key={region.id}
-              className='absolute'
-              style={{ top: region.mapPosition.top, left: region.mapPosition.left }}
-            >
-              <WeatherOverlay regionName={region.name} />
+    <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-4'>
+      <section aria-labelledby='regional-weather-map-heading' className='lg:col-span-1 space-y-6'>
+        <RegionalWeatherMap forecasts={forecasts} />
+      </section>
+      <section aria-labelledby='forecast-heading' className='lg:col-span-1 space-y-6 mt-10 lg:mt-0 max-w-120'>
+        <h2 id='forecast-heading' className=''>
+          Weather Forecasts
+        </h2>
+        <Card className='shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col cursor-pointer'>
+          <CardHeader>
+            <CardTitle>北海道</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col pt-2'>
+            <div className='flex justify-start'>
+              <div className='w-24 flex flex-col items-center text-center'>
+                <Image
+                  src='/icons/weather/100.png'
+                  alt='Weather Icon'
+                  width={36}
+                  height={36}
+                  className='text-primary my-1'
+                />
+                <p className='text-xl font-bold'>10°C</p>
+                <p className='text-sm text-muted-foreground capitalize'>晴れ</p>
+              </div>
+              <div className='text-xs flex justify-center items-center w-40'>
+                <div className='space-y-1'>
+                  <div className='flex items-center justify-center text-muted-foreground'>
+                    <ThermometerSun className='w-3.5 h-3.5 mr-1 text-red-500' />
+                    最高: 20°C
+                  </div>
+                  <div className='flex items-center justify-center text-muted-foreground'>
+                    <ThermometerSnowflake className='w-3.5 h-3.5 mr-1 text-blue-500' />
+                    最低: 10°C
+                  </div>
+                  <div className='flex items-center justify-center text-muted-foreground'>
+                    <Umbrella className='w-3.5 h-3.5 mr-1' />
+                    降水確率: 10%
+                  </div>
+                </div>
+              </div>
+              <div className='text-xs flex justify-center items-center w-44'>
+                <div className='space-y-1'>
+                  <div className='flex items-center justify-center text-muted-foreground'>
+                    <Users className='w-3.5 h-3.5 mr-1.5 text-slate-600' />
+                    <span>総人数: 100人</span>
+                  </div>
+                  <div className='flex items-center justify-center text-muted-foreground'>
+                    <Umbrella className='w-3.5 h-3.5 mr-1.5 text-blue-600' />
+                    <span>傘利用: 10人</span>
+                  </div>
+                  <div className='flex items-center justify-center text-muted-foreground'>
+                    <Shirt className='w-3.5 h-3.5 mr-1.5 text-green-600' />
+                    <span>半袖: 10人 / 長袖: 10人</span>
+                  </div>
+                </div>
+              </div>
             </div>
-          ))}
-        </div>
-      </div>
-    </main>
+          </CardContent>
+        </Card>
+      </section>
+    </div>
   );
 }

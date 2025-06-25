@@ -1,9 +1,9 @@
-export interface RegionMapInfo {
+export type RegionMapInfo = {
   id: string; // e.g., "hokkaido_region"
   name: string; // e.g., "北海道地方"
   representativePrefectureId: string; // e.g., "Hokkaido" for weather data, should match IDs in prefecturesList.ts
   mapPosition: { top: string; left: string }; // CSS position for overlay
-}
+};
 
 export const japanRegions: RegionMapInfo[] = [
   {

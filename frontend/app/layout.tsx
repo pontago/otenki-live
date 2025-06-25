@@ -1,8 +1,18 @@
+import { Settings } from 'luxon';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+
 import '@/styles/globals.css';
-import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
+
+Settings.defaultZone = 'Asia/Tokyo';
+Settings.defaultLocale = 'ja-JP';
+
+if (process.env.NEXT_RUNTIME === 'nodejs' && process.env.NODE_ENV === 'development') {
+  const { server } = await import('@/mocks/server');
+  server.listen();
+}
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,9 +37,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <div className='min-h-screen flex flex-col items-center p-4 md:p-8 bg-background'>
+        <div className='min-h-screen flex flex-col p-4 bg-background items-center'>
           <Header />
-          {children}
+
+          <main className='flex-1 w-full max-w-7xl'>{children}</main>
           <Footer />
         </div>
       </body>

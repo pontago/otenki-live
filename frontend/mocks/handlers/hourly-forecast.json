@@ -1,0 +1,22 @@
+[
+  {
+    "dateTime": "2025-06-23T00:00:00",
+    "weatherCode": 101,
+    "temp": 20
+  },
+  {
+    "dateTime": "2025-06-23T03:00:00",
+    "weatherCode": 102,
+    "temp": 10
+  },
+  {
+    "dateTime": "2025-06-23T06:00:00",
+    "weatherCode": 103,
+    "temp": 15
+  },
+  {
+    "dateTime": "2025-06-23T09:00:00",
+    "weatherCode": 104,
+    "temp": 20
+  }
+]

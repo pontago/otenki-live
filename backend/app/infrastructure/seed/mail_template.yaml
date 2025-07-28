@@ -1,0 +1,28 @@
+- type: confirm
+  subject: "お問い合わせを受け付けました（自動返信）"
+  body: |
+    お問い合わせありがとうございます。
+    下記の内容でお問い合わせを受け付けました。
+
+    【お名前】
+    {name}
+    【メールアドレス】
+    {email}
+    【本文】
+    {message}
+
+    ----
+    GREEN STUDIO
+    https://www.greenstudio.jp/
+
+- type: admin
+  subject: "お問い合わせがありました"
+  body: |
+    下記の内容でお問い合わせがありました。
+
+    【お名前】
+    {name}
+    【メールアドレス】
+    {email}
+    【本文】
+    {message}

@@ -1,3 +1,5 @@
+from zoneinfo import ZoneInfo
+
 from app.domain.entities.live_detect_data.entity import LiveDetectData
 from app.infrastructure.dto.dynamodb.live_detect_data.model import LiveDetectDataDto
 
@@ -11,7 +13,7 @@ def to_entity(dto: LiveDetectDataDto) -> LiveDetectData:
         jacket=int(dto.jacket),
         long_sleeve=int(dto.long_sleeve),
         outer=int(dto.outer),
-        created_at=dto.created_at,
+        created_at=dto.created_at.astimezone(ZoneInfo("Asia/Tokyo")),
     )
 
 

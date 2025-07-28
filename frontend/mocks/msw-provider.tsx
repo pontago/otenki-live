@@ -1,9 +1,10 @@
 'use client';
 
+import { env } from '@/lib/env';
 import { use } from 'react';
 
 const mockingEnabledPromise =
-  typeof window !== 'undefined' && process.env.NODE_ENV === 'development'
+  typeof window !== 'undefined' && env.USE_MSW === true
     ? import('@/mocks/browser').then(async ({ worker }) => {
         await worker.start({
           onUnhandledRequest(request, print) {

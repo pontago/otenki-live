@@ -2,21 +2,25 @@
   {
     "dateTime": "2025-06-23T00:00:00",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "temp": 20
   },
   {
     "dateTime": "2025-06-23T03:00:00",
     "weatherCode": 102,
+    "weatherName": "晴れ",
     "temp": 10
   },
   {
     "dateTime": "2025-06-23T06:00:00",
     "weatherCode": 103,
+    "weatherName": "曇り",
     "temp": 15
   },
   {
     "dateTime": "2025-06-23T09:00:00",
     "weatherCode": 104,
-    "temp": 20
+    "weatherName": "曇時々晴",
+    "temp": 25
   }
 ]

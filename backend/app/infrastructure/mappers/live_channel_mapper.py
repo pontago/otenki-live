@@ -1,3 +1,5 @@
+from zoneinfo import ZoneInfo
+
 from app.domain.entities.live_channel.entity import LiveChannel
 from app.domain.entities.live_channel.live_channel_status import LiveChannelStatus
 from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
@@ -10,8 +12,8 @@ def to_entity(dto: LiveChannelDto) -> LiveChannel:
         area_code=dto.area_code,
         name=dto.name,
         status=LiveChannelStatus(int(dto.status)),
-        processed_at=dto.processed_at,
-        updated_at=dto.updated_at,
+        processed_at=dto.processed_at.astimezone(ZoneInfo("Asia/Tokyo")),
+        updated_at=dto.updated_at.astimezone(ZoneInfo("Asia/Tokyo")),
     )
 
 

@@ -21,6 +21,14 @@ class SQSSendMessageError(InfraError):
     pass
 
 
+class SESSendmailError(InfraError):
+    pass
+
+
+class SESTemplateNotFoundError(InfraError):
+    pass
+
+
 class LiveStreamFFmpegError(InfraError):
     pass
 
@@ -42,4 +50,8 @@ class CookiePathNotSetError(InfraError):
 
 
 class CookieDownloadError(InfraError):
+    pass
+
+
+class AreaNotFoundError(InfraError):
     pass

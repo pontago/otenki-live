@@ -76,6 +76,9 @@ dynamodb = [
 s3 = [
     { name = "mypy-boto3-s3" },
 ]
+ses = [
+    { name = "mypy-boto3-ses" },
+]
 sqs = [
     { name = "mypy-boto3-sqs" },
 ]
@@ -89,7 +92,7 @@ dependencies = [
     { name = "types-s3transfer" },
 ]
 wheels = [
-    { filename = "boto3_stubs_custom-1.38.10-py3-none-any.whl", hash = "sha256:e875c1565aca90a97cf3fc9b2b2f5ac5ce1239619db8cd35b7018b3ceb8dc5b1" },
+    { filename = "boto3_stubs_custom-1.38.10-py3-none-any.whl", hash = "sha256:85b05f868380cf74e0188a43548e09dfee115330e46ec949fa2a42f6c062d57b" },
 ]
 
 [package.metadata]
@@ -819,6 +822,15 @@ wheels = [
 ]
 
 [[package]]
+name = "mypy-boto3-ses"
+version = "1.38.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/d8/735e5694761363fbe090973d5afca73ec92b94c7d3dc48607725b08db19a/mypy_boto3_ses-1.38.0.tar.gz", hash = "sha256:1741e3cbace8454b121d93d22d49c8238be955eb9db602f6561d4222a6e3df30", size = 31252, upload-time = "2025-04-22T21:34:48.549Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/00/49/501610eecdc85a41126fbb83eb98d776e4d8b62cdaf6f3e221fa64f432ba/mypy_boto3_ses-1.38.0-py3-none-any.whl", hash = "sha256:e4fb4785caea4743dedbb0827bc697ec43bf674311d5cdef6b5e09abc5a230b5", size = 39385, upload-time = "2025-04-22T21:34:41.623Z" },
+]
+
+[[package]]
 name = "mypy-boto3-sqs"
 version = "1.38.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1095,8 +1107,7 @@ source = { editable = "." }
 dependencies = [
     { name = "aws-lambda-typing" },
     { name = "boto3" },
-    { name = "boto3-stubs", extra = ["boto3", "dynamodb", "s3", "sqs"] },
-    { name = "boto3-stubs-custom" },
+    { name = "boto3-stubs", extra = ["boto3", "dynamodb", "s3", "ses", "sqs"] },
     { name = "dependency-injector" },
     { name = "fastapi", extra = ["all"] },
     { name = "ffmpeg-python" },
@@ -1118,6 +1129,7 @@ dependencies = [
 
 [package.dev-dependencies]
 dev = [
+    { name = "boto3-stubs-custom" },
     { name = "memory-profiler" },
     { name = "memray" },
     { name = "moto" },
@@ -1133,8 +1145,7 @@ dev = [
 requires-dist = [
     { name = "aws-lambda-typing", specifier = ">=2.20.0" },
     { name = "boto3", specifier = ">=1.38.10" },
-    { name = "boto3-stubs", extras = ["boto3", "s3", "dynamodb", "sqs"], specifier = ">=1.38.10" },
-    { name = "boto3-stubs-custom", path = "vendored/boto3_stubs_custom-1.38.10-py3-none-any.whl" },
+    { name = "boto3-stubs", extras = ["boto3", "s3", "dynamodb", "sqs", "ses"], specifier = ">=1.38.10" },
     { name = "dependency-injector", specifier = ">=4.46.0" },
     { name = "fastapi", extras = ["all"], specifier = ">=0.115.12" },
     { name = "ffmpeg-python", specifier = ">=0.2.0" },
@@ -1156,6 +1167,7 @@ requires-dist = [
 
 [package.metadata.requires-dev]
 dev = [
+    { name = "boto3-stubs-custom", path = "vendored/boto3_stubs_custom-1.38.10-py3-none-any.whl" },
     { name = "memory-profiler", specifier = ">=0.61.0" },
     { name = "memray", specifier = ">=1.17.2" },
     { name = "moto", specifier = ">=5.1.4" },

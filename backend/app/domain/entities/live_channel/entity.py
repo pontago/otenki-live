@@ -26,3 +26,6 @@ class LiveChannel(BaseModel):
     def failed(self) -> Self:
         self.status = LiveChannelStatus.FAILED
         return self
+
+    def stream_url(self) -> str:
+        return f"https://www.youtube.com/channel/{self.channel_id}/live"

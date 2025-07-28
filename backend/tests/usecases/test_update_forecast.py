@@ -55,6 +55,11 @@ def usecase(container: Container):
 
 
 def test_update_forecast(usecase):
-    usecase.execute()
-    forecasts = usecase.jma_repository.get_weekly_forecast()
+    updated_count = usecase.execute()
+    assert updated_count > 0
+
+    forecasts = usecase.weather_forecast_repository.get_forecasts()
     assert len(forecasts) > 0
+
+    hourly_forecasts = usecase.weather_forecast_repository.get_hourly_forecasts()
+    assert len(hourly_forecasts) > 0

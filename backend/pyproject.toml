@@ -17,8 +17,8 @@ dependencies = [
     "types-requests>=2.32.0.20250328",
     "pyyaml>=6.0.2",
     "types-pyyaml>=6.0.12.20250516",
-    "boto3-stubs[boto3,s3,dynamodb,sqs]>=1.38.10",
-    "boto3-stubs-custom",
+    "boto3-stubs[boto3,s3,dynamodb,sqs,ses]>=1.38.10",
+    #"boto3-stubs-custom",
     #    "pytest-env>=1.1.5",
     "torchvision>=0.22.0",
     "sahi>=0.11.23",
@@ -31,6 +31,7 @@ dependencies = [
 
 [dependency-groups]
 dev = [
+    "boto3-stubs-custom",
     "memory-profiler>=0.61.0",
     "memray>=1.17.2",
     "moto>=5.1.4",

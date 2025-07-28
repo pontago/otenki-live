@@ -1,15 +1,24 @@
+import { BaseResponse } from '@/types/api';
+
 export type WeatherForecast = {
-  dateTime: string;
+  date: string;
   areaId: string;
   areaName: string;
   areaCode: PrefectureCode;
   weatherCode: number;
+  weatherName: string;
   wind?: string;
   wave?: string;
   pops: PopData[];
   tempMin?: number;
   tempMax?: number;
-  liveDetectData: LiveDetectData;
+  liveChannel?: LiveChannel;
+  liveDetectData?: LiveDetectData;
+};
+
+export type LiveChannel = {
+  name: string;
+  url: string;
 };
 
 export type PopData = {
@@ -18,6 +27,7 @@ export type PopData = {
 };
 
 export type LiveDetectData = {
+  dateTime: string;
   person: number;
   umbrella: number;
   tshirt: number;
@@ -33,40 +43,64 @@ export type RegionalWeather = {
 export type HourlyWeatherData = {
   dateTime: string;
   weatherCode: number;
+  weatherName: string;
   temp: number;
 };
 
 export type DetailedWeather = {
   current: WeatherForecast;
   hourly: HourlyWeatherData[];
+  objectDetection: LiveDetectData[];
   daily: WeatherForecast[];
 };
 
-export type RegionalWeatherResponse = {
+export type RegionalWeatherResponse = BaseResponse & {
   data: RegionalWeather[];
+  meta: {
+    count: number;
+  };
 };
 
-export type WeathersResponse = {
+export type WeathersResponse = BaseResponse & {
   data: WeatherForecast[];
+  meta: {
+    count: number;
+    regionCode: RegionCode;
+    regionName: string;
+  };
 };
 
-export type WeatherResponse = {
+export type WeatherResponse = BaseResponse & {
   data: DetailedWeather;
+  meta: {
+    regionCode: RegionCode;
+    regionName: string;
+    areaCode: PrefectureCode;
+    areaName: string;
+  };
+};
+
+export type LiveChannelsResponse = BaseResponse & {
+  data: LiveChannel[];
+  meta: {
+    count: number;
+  };
 };
 
 export type RegionCode =
   | 'hokkaido'
   | 'tohoku'
   | 'kanto'
-  | 'chubu'
-  | 'kansai'
+  | 'hokuriku'
+  | 'tokai'
+  | 'kinki'
   | 'chugoku'
   | 'shikoku'
   | 'kyushu'
   | 'okinawa';
 
 export type PrefectureCode =
-  | 'hokkaido'
+  | 'sapporo'
   | 'aomori'
   | 'iwate'
   | 'miyagi'

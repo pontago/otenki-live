@@ -29,7 +29,13 @@ class Settings(BaseSettings):
     dynamodb_billing_mode: str | None = "PAY_PER_REQUEST"
     dynamodb_tags: dict[str, str] = {"Environment": env, "Project": "otenki-live"}
 
-    weather_forecast_ttl_days: int = 30
+    weather_forecast_ttl_days: int = 7
+    weather_hourly_forecast_ttl_days: int = 7
+
+    """
+    SES Settings
+    """
+    contact_from_address: str = "GREENSTUDIO <app@greenstudio.jp>"
 
     """
     SQS Queue Settings
@@ -55,6 +61,18 @@ class Settings(BaseSettings):
 
 class APIConfig:
     jma_api_base_url: str = "https://www.jma.go.jp/bosai/"
+    jma_forecast_regions: list[str] = [
+        "sapporo",
+        "miyagi",
+        "tokyo",
+        "niigata",
+        "aichi",
+        "osaka",
+        "hiroshima",
+        "kochi",
+        "fukuoka",
+        "okinawa",
+    ]
 
 
 AppSettings = (

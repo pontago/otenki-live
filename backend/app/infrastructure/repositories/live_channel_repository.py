@@ -25,20 +25,18 @@ class LiveChannelRepository(ILiveChannelRepository):
 
     def get_active_channels(self) -> list[LiveChannel]:
         dtos = LiveChannelDto.active_index.query(int(True))
-        results: list[LiveChannel] = [to_entity(dto) for dto in dtos]
-        return results
+        return [to_entity(dto) for dto in dtos]
 
     def save(self, data: LiveChannel):
         dto = to_dto(data)
-        dto.updated_at = datetime.now(UTC)
+        dto.updated_at = datetime.now()
         dto.save()
 
     def get_channels(self, channel_ids: list[str], status: LiveChannelStatus) -> list[LiveChannel]:
         dtos = LiveChannelDto.status_index.query(
             hash_key=status.value, filter_condition=LiveChannelDto.pk.is_in(*channel_ids)
         )
-        results: list[LiveChannel] = [to_entity(dto) for dto in dtos]
-        return results
+        return [to_entity(dto) for dto in dtos]
 
     def update_status(self, data: LiveChannel | list[LiveChannel]):
         if isinstance(data, LiveChannel):
@@ -50,3 +48,9 @@ class LiveChannelRepository(ILiveChannelRepository):
                     LiveChannelDto.updated_at.set(datetime.now(UTC)),
                 ]
             )
+
+    def get_active_channels_by_area(self, area_code: str) -> list[LiveChannel]:
+        dtos = LiveChannelDto.area_index.query(
+            hash_key=area_code, range_key_condition=LiveChannelDto.is_active == int(True)
+        )
+        return [to_entity(dto) for dto in dtos]

@@ -25,7 +25,7 @@ export const BreadcrumbNav = ({ items }: BreadcrumbNavProps) => {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href='/'>Top</Link>
+            <Link href='/'>ホーム</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
         {items.map((item) => (

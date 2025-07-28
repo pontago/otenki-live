@@ -3,11 +3,12 @@
     "regionCode": "hokkaido",
     "regionName": "北海道",
     "weatherForecast": {
-      "areaId": "014100",
-      "areaCode": "kushiro",
-      "areaName": "釧路",
+      "areaId": "016010",
+      "areaCode": "sapporo",
+      "areaName": "札幌",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -15,28 +16,29 @@
         }
       ],
       "tempMin": 10,
-      "tempMax": 20,
-      "liveDetectData": {
-        "person": 10,
-        "umbrella": 1,
-        "tshirt": 6,
-        "longSleeve": 4
-      }
+      "tempMax": 20
     }
   },
   {
     "regionCode": "tohoku",
-    "regionName": "東北",
+    "regionName": "東北地方",
     "weatherForecast": {
-      "areaId": "034100",
-      "areaCode": "sendai",
-      "areaName": "仙台",
+      "areaId": "040010",
+      "areaCode": "miyagi",
+      "areaName": "宮城県",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
-      "pops": [],
-      "tempMin": 12,
-      "tempMax": 22,
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
+      "pops": [
+        {
+          "dateTime": "2025-06-18T00:00:00",
+          "pop": 20
+        }
+      ],
+      "tempMin": 13,
+      "tempMax": 23,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 10,
         "umbrella": 1,
         "tshirt": 6,
@@ -46,13 +48,14 @@
   },
   {
     "regionCode": "kanto",
-    "regionName": "関東",
+    "regionName": "関東地方",
     "weatherForecast": {
-      "areaId": "13100",
+      "areaId": "130010",
       "areaCode": "tokyo",
-      "areaName": "東京",
+      "areaName": "東京都",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -62,6 +65,7 @@
       "tempMin": 15,
       "tempMax": 25,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 15,
         "umbrella": 2,
         "tshirt": 8,
@@ -70,14 +74,35 @@
     }
   },
   {
-    "regionCode": "chubu",
-    "regionName": "中部",
+    "regionCode": "hokuriku",
+    "regionName": "北陸地方",
     "weatherForecast": {
-      "areaId": "23100",
-      "areaCode": "nagoya",
-      "areaName": "名古屋",
+      "areaId": "150010",
+      "areaCode": "niigata",
+      "areaName": "新潟県",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
+      "pops": [
+        {
+          "dateTime": "2025-06-18T00:00:00",
+          "pop": 40
+        }
+      ],
+      "tempMin": 13,
+      "tempMax": 23
+    }
+  },
+  {
+    "regionCode": "tokai",
+    "regionName": "東海地方",
+    "weatherForecast": {
+      "areaId": "230010",
+      "areaCode": "aichi",
+      "areaName": "愛知県",
+      "weatherCode": 101,
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -87,6 +112,7 @@
       "tempMin": 14,
       "tempMax": 24,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 12,
         "umbrella": 1,
         "tshirt": 7,
@@ -95,14 +121,15 @@
     }
   },
   {
-    "regionCode": "kansai",
-    "regionName": "関西",
+    "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherForecast": {
-      "areaId": "27100",
+      "areaId": "270000",
       "areaCode": "osaka",
-      "areaName": "大阪",
+      "areaName": "大阪府",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -112,6 +139,7 @@
       "tempMin": 16,
       "tempMax": 26,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 18,
         "umbrella": 3,
         "tshirt": 9,
@@ -121,13 +149,14 @@
   },
   {
     "regionCode": "chugoku",
-    "regionName": "中国",
+    "regionName": "中国地方",
     "weatherForecast": {
-      "areaId": "34100",
+      "areaId": "340010",
       "areaCode": "hiroshima",
-      "areaName": "広島",
+      "areaName": "広島県",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -137,6 +166,7 @@
       "tempMin": 13,
       "tempMax": 23,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 14,
         "umbrella": 2,
         "tshirt": 8,
@@ -146,13 +176,14 @@
   },
   {
     "regionCode": "shikoku",
-    "regionName": "四国",
+    "regionName": "四国地方",
     "weatherForecast": {
-      "areaId": "37100",
-      "areaCode": "takamatsu",
-      "areaName": "高松",
+      "areaId": "390010",
+      "areaCode": "kochi",
+      "areaName": "高知県",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -162,6 +193,7 @@
       "tempMin": 15,
       "tempMax": 25,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 11,
         "umbrella": 1,
         "tshirt": 6,
@@ -171,13 +203,14 @@
   },
   {
     "regionCode": "kyushu",
-    "regionName": "九州",
+    "regionName": "九州地方",
     "weatherForecast": {
-      "areaId": "40100",
+      "areaId": "400010",
       "areaCode": "fukuoka",
-      "areaName": "福岡",
+      "areaName": "福岡県",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -187,6 +220,7 @@
       "tempMin": 17,
       "tempMax": 27,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 16,
         "umbrella": 2,
         "tshirt": 9,
@@ -198,11 +232,12 @@
     "regionCode": "okinawa",
     "regionName": "沖縄",
     "weatherForecast": {
-      "areaId": "47100",
-      "areaCode": "naha",
-      "areaName": "那覇",
+      "areaId": "471010",
+      "areaCode": "okinawa",
+      "areaName": "沖縄県",
       "weatherCode": 101,
-      "dateTime": "2025-06-18T00:00:00",
+      "weatherName": "晴時々曇",
+      "date": "2025-06-18",
       "pops": [
         {
           "dateTime": "2025-06-18T00:00:00",
@@ -212,6 +247,7 @@
       "tempMin": 20,
       "tempMax": 30,
       "liveDetectData": {
+        "dateTime": "2025-06-18T12:00:00",
         "person": 13,
         "umbrella": 1,
         "tshirt": 10,

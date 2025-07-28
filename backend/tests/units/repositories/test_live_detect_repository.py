@@ -38,3 +38,13 @@ def test_save(repository, mock_detects):
     assert data
     assert len(data) == 1
     assert filter(lambda x: x.pk == mock_detects[0].channel_id, data)
+
+
+def test_get_latest_data(repository, mock_detects):
+    for mock_detect in mock_detects:
+        repository.save(mock_detect)
+
+    data = repository.get_latest_data(mock_detects[0].channel_id)
+
+    assert data
+    assert data.channel_id == mock_detects[0].channel_id

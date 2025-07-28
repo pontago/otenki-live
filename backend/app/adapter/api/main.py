@@ -1,14 +1,52 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request, status
+from fastapi.exceptions import RequestValidationError
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from loguru import logger
 
-from app.adapter.api.v1 import weathers
+from app.adapter.api.v1.endpoints import contact, forecast, live_channel
+from app.adapter.api.v1.schemas.base import ResponseStatus
+from app.core.di.container import Container
 from app.core.settings import AppSettings
+from app.core.translations.translation import translate
+
+container = Container()
+container.wire(modules=[__name__, forecast, contact, live_channel])
+
 
 app = FastAPI(title=AppSettings.project_name)
+
+origins = [
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+@app.exception_handler(RequestValidationError)
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
+    try:
+        translated_errors = translate(list(exc.errors()))
+    except Exception as e:
+        logger.error(e)
+        translated_errors = list(exc.errors())
+
+    return JSONResponse(
+        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        content={"detail": translated_errors},
+    )
 
 
 @app.get("/")
 async def root():
-    return {"status": "ok"}
+    return {"status": ResponseStatus.SUCCESS}
 
 
-app.include_router(weathers.router, prefix=AppSettings.api_v1_prefix)
+app.include_router(forecast.router, prefix=AppSettings.api_v1_prefix)
+app.include_router(contact.router, prefix=AppSettings.api_v1_prefix)
+app.include_router(live_channel.router, prefix=AppSettings.api_v1_prefix)

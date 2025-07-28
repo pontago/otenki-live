@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Card } from '@/components/ui/card';
 
 import { latestWeatherPop } from '@/features/weather/lib/weather';
-import { RegionalWeather, RegionCode, WeatherForecast } from '@/features/weather/types/weather';
+import { PrefectureCode, RegionalWeather, RegionCode, WeatherForecast } from '@/features/weather/types/weather';
 
 type WeatherOverlayProps = {
   regionName: string;
@@ -15,7 +15,7 @@ type RegionalWeatherProps = {
   forecasts: RegionalWeather[];
 };
 
-const mapOverlayPositions: Record<RegionCode, { top: string; left: string }> = {
+const mapOverlayPositions: Partial<Record<RegionCode, { top: string; left: string }>> = {
   hokkaido: {
     top: '2%',
     left: '43%',
@@ -25,24 +25,28 @@ const mapOverlayPositions: Record<RegionCode, { top: string; left: string }> = {
     left: '72%',
   },
   kanto: {
-    top: '61%',
-    left: '64%',
+    top: '52%',
+    left: '66%',
   },
-  chubu: {
-    top: '76%',
-    left: '44%',
+  hokuriku: {
+    top: '30%',
+    left: '37%',
   },
-  kansai: {
-    top: '34%',
-    left: '35%',
+  tokai: {
+    top: '72%',
+    left: '57%',
+  },
+  kinki: {
+    top: '78%',
+    left: '40%',
   },
   chugoku: {
     top: '41%',
-    left: '17%',
+    left: '19%',
   },
   shikoku: {
     top: '84%',
-    left: '24.5%',
+    left: '22.5%',
   },
   kyushu: {
     top: '56%',
@@ -61,7 +65,13 @@ const WeatherOverlay = ({ regionName, weatherForecast }: WeatherOverlayProps) =>
       <div className='text-[9px] font-semibold text-card-foreground mb-1 truncate w-full' title={regionName}>
         {regionName}
       </div>
-      <Image src='/icons/weather/100.png' alt='Weather Icon' width={28} height={28} className='text-primary' />
+      <Image
+        src={`/icons/weather/${weatherForecast.weatherCode.toString()}.png`}
+        alt='Weather Icon'
+        width={28}
+        height={28}
+        className='text-primary'
+      />
       <p className='text-[9px] font-bold text-card-foreground'>{weatherForecast.tempMax}°C</p>
       <p className='text-[9px] text-muted-foreground capitalize truncate w-full'>
         {pop === -1 ? '-' : `${pop.toString()}%`}
@@ -76,20 +86,26 @@ export const RegionalWeatherMap = ({ forecasts }: RegionalWeatherProps) => {
       <div className='w-full max-w-4xl h-full items-center flex flex-col'>
         <div className='relative items-center flex flex-col'>
           <Image src='/images/map.png' alt='日本地図' width={400} height={400} />
-          {forecasts.map((forecast) => (
-            <div
-              key={forecast.regionCode}
-              className='absolute'
-              style={{
-                top: mapOverlayPositions[forecast.regionCode].top,
-                left: mapOverlayPositions[forecast.regionCode].left,
-              }}
-            >
-              <Link href={`/${forecast.regionCode}`}>
-                <WeatherOverlay regionName={forecast.regionName} weatherForecast={forecast.weatherForecast} />
-              </Link>
-            </div>
-          ))}
+          {forecasts.map((forecast) => {
+            const position = mapOverlayPositions[forecast.regionCode];
+
+            return (
+              position && (
+                <div
+                  key={forecast.regionCode}
+                  className='absolute'
+                  style={{
+                    top: position.top,
+                    left: position.left,
+                  }}
+                >
+                  <Link href={`/${forecast.regionCode}`}>
+                    <WeatherOverlay regionName={forecast.regionName} weatherForecast={forecast.weatherForecast} />
+                  </Link>
+                </div>
+              )
+            );
+          })}
         </div>
       </div>
     </div>

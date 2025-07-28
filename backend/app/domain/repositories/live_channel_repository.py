@@ -24,3 +24,7 @@ class ILiveChannelRepository(ABC):
     @abstractmethod
     def update_status(self, data: LiveChannel | list[LiveChannel]):
         raise NotImplementedError
+
+    @abstractmethod
+    def get_active_channels_by_area(self, area_code: str) -> list[LiveChannel]:
+        raise NotImplementedError

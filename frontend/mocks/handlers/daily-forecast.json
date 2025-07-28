@@ -1,11 +1,12 @@
 [
   {
-    "dateTime": "2025-06-18T00:00:00",
+    "date": "2025-06-18",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-18T00:00:00",
@@ -15,6 +16,7 @@
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
+      "dateTime": "2025-06-18T00:00:00",
       "person": 18,
       "umbrella": 3,
       "tshirt": 9,
@@ -22,12 +24,13 @@
     }
   },
   {
-    "dateTime": "2025-06-19T00:00:00",
+    "date": "2025-06-19",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-19T00:00:00",
@@ -37,6 +40,7 @@
     "tempMin": 18,
     "tempMax": 28,
     "liveDetectData": {
+      "dateTime": "2025-06-19T00:00:00",
       "person": 20,
       "umbrella": 2,
       "tshirt": 12,
@@ -44,12 +48,13 @@
     }
   },
   {
-    "dateTime": "2025-06-20T00:00:00",
+    "date": "2025-06-20",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-20T00:00:00",
@@ -59,6 +64,7 @@
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
+      "dateTime": "2025-06-20T00:00:00",
       "person": 16,
       "umbrella": 5,
       "tshirt": 7,
@@ -66,12 +72,13 @@
     }
   },
   {
-    "dateTime": "2025-06-21T00:00:00",
+    "date": "2025-06-21",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-21T00:00:00",
@@ -81,6 +88,7 @@
     "tempMin": 19,
     "tempMax": 29,
     "liveDetectData": {
+      "dateTime": "2025-06-21T00:00:00",
       "person": 22,
       "umbrella": 1,
       "tshirt": 15,
@@ -88,12 +96,13 @@
     }
   },
   {
-    "dateTime": "2025-06-22T00:00:00",
+    "date": "2025-06-22",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-22T00:00:00",
@@ -103,6 +112,7 @@
     "tempMin": 14,
     "tempMax": 24,
     "liveDetectData": {
+      "dateTime": "2025-06-22T00:00:00",
       "person": 14,
       "umbrella": 8,
       "tshirt": 5,
@@ -110,12 +120,13 @@
     }
   },
   {
-    "dateTime": "2025-06-23T00:00:00",
+    "date": "2025-06-23",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-23T00:00:00",
@@ -125,6 +136,7 @@
     "tempMin": 20,
     "tempMax": 30,
     "liveDetectData": {
+      "dateTime": "2025-06-23T00:00:00",
       "person": 25,
       "umbrella": 0,
       "tshirt": 18,
@@ -132,12 +144,13 @@
     }
   },
   {
-    "dateTime": "2025-06-24T00:00:00",
+    "date": "2025-06-24",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-24T00:00:00",
@@ -147,6 +160,7 @@
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
+      "dateTime": "2025-06-24T00:00:00",
       "person": 19,
       "umbrella": 4,
       "tshirt": 10,
@@ -154,12 +168,13 @@
     }
   },
   {
-    "dateTime": "2025-06-25T00:00:00",
+    "date": "2025-06-25",
     "areaCode": "tokyo",
     "areaName": "東京都",
     "areaId": "13100",
     "regionCode": "kanto",
     "weatherCode": 101,
+    "weatherName": "晴時々曇",
     "pops": [
       {
         "dateTime": "2025-06-25T00:00:00",
@@ -169,6 +184,7 @@
     "tempMin": 18,
     "tempMax": 28,
     "liveDetectData": {
+      "dateTime": "2025-06-25T00:00:00",
       "person": 21,
       "umbrella": 2,
       "tshirt": 13,

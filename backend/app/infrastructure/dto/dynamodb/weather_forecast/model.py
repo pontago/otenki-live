@@ -11,14 +11,14 @@ class WeatherForecastDto(PynamoDBModel):
     class Meta(PynamoDBModel.Meta):
         table_name = "WeatherForecast" + AppSettings.env_suffix
 
-    pk = UnicodeAttribute(hash_key=True)
-    sk = UnicodeAttribute(range_key=True)
+    pk = UnicodeAttribute(hash_key=True)  # 地域コード
+    sk = UnicodeAttribute(range_key=True)  # 予報日時#レポート日時
     data = ForecastData()
     created_at = UTCDateTimeAttribute()
     expires_at = TTLAttribute()
 
     @property
-    def area_code(self) -> str:
+    def area_id(self) -> str:
         return self.pk
 
     @property

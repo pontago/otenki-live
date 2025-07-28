@@ -6,6 +6,7 @@ from loguru import logger
 from app.core.di.container import Container
 from app.core.utils import parallel
 from app.domain.entities.jma_forecast.entity import JmaForecast
+from app.domain.entities.jma_hourly_forecast.entity import JmaHourlyForecast
 from app.domain.repositories.jma_repository import IJmaRepository
 from app.domain.repositories.weather_forecast_repository import IWeatherForecastRepository
 
@@ -20,29 +21,44 @@ class UpdateForecastInteractor:
         self.weather_forecast_repository = weather_forecast_repository
         self.jma_repository = jma_repository
 
-    # def get_forecast(self, area_code: str, date: date, limit: int | None = None) -> list[WeatherForecastDto]:
-    #     return self.weather_forecast_repository.get_forecast(area_code=area_code, date=date, limit=limit)
-
     def execute(self) -> int:
-        forecasts = self.jma_repository.get_weekly_forecast()
+        forecast_areas = self.jma_repository.get_forecast_areas()
 
-        if not forecasts:
-            logger.warning("JMA forecast is empty.")
-            return -1
+        forecast_count = 0
+        for forecast_area in forecast_areas:
+            forecasts = self.jma_repository.get_forecast(forecast_area=forecast_area)
 
-            # await asyncio.gather(
-            #     *(
-            #         asyncio.to_thread(self.weather_forecast_repository.add_forecast, dtoForecast)
-            #         for dtoForecast in dtoForecasts
-            #     )
-            # )
+            if forecasts:
+                forecast_count += 1
+                asyncio.run(self._add_forecast_async(forecasts=forecasts))
+            else:
+                logger.warning(f"JMA forecast is empty. [{forecast_area.area_code}]")
+
+            hourly_forecasts = self.jma_repository.get_hourly_forecast(forecast_area=forecast_area)
+
+            if hourly_forecasts:
+                asyncio.run(self._add_forecast_async(forecasts=hourly_forecasts))
+            else:
+                logger.warning(f"JMA hourly forecast is empty. [{forecast_area.area_code}]")
+
+        # forecasts = self.jma_repository.get_weekly_forecast()
+
+        # if not forecasts:
+        #     logger.warning("JMA forecast is empty.")
+        #     return -1
+
+        # await asyncio.gather(
+        #     *(
+        #         asyncio.to_thread(self.weather_forecast_repository.add_forecast, dtoForecast)
+        #         for dtoForecast in dtoForecasts
+        #     )
+        # )
 
         # self.weather_forecast_repository.add_forecasts(dtoForecasts)
-        asyncio.run(self._add_forecast_async(forecasts=forecasts))
 
-        return len(forecasts)
+        return forecast_count
 
-    async def _add_forecast_async(self, forecasts: list[JmaForecast]):
+    async def _add_forecast_async(self, forecasts: list[JmaForecast] | list[JmaHourlyForecast]):
         await parallel(
             [asyncio.to_thread(self.weather_forecast_repository.save, forecast) for forecast in forecasts],
             concurrency=3,

@@ -7,8 +7,8 @@ class PynamoDBModel(Model):
     class Meta:
         region = AppSettings.region_name
         host = AppSettings.endpoint_url
-        # aws_access_key_id = AppSettings.aws_access_key_id
-        # aws_secret_access_key = AppSettings.aws_secret_access_key
+        aws_access_key_id = AppSettings.aws_access_key_id
+        aws_secret_access_key = AppSettings.aws_secret_access_key
         billing_mode = AppSettings.dynamodb_billing_mode
         tags = AppSettings.dynamodb_tags
 

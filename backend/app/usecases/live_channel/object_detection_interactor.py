@@ -1,9 +1,9 @@
 from datetime import UTC, datetime
 from pathlib import Path
 
-
 from dependency_injector.wiring import Provide, inject
 from loguru import logger
+
 from app.core.di.container import Container
 from app.core.settings import AppSettings
 from app.domain.entities.live_channel.live_channel_status import LiveChannelStatus
@@ -48,7 +48,7 @@ class ObjectDetectionInteractor:
         )
 
         if not channels:
-            logger.info("No channels found for object detection.[{payloads}]")
+            logger.info(f"No channels found for object detection.[{payloads}]")
             return
 
         self.live_channel_repository.update_status([channel.inProcessing() for channel in channels])
@@ -64,7 +64,7 @@ class ObjectDetectionInteractor:
 
         for channel in channels:
             try:
-                buffer = self.live_stream_repository.get_latest_image(channel.channel_id)
+                buffer = self.live_stream_repository.get_latest_image(channel)
                 now = datetime.now(UTC)
 
                 detect_object = self.object_detection_service.detect_objects(buffer)
@@ -77,5 +77,5 @@ class ObjectDetectionInteractor:
             except Exception:
                 self.live_channel_repository.update_status(channel.failed())
                 raise
-        
+
         return channels

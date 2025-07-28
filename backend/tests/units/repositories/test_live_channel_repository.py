@@ -19,7 +19,7 @@ def mock_channels(repository: LiveChannelRepository):
         LiveChannel(
             channel_id="UCBFDJXGCOdMjVtg2AnReoXA",
             is_active=False,
-            area_code="",
+            area_code="tokyo",
             name="歌舞伎町 ライブ ちゃんねる 2『 Kabukicho Live Channel II 』",
             status=LiveChannelStatus.NONE,
             processed_at=datetime.now(UTC),
@@ -28,7 +28,7 @@ def mock_channels(repository: LiveChannelRepository):
         LiveChannel(
             channel_id="UCCLnJzwda_Kcdkok3et7n0A",
             is_active=True,
-            area_code="",
+            area_code="tokyo",
             name="歌舞伎町 ライブ ちゃんねる『 Kabukicho Live Channel 』",
             status=LiveChannelStatus.NONE,
             processed_at=datetime.now(UTC),
@@ -80,3 +80,13 @@ def test_update_status(repository, mock_channels):
 
     updated_channel = LiveChannelDto.get(mock_channels[0].channel_id)
     assert updated_channel.status == LiveChannelStatus.PROCESSING.value
+
+
+def test_get_active_channels_by_area(repository, mock_channels):
+    for mock_channel in mock_channels:
+        repository.save(mock_channel)
+
+    channels = repository.get_active_channels_by_area("tokyo")
+
+    assert channels is not None
+    assert len(channels) == 1

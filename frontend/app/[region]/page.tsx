@@ -6,6 +6,24 @@ import { prefectureForecasts } from '@/features/weather/api/forecast';
 import { PrefectureWeather } from '@/features/weather/components/prefecture-weather';
 import { RegionCode, WeathersResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: Promise<RegionPageProps> }) {
+  const { region } = await params;
+  let title: string;
+
+  try {
+    const forecasts = await prefectureForecasts(region as RegionCode);
+    title = `${forecasts.meta.regionName}の天気`;
+  } catch (e) {
+    title = `${region}の天気`;
+  }
+
+  return {
+    title,
+    description: `${title}をライブストリームから取得した情報で確認できます`,
+  };
+}
 
 type RegionPageProps = {
   region: string;

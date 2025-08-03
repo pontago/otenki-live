@@ -67,7 +67,7 @@ const WeatherOverlay = ({ regionName, weatherForecast }: WeatherOverlayProps) =>
       </div>
       <Image
         src={`/icons/weather/${weatherForecast.weatherCode.toString()}.png`}
-        alt='Weather Icon'
+        alt={weatherForecast.weatherName}
         width={28}
         height={28}
         className='text-primary'

@@ -27,7 +27,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'お天気ライブ',
+  title: {
+    template: '%s - お天気ライブ',
+    default: 'お天気ライブ',
+  },
   description: '現在の天気をライブストリームから取得した情報で確認できます',
 };
 

@@ -4,12 +4,14 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
+    "dev:test": "dotenv -e .env.test -- next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "test": "vitest"
+    "test": "vitest",
+    "test:e2e": "dotenv -e .env.test -- playwright test"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -41,6 +43,7 @@
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.29.0",
     "@next/eslint-plugin-next": "^15.3.4",
+    "@playwright/test": "^1.54.1",
     "@storybook/addon-a11y": "^9.0.12",
     "@storybook/addon-docs": "^9.0.12",
     "@storybook/addon-onboarding": "^9.0.12",
@@ -56,6 +59,7 @@
     "@typescript-eslint/parser": "^8.34.1",
     "@vitest/browser": "^3.2.4",
     "@vitest/coverage-v8": "^3.2.4",
+    "dotenv-cli": "^10.0.0",
     "eslint": "^9.29.0",
     "eslint-config-next": "15.3.3",
     "eslint-config-prettier": "^10.1.5",
@@ -65,7 +69,7 @@
     "eslint-plugin-unused-imports": "^4.1.4",
     "msw": "^2.10.2",
     "msw-storybook-addon": "^2.0.5",
-    "playwright": "^1.53.1",
+    "playwright": "^1.54.1",
     "prettier": "^3.6.0",
     "storybook": "^9.0.12",
     "tailwindcss": "^4.1.10",

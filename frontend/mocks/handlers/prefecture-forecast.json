@@ -5,6 +5,7 @@
     "areaName": "札幌",
     "areaId": "016010",
     "regionCode": "hokkaido",
+    "regionName": "北海道",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -29,6 +30,7 @@
     "areaName": "青森県",
     "areaId": "020010",
     "regionCode": "tohoku",
+    "regionName": "東北地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -53,6 +55,7 @@
     "areaName": "岩手県",
     "areaId": "030010",
     "regionCode": "tohoku",
+    "regionName": "東北地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -77,6 +80,7 @@
     "areaName": "宮城県",
     "areaId": "040010",
     "regionCode": "tohoku",
+    "regionName": "東北地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -101,6 +105,7 @@
     "areaName": "秋田県",
     "areaId": "050010",
     "regionCode": "tohoku",
+    "regionName": "東北地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -125,6 +130,7 @@
     "areaName": "山形県",
     "areaId": "060010",
     "regionCode": "tohoku",
+    "regionName": "東北地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -149,6 +155,7 @@
     "areaName": "福島県",
     "areaId": "070010",
     "regionCode": "tohoku",
+    "regionName": "東北地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -173,6 +180,7 @@
     "areaName": "茨城県",
     "areaId": "080010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -197,6 +205,7 @@
     "areaName": "栃木県",
     "areaId": "090010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -221,6 +230,7 @@
     "areaName": "群馬県",
     "areaId": "100010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -245,6 +255,7 @@
     "areaName": "埼玉県",
     "areaId": "110010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -269,6 +280,7 @@
     "areaName": "千葉県",
     "areaId": "120010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -293,6 +305,7 @@
     "areaName": "東京都",
     "areaId": "130010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -317,6 +330,7 @@
     "areaName": "神奈川県",
     "areaId": "140010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -341,6 +355,7 @@
     "areaName": "新潟県",
     "areaId": "150010",
     "regionCode": "hokuriku",
+    "regionName": "北陸地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -365,6 +380,7 @@
     "areaName": "富山県",
     "areaId": "160010",
     "regionCode": "hokuriku",
+    "regionName": "北陸地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -389,6 +405,7 @@
     "areaName": "石川県",
     "areaId": "170010",
     "regionCode": "hokuriku",
+    "regionName": "北陸地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -413,6 +430,7 @@
     "areaName": "福井県",
     "areaId": "180010",
     "regionCode": "hokuriku",
+    "regionName": "北陸地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -437,6 +455,7 @@
     "areaName": "山梨県",
     "areaId": "190010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -461,6 +480,7 @@
     "areaName": "長野県",
     "areaId": "200010",
     "regionCode": "kanto",
+    "regionName": "関東地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -485,6 +505,7 @@
     "areaName": "岐阜県",
     "areaId": "210010",
     "regionCode": "tokai",
+    "regionName": "東海地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -509,6 +530,7 @@
     "areaName": "静岡県",
     "areaId": "220010",
     "regionCode": "tokai",
+    "regionName": "東海地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -533,6 +555,7 @@
     "areaName": "愛知県",
     "areaId": "230010",
     "regionCode": "tokai",
+    "regionName": "東海地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -557,6 +580,7 @@
     "areaName": "三重県",
     "areaId": "240010",
     "regionCode": "tokai",
+    "regionName": "東海地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -581,6 +605,7 @@
     "areaName": "滋賀県",
     "areaId": "250010",
     "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -605,6 +630,7 @@
     "areaName": "京都府",
     "areaId": "260010",
     "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -629,6 +655,7 @@
     "areaName": "大阪府",
     "areaId": "270000",
     "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -653,6 +680,7 @@
     "areaName": "兵庫県",
     "areaId": "280010",
     "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -677,6 +705,7 @@
     "areaName": "奈良県",
     "areaId": "290010",
     "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -701,6 +730,7 @@
     "areaName": "和歌山県",
     "areaId": "300010",
     "regionCode": "kinki",
+    "regionName": "近畿地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -725,6 +755,7 @@
     "areaName": "鳥取県",
     "areaId": "310010",
     "regionCode": "chugoku",
+    "regionName": "中国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -749,6 +780,7 @@
     "areaName": "島根県",
     "areaId": "320010",
     "regionCode": "chugoku",
+    "regionName": "中国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -773,6 +805,7 @@
     "areaName": "岡山県",
     "areaId": "330010",
     "regionCode": "chugoku",
+    "regionName": "中国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -797,6 +830,7 @@
     "areaName": "広島県",
     "areaId": "340010",
     "regionCode": "chugoku",
+    "regionName": "中国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -821,6 +855,7 @@
     "areaName": "山口県",
     "areaId": "350010",
     "regionCode": "chugoku",
+    "regionName": "中国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -845,6 +880,7 @@
     "areaName": "徳島県",
     "areaId": "360010",
     "regionCode": "shikoku",
+    "regionName": "四国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -869,6 +905,7 @@
     "areaName": "香川県",
     "areaId": "370000",
     "regionCode": "shikoku",
+    "regionName": "四国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -893,6 +930,7 @@
     "areaName": "愛媛県",
     "areaId": "380010",
     "regionCode": "shikoku",
+    "regionName": "四国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -917,6 +955,7 @@
     "areaName": "高知県",
     "areaId": "390010",
     "regionCode": "shikoku",
+    "regionName": "四国地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -941,6 +980,7 @@
     "areaName": "福岡県",
     "areaId": "400010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -965,6 +1005,7 @@
     "areaName": "佐賀県",
     "areaId": "410010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -989,6 +1030,7 @@
     "areaName": "長崎県",
     "areaId": "420010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -1013,6 +1055,7 @@
     "areaName": "熊本県",
     "areaId": "430010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -1037,6 +1080,7 @@
     "areaName": "大分県",
     "areaId": "440010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -1061,6 +1105,7 @@
     "areaName": "宮崎県",
     "areaId": "450010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -1085,6 +1130,7 @@
     "areaName": "鹿児島県",
     "areaId": "460010",
     "regionCode": "kyushu",
+    "regionName": "九州地方",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [
@@ -1109,6 +1155,7 @@
     "areaName": "沖縄県",
     "areaId": "471010",
     "regionCode": "okinawa",
+    "regionName": "沖縄",
     "weatherCode": 101,
     "weatherName": "晴れ",
     "pops": [

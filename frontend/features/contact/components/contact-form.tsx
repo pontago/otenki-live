@@ -51,7 +51,7 @@ export const ContactForm = () => {
         <>
           <p className='mb-6'>このサイトについてのお問い合わせは、以下のフォームからお願いします。</p>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+            <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6' role='form'>
               <FormField
                 control={form.control}
                 name='name'

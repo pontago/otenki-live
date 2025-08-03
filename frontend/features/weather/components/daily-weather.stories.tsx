@@ -5,6 +5,7 @@ import { WeatherForecast } from '@/features/weather/types/weather';
 import { handlers } from '@/mocks/handlers';
 import dailyForecast from '@/mocks/handlers/daily-forecast.json';
 import { expect, within } from '@storybook/test';
+import { DateTime } from 'luxon';
 
 const meta = {
   component: DailyWeather,
@@ -29,8 +30,25 @@ export const Default: Story = {
     const dailyForecasts = dailyForecast as WeatherForecast[];
 
     for (const forecast of dailyForecasts) {
-      const dateElement = await canvas.findByText(forecast.date);
+      const dateElement = await canvas.findByText(DateTime.fromISO(forecast.date).toFormat('M/d'));
       expect(dateElement).toBeInTheDocument();
+
+      const cardElement = dateElement.closest('[data-slot="card"]');
+      expect(cardElement).toBeInTheDocument();
+
+      const weatherElement = cardElement?.querySelector('img');
+      expect(weatherElement).toBeInTheDocument();
+      expect(weatherElement).toHaveAttribute(
+        'src',
+        expect.stringContaining(`/icons/weather/${forecast.weatherCode}.png`)
+      );
+      expect(weatherElement).toHaveAttribute('alt', forecast.weatherName);
+
+      const maxTempElement = await canvas.findByText(`${forecast.tempMax}°C`);
+      expect(maxTempElement).toBeInTheDocument();
+
+      const minTempElement = await canvas.findByText(`${forecast.tempMin}°C`);
+      expect(minTempElement).toBeInTheDocument();
     }
   },
 };

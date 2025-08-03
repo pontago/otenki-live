@@ -83,7 +83,7 @@ export const RegionalWeatherList = ({ forecasts }: RegionalWeatherListProps) => 
                     <div className='w-20 flex flex-col items-center text-center'>
                       <Image
                         src={`/icons/weather/${forecast.weatherForecast.weatherCode.toString()}.png`}
-                        alt='Weather Icon'
+                        alt={forecast.weatherForecast.weatherName}
                         width={36}
                         height={36}
                         className='text-primary my-1'

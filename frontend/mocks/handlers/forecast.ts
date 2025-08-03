@@ -40,7 +40,7 @@ export const prefectureForecastHandlers = [
       meta: {
         count: data.length,
         regionCode: region,
-        regionName: region,
+        regionName: data[0].regionName ?? region,
       },
     });
   }),
@@ -64,9 +64,9 @@ export const detailedForecastHandlers = [
         },
         meta: {
           regionCode: region,
-          regionName: region,
+          regionName: current[0].regionName,
           areaCode: prefecture,
-          areaName: prefecture,
+          areaName: current[0].areaName,
         },
       });
     }

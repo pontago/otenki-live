@@ -2,7 +2,13 @@ import { Separator } from '@/components/ui/separator';
 import { liveChannels } from '@/features/weather/api/forecast';
 import { LiveChannelsResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
+import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+
+export const metadata: Metadata = {
+  title: 'クレジット',
+  description: 'このサイトで使用しているデータのクレジットです',
+};
 
 export default async function CreditsPage() {
   let channels: LiveChannelsResponse;

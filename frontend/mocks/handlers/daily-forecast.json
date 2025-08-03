@@ -181,8 +181,8 @@
         "pop": 30
       }
     ],
-    "tempMin": 18,
-    "tempMax": 28,
+    "tempMin": 13,
+    "tempMax": 23,
     "liveDetectData": {
       "dateTime": "2025-06-25T00:00:00",
       "person": 21,

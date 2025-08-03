@@ -11,6 +11,23 @@ import { WeatherObjectDetection } from '@/features/weather/components/weather-ob
 import { PrefectureCode, RegionCode, WeatherResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
 
+export async function generateMetadata({ params }: { params: Promise<DetailedWeatherPageProps> }) {
+  const { region, pref } = await params;
+  let title: string;
+
+  try {
+    const forecast = await detailedForecast(region as RegionCode, pref as PrefectureCode);
+    title = `${forecast.meta.areaName}の天気`;
+  } catch (e) {
+    title = `${region}の${pref}の天気`;
+  }
+
+  return {
+    title,
+    description: `${title}をライブストリームから取得した情報で確認できます`,
+  };
+}
+
 type DetailedWeatherPageProps = {
   region: string;
   pref: string;

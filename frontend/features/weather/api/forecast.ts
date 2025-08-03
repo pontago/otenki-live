@@ -13,7 +13,7 @@ import { env } from '@/lib/env';
 import { NotFoundError } from '@/lib/exceptions';
 
 export const regionalForecasts = async (): Promise<RegionalWeatherResponse> => {
-  const response = await apiFetch(`${env.NEXT_PUBLIC_API_BASE_URL}/forecast`);
+  const response = await apiFetch(`${env.NEXT_PUBLIC_API_BASE_URL}/forecast/`);
 
   if (response.status === 404) {
     throw new NotFoundError();

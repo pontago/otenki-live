@@ -38,7 +38,7 @@ export const CurrentWeather = ({ forecast }: CurrentWeatherProps) => {
           <div className='flex flex-col items-center space-y-2 text-center'>
             <Image
               src={`/icons/weather/${forecast.weatherCode.toString()}.png`}
-              alt='Weather Icon'
+              alt={forecast.weatherName}
               width={128}
               height={128}
               className='text-primary'

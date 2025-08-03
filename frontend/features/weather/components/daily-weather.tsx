@@ -33,8 +33,8 @@ export const DailyWeather = ({ data }: DailyForecastProps) => {
                 </CardHeader>
                 <CardContent className='flex flex-col items-center space-y-1'>
                   <Image
-                    src='/icons/weather/100.png'
-                    alt='Weather Icon'
+                    src={`/icons/weather/${item.weatherCode}.png`}
+                    alt={item.weatherName}
                     width={36}
                     height={36}
                     className='text-primary my-3'

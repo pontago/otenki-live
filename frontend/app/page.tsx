@@ -5,6 +5,9 @@ import { RegionalWeatherList } from '@/features/weather/components/regional-weat
 import { RegionalWeatherMap } from '@/features/weather/components/regional-weather-map';
 import { RegionalWeatherResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {};
 
 export default async function IndexPage() {
   let forecasts: RegionalWeatherResponse;
@@ -19,10 +22,10 @@ export default async function IndexPage() {
 
   return (
     <div className='w-full grid grid-cols-1 lg:grid-cols-2 gap-2'>
-      <section aria-labelledby='regional-weather-map-heading' className='space-y-6'>
+      <section aria-label='regional-weather-map-heading' className='space-y-6'>
         <RegionalWeatherMap forecasts={forecasts.data} />
       </section>
-      <section aria-labelledby='forecast-heading' className='mt-20 lg:mt-0'>
+      <section aria-label='forecast-heading' className='mt-20 lg:mt-0'>
         <RegionalWeatherList forecasts={forecasts.data} />
       </section>
     </div>

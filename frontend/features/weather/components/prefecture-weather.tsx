@@ -39,7 +39,7 @@ export const PrefectureWeather = ({ forecast, region }: PrefectureWeatherProps) 
           <div className='flex flex-col items-center text-center py-2 justify-around'>
             <Image
               src={`/icons/weather/${forecast.weatherCode.toString()}.png`}
-              alt='Weather Icon'
+              alt={forecast.weatherName}
               width={36}
               height={36}
               className='text-primary my-1'

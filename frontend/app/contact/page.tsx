@@ -1,6 +1,12 @@
 import { Separator } from '@/components/ui/separator';
 
 import { ContactForm } from '@/features/contact/components/contact-form';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'お問い合わせ',
+  description: 'お問い合わせのページです',
+};
 
 export default function ContactPage() {
   return (

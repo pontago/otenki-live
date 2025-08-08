@@ -54,6 +54,13 @@ export type DetailedWeather = {
   daily: WeatherForecast[];
 };
 
+export type Area = {
+  areaCode: PrefectureCode;
+  areaName: string;
+  regionCode: RegionCode;
+  regionName: string;
+};
+
 export type RegionalWeatherResponse = BaseResponse & {
   data: RegionalWeather[];
   meta: {
@@ -82,6 +89,13 @@ export type WeatherResponse = BaseResponse & {
 
 export type LiveChannelsResponse = BaseResponse & {
   data: LiveChannel[];
+  meta: {
+    count: number;
+  };
+};
+
+export type AreasResponse = BaseResponse & {
+  data: Area[];
   meta: {
     count: number;
   };

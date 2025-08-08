@@ -4,14 +4,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from loguru import logger
 
-from app.adapter.api.v1.endpoints import contact, forecast, live_channel
+from app.adapter.api.v1.endpoints import area, contact, forecast, live_channel
 from app.adapter.api.v1.schemas.base import ResponseStatus
 from app.core.di.container import Container
 from app.core.settings import AppSettings
 from app.core.translations.translation import translate
 
 container = Container()
-container.wire(modules=[__name__, forecast, contact, live_channel])
+container.wire(modules=[__name__, forecast, contact, live_channel, area])
 
 
 app = FastAPI(title=AppSettings.project_name)
@@ -50,3 +50,4 @@ async def root():
 app.include_router(forecast.router, prefix=AppSettings.api_v1_prefix)
 app.include_router(contact.router, prefix=AppSettings.api_v1_prefix)
 app.include_router(live_channel.router, prefix=AppSettings.api_v1_prefix)
+app.include_router(area.router, prefix=AppSettings.api_v1_prefix)

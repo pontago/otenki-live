@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { CONSTANTS } from '@/lib/constants';
 
 export const Header = () => {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -21,7 +22,7 @@ export const Header = () => {
         <div className='flex items-center'>
           <CloudSun className='h-10 w-10 text-primary mr-3' />
           <h1 className='text-xl font-headline font-bold text-primary'>
-            <Link href='/'>お天気ライブ</Link>
+            <Link href='/'>{CONSTANTS.APP_NAME}</Link>
           </h1>
         </div>
 

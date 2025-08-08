@@ -10,4 +10,6 @@ export type ValidationError = {
   message: string;
 };
 
-export type ContactResponse = BaseResponse;
+export type ContactResponse = BaseResponse & {
+  message: string;
+};

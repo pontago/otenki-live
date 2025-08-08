@@ -58,6 +58,13 @@ class Settings(BaseSettings):
     clothing_classes: list[str] = ["jacket", "long_sleeve", "outer", "tshirt"]
     clothing_confidence_thresholds: float = 0.6
 
+    """
+    Recaptcha Settings
+    """
+    recaptcha_project_id: str = "otenki-live"
+    recaptcha_site_key: str | None = None
+    recaptcha_action: str = "contact"
+
 
 class APIConfig:
     jma_api_base_url: str = "https://www.jma.go.jp/bosai/"

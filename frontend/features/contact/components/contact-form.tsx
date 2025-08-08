@@ -13,6 +13,8 @@ import { ContactFormData } from '@/features/contact/types/contact';
 import { ValidationErrors } from '@/lib/exceptions';
 import { sendContact } from '@/features/contact/api/contact';
 import logger from '@/lib/logger';
+import { useEffect } from 'react';
+import { env } from '@/lib/env';
 
 export const ContactForm = () => {
   const form = useForm<ContactFormData>({
@@ -26,7 +28,8 @@ export const ContactForm = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      await sendContact(data);
+      const token = await grecaptcha.enterprise.execute(env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'contact' });
+      await sendContact(data, token);
     } catch (e) {
       if (e instanceof ValidationErrors) {
         e.errors.forEach((error) => {
@@ -37,6 +40,13 @@ export const ContactForm = () => {
       }
     }
   };
+
+  useEffect(() => {
+    document.body.classList.remove('hide-recaptcha');
+    return () => {
+      document.body.classList.add('hide-recaptcha');
+    };
+  }, []);
 
   return (
     <>
@@ -50,6 +60,9 @@ export const ContactForm = () => {
       {!form.formState.isSubmitSuccessful && (
         <>
           <p className='mb-6'>このサイトについてのお問い合わせは、以下のフォームからお願いします。</p>
+          {form.formState.errors.root?.serverError?.message && (
+            <p className='mb-6 text-red-500'>{form.formState.errors.root?.serverError?.message}</p>
+          )}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6' role='form'>
               <FormField
@@ -74,12 +87,6 @@ export const ContactForm = () => {
                     <FormLabel>メールアドレス</FormLabel>
                     <FormControl>
                       <Input type='email' {...field} />
-                      {/* <input
-                      {...field}
-                      type='email'
-                      className='flex h-9 w-full rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
-                      placeholder=''
-                    /> */}
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -93,12 +100,7 @@ export const ContactForm = () => {
                   <FormItem>
                     <FormLabel>お問い合わせ内容</FormLabel>
                     <FormControl>
-                      <Textarea
-                        {...field}
-                        rows={6}
-                        // className='flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50'
-                        placeholder='お問い合わせ内容を入力してください'
-                      />
+                      <Textarea {...field} rows={6} placeholder='お問い合わせ内容を入力してください' />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

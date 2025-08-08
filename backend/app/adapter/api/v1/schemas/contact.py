@@ -7,7 +7,9 @@ class ContactInput(BaseModel):
     name: str = Field(max_length=100)
     email: EmailStr
     message: str = Field(max_length=10000)
+    recaptcha_token: str = Field(max_length=3000)
 
 
 class ContactResponse(BaseModel):
     status: ResponseStatus
+    message: str

@@ -7,6 +7,7 @@ import { PrefectureWeather } from '@/features/weather/components/prefecture-weat
 import { RegionCode, WeathersResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
 import { Metadata } from 'next';
+import { generateSignature } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: Promise<RegionPageProps> }) {
   const { region } = await params;
@@ -19,9 +20,16 @@ export async function generateMetadata({ params }: { params: Promise<RegionPageP
     title = `${region}の天気`;
   }
 
+  const description = `${title}をライブストリームから取得した情報で確認できます`;
+  const signature = generateSignature(title);
   return {
     title,
-    description: `${title}をライブストリームから取得した情報で確認できます`,
+    description,
+    openGraph: {
+      images: [`/og?title=${title}&hash=${signature}`],
+      title,
+      description,
+    },
   };
 }
 

@@ -5,6 +5,7 @@ from app.adapter.api.exceptions import InternalServerError
 from app.adapter.api.v1.schemas.base import ResponseStatus
 from app.adapter.api.v1.schemas.contact import ContactInput, ContactResponse
 from app.core.settings import AppSettings
+from app.infrastructure.exceptions import RecaptchaVerificationError
 from app.usecases.contact.contact_interactor import ContactInteractor
 
 router = APIRouter(prefix="/contact", tags=[AppSettings.api_v1_prefix, "contact"])
@@ -18,7 +19,9 @@ async def post(contact: ContactInput):
         if len(message_ids) == 0:
             raise InternalServerError()
 
-        return ContactResponse(status=ResponseStatus.SUCCESS)
+        return ContactResponse(status=ResponseStatus.SUCCESS, message="")
+    except RecaptchaVerificationError:
+        return ContactResponse(status=ResponseStatus.ERROR, message="reCAPTCHAの検証に失敗しました")
     except Exception as e:
         logger.error(f"Error: {e}")
         raise InternalServerError()

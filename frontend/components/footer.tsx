@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export const Footer = () => {
   return (
-    <footer className='w-full mt-12 text-sm'>
+    <footer className='w-full mt-12 text-sm mb-12'>
       <ul className='w-full flex gap-4 mb-4 justify-end items-center'>
         <li className='hover:underline'>
           <Link href='/credits'>クレジット</Link>

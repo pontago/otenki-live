@@ -10,6 +10,7 @@ import { HourlyWeather } from '@/features/weather/components/hourly-weather';
 import { WeatherObjectDetection } from '@/features/weather/components/weather-object-detection';
 import { PrefectureCode, RegionCode, WeatherResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
+import { generateSignature } from '@/lib/utils';
 
 export async function generateMetadata({ params }: { params: Promise<DetailedWeatherPageProps> }) {
   const { region, pref } = await params;
@@ -22,9 +23,16 @@ export async function generateMetadata({ params }: { params: Promise<DetailedWea
     title = `${region}の${pref}の天気`;
   }
 
+  const description = `${title}をライブストリームから取得した情報で確認できます`;
+  const signature = generateSignature(title);
   return {
     title,
-    description: `${title}をライブストリームから取得した情報で確認できます`,
+    description,
+    openGraph: {
+      images: [`/og?title=${title}&hash=${signature}`],
+      title,
+      description,
+    },
   };
 }
 

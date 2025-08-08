@@ -55,3 +55,7 @@ class CookieDownloadError(InfraError):
 
 class AreaNotFoundError(InfraError):
     pass
+
+
+class RecaptchaVerificationError(InfraError):
+    pass

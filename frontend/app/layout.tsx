@@ -1,12 +1,15 @@
 import { Settings } from 'luxon';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import '@/styles/globals.css';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ThemeProvider } from '@/components/theme-provider';
 import { env } from '@/lib/env';
+import { CONSTANTS } from '@/lib/constants';
+import Script from 'next/script';
 
 Settings.defaultZone = 'Asia/Tokyo';
 Settings.defaultLocale = 'ja-JP';
@@ -26,12 +29,19 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const description = '現在の天気をライブストリームから取得した情報で確認できます';
 export const metadata: Metadata = {
   title: {
-    template: '%s - お天気ライブ',
-    default: 'お天気ライブ',
+    template: '%s - ' + CONSTANTS.APP_NAME,
+    default: CONSTANTS.APP_NAME,
   },
-  description: '現在の天気をライブストリームから取得した情報で確認できます',
+  description,
+  metadataBase: new URL(env.NEXT_PUBLIC_BASE_URL),
+  openGraph: {
+    images: ['/og'],
+    title: CONSTANTS.APP_NAME,
+    description,
+  },
 };
 
 export default function RootLayout({
@@ -40,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' suppressHydrationWarning>
+    <html lang='ja' suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider attribute='class' defaultTheme='light' enableSystem disableTransitionOnChange>
           <div className='min-h-screen flex flex-col p-4 bg-background items-center'>
@@ -50,6 +60,7 @@ export default function RootLayout({
           </div>
         </ThemeProvider>
       </body>
+      <GoogleAnalytics gaId={env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID} />
     </html>
   );
 }

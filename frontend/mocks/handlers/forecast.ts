@@ -1,6 +1,8 @@
 import { http, HttpResponse } from 'msw';
 
 import {
+  Area,
+  AreasResponse,
   PrefectureCode,
   RegionalWeather,
   RegionalWeatherResponse,
@@ -15,6 +17,7 @@ import hourlyForecast from './hourly-forecast.json';
 import objectDetectionData from './object-detection-data.json';
 import prefectureForecast from './prefecture-forecast.json';
 import regionalForecast from './regional-forecast.json';
+import areas from './forecast-area.json';
 
 export const regionalForecastHandlers = [
   http.get<never, never, RegionalWeatherResponse>('*/forecast', () => {
@@ -71,4 +74,16 @@ export const detailedForecastHandlers = [
       });
     }
   ),
+];
+
+export const areasHandlers = [
+  http.get<never, never, AreasResponse>('*/area', () => {
+    return HttpResponse.json({
+      status: 'success',
+      data: areas as Area[],
+      meta: {
+        count: areas.length,
+      },
+    });
+  }),
 ];

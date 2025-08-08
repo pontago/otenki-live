@@ -2,6 +2,7 @@ import boto3
 from dependency_injector import containers, providers
 
 from app.core.settings import Settings
+from app.infrastructure.repositories.captcha_repository import CaptchaRepository
 from app.infrastructure.repositories.jma_repository import JmaRepository
 from app.infrastructure.repositories.live_channel_repository import LiveChannelRepository
 from app.infrastructure.repositories.live_detect_repository import LiveDetectRepository
@@ -31,6 +32,7 @@ class Container(containers.DeclarativeContainer):
     live_stream_repository = providers.Factory(LiveStreamRepository)
     live_detect_repository = providers.Factory(LiveDetectRepository)
     storage_repository = providers.Factory(StorageRepository, session=session)
+    captcha_repository = providers.Factory(CaptchaRepository)
 
     weather_forecast_service = providers.Factory(
         WeatherForecastService,

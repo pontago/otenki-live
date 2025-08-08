@@ -2,14 +2,15 @@ import { ContactFormData, ContactResponse, ValidationError } from '@/features/co
 import { ValidationErrors } from '@/lib/exceptions';
 import { env } from '@/lib/env';
 import camelcaseKeys from 'camelcase-keys';
+import { ResponseStatus } from '@/types/api';
 
-export const sendContact = async (data: ContactFormData): Promise<ContactResponse> => {
+export const sendContact = async (data: ContactFormData, token: string): Promise<ContactResponse> => {
   const response = await fetch(`${env.NEXT_PUBLIC_API_BASE_URL}/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, recaptcha_token: token }),
   });
 
   const responseData = await response.json();
@@ -23,6 +24,10 @@ export const sendContact = async (data: ContactFormData): Promise<ContactRespons
       throw new ValidationErrors(errors);
     }
     throw new Error(`Unexpected status: ${response.statusText}`);
+  }
+
+  if (responseData.status === 'error') {
+    throw new Error(responseData.message);
   }
 
   return camelcaseKeys(responseData, { deep: true });

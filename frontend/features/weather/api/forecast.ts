@@ -1,6 +1,7 @@
 import camelcaseKeys from 'camelcase-keys';
 
 import {
+  AreasResponse,
   LiveChannelsResponse,
   PrefectureCode,
   RegionalWeatherResponse,
@@ -69,5 +70,20 @@ export const liveChannels = async (): Promise<LiveChannelsResponse> => {
   }
 
   const responseData: LiveChannelsResponse = await response.json();
+  return camelcaseKeys(responseData, { deep: true });
+};
+
+export const areas = async (): Promise<AreasResponse> => {
+  const response = await apiFetch(`${env.NEXT_PUBLIC_API_BASE_URL}/area`);
+
+  if (response.status === 404) {
+    throw new NotFoundError();
+  }
+
+  if (!response.ok) {
+    throw new Error(`Unexpected status: ${response.statusText}`);
+  }
+
+  const responseData: AreasResponse = await response.json();
   return camelcaseKeys(responseData, { deep: true });
 };

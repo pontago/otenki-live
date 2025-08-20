@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { expect, within } from '@storybook/test';
+import { DateTime } from 'luxon';
 
 import { DailyWeather } from '@/features/weather/components/daily-weather';
 import { WeatherForecast } from '@/features/weather/types/weather';
 import { handlers } from '@/mocks/handlers';
 import dailyForecast from '@/mocks/handlers/daily-forecast.json';
-import { expect, within } from '@storybook/test';
-import { DateTime } from 'luxon';
 
 const meta = {
   component: DailyWeather,
@@ -31,24 +31,28 @@ export const Default: Story = {
 
     for (const forecast of dailyForecasts) {
       const dateElement = await canvas.findByText(DateTime.fromISO(forecast.date).toFormat('M/d'));
-      expect(dateElement).toBeInTheDocument();
+      await expect(dateElement).toBeInTheDocument();
 
       const cardElement = dateElement.closest('[data-slot="card"]');
-      expect(cardElement).toBeInTheDocument();
+      await expect(cardElement).toBeInTheDocument();
 
       const weatherElement = cardElement?.querySelector('img');
-      expect(weatherElement).toBeInTheDocument();
-      expect(weatherElement).toHaveAttribute(
+      await expect(weatherElement).toBeInTheDocument();
+      await expect(weatherElement).toHaveAttribute(
         'src',
-        expect.stringContaining(`/icons/weather/${forecast.weatherCode}.png`)
+        expect.stringContaining(`/optimized/icons/weather/${forecast.weatherCode.toString()}-36.png`)
       );
-      expect(weatherElement).toHaveAttribute('alt', forecast.weatherName);
+      await expect(weatherElement).toHaveAttribute('alt', forecast.weatherName);
 
-      const maxTempElement = await canvas.findByText(`${forecast.tempMax}°C`);
-      expect(maxTempElement).toBeInTheDocument();
+      if (forecast.tempMax !== undefined) {
+        const maxTempElement = await canvas.findByText(`${forecast.tempMax.toString()}°C`);
+        await expect(maxTempElement).toBeInTheDocument();
+      }
 
-      const minTempElement = await canvas.findByText(`${forecast.tempMin}°C`);
-      expect(minTempElement).toBeInTheDocument();
+      if (forecast.tempMin !== undefined) {
+        const minTempElement = await canvas.findByText(`${forecast.tempMin.toString()}°C`);
+        await expect(minTempElement).toBeInTheDocument();
+      }
     }
   },
 };

@@ -1,20 +1,20 @@
+import { GoogleAnalytics } from '@next/third-parties/google';
 import { Settings } from 'luxon';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-import { GoogleAnalytics } from '@next/third-parties/google';
 
 import '@/styles/globals.css';
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ThemeProvider } from '@/components/theme-provider';
-import { env } from '@/lib/env';
+
 import { CONSTANTS } from '@/lib/constants';
-import Script from 'next/script';
+import { env } from '@/lib/env';
 
 Settings.defaultZone = 'Asia/Tokyo';
 Settings.defaultLocale = 'ja-JP';
 
-if (process.env.NEXT_RUNTIME === 'nodejs' && env.USE_MSW === true) {
+if (process.env.NEXT_RUNTIME === 'nodejs' && env.USE_MSW) {
   const { server } = await import('@/mocks/server');
   server.listen();
 }

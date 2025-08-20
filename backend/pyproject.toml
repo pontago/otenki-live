@@ -28,6 +28,7 @@ dependencies = [
     "onnx>=1.18.0",
     "onnxruntime>=1.22.0",
     "google-cloud-recaptcha-enterprise>=1.28.2",
+    "mangum>=0.19.0",
 ]
 
 [dependency-groups]

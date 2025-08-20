@@ -17,17 +17,14 @@ def lambda_handler(event: dict[str, Any], context: Context):
 
     response = None
     if message_ids:
-        response = {
-            "statusCode": 200,
-            "body": f"Queue message ids: {message_ids}."
-        }
+        message = f"Queue message ids: {message_ids}."
+        logger.success(message)
+        response = {"statusCode": 200, "body": message}
     else:
-        response = {
-            "statusCode": 204,
-            "body": "No active channels."
-        }
+        message = "No active channels."
+        logger.warning(message)
+        response = {"statusCode": 204, "body": message}
     return response
-
 
 
 if __name__ == "__main__":

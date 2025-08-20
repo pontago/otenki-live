@@ -59,7 +59,7 @@ export const HourlyWeather = ({ data }: HourlyWeatherProps) => {
                     </CardHeader>
                     <CardContent className='flex flex-col items-center space-y-2'>
                       <Image
-                        src={`/icons/weather/${item.weatherCode.toString()}.png`}
+                        src={`/optimized/icons/weather/${item.weatherCode.toString()}-36.png`}
                         alt={item.weatherName}
                         width={36}
                         height={36}
@@ -77,6 +77,41 @@ export const HourlyWeather = ({ data }: HourlyWeatherProps) => {
             <ScrollBar orientation='horizontal' />
           </ScrollArea>
         )}
+      </CardContent>
+    </Card>
+  );
+};
+
+export const HourlyWeatherSkeleton = () => {
+  return (
+    <Card className='w-full shadow-lg'>
+      <CardHeader className='mb-1'>
+        <CardTitle className='font-headline'>3時間ごとの天気</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <ScrollArea className='w-full whitespace-nowrap'>
+          <div className='flex space-x-4 pb-3'>
+            {Array.from({ length: 8 }).map((_, index) => (
+              <Card
+                key={index}
+                data-slot='card'
+                className='min-w-[120px] h-[130px] flex-shrink-0 text-center bg-secondary/30 animate-pulse'
+              >
+                <CardHeader className='pb-1'>
+                  <div className='h-4 bg-gray-300 rounded w-12 mx-auto'></div>
+                </CardHeader>
+                <CardContent className='flex flex-col items-center space-y-2'>
+                  <div className='w-9 h-9 bg-gray-300 rounded'></div>
+                  <div className='flex items-center text-sm'>
+                    <div className='w-4 h-4 bg-gray-300 rounded mr-1'></div>
+                    <div className='h-4 bg-gray-300 rounded w-8'></div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <ScrollBar orientation='horizontal' />
+        </ScrollArea>
       </CardContent>
     </Card>
   );

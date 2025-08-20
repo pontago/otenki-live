@@ -11,7 +11,7 @@ from app.usecases.contact.contact_interactor import ContactInteractor
 router = APIRouter(prefix="/contact", tags=[AppSettings.api_v1_prefix, "contact"])
 
 
-@router.post("/", response_model=ContactResponse)
+@router.post("", response_model=ContactResponse)
 async def post(contact: ContactInput):
     usecase = ContactInteractor()
     try:

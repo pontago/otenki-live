@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
 import { Button } from '@/components/ui/button';
@@ -8,13 +9,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
+import { sendContact } from '@/features/contact/api/contact';
 import { contactFormSchema } from '@/features/contact/schemas/contact';
 import { ContactFormData } from '@/features/contact/types/contact';
-import { ValidationErrors } from '@/lib/exceptions';
-import { sendContact } from '@/features/contact/api/contact';
-import logger from '@/lib/logger';
-import { useEffect } from 'react';
 import { env } from '@/lib/env';
+import { ValidationErrors } from '@/lib/exceptions';
 
 export const ContactForm = () => {
   const form = useForm<ContactFormData>({
@@ -28,7 +27,11 @@ export const ContactForm = () => {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
-      const token = await grecaptcha.enterprise.execute(env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'contact' });
+      let token = '';
+      console.log(process.env);
+      if (env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+        token = await grecaptcha.enterprise.execute(env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'contact' });
+      }
       await sendContact(data, token);
     } catch (e) {
       if (e instanceof ValidationErrors) {
@@ -60,8 +63,8 @@ export const ContactForm = () => {
       {!form.formState.isSubmitSuccessful && (
         <>
           <p className='mb-6'>このサイトについてのお問い合わせは、以下のフォームからお願いします。</p>
-          {form.formState.errors.root?.serverError?.message && (
-            <p className='mb-6 text-red-500'>{form.formState.errors.root?.serverError?.message}</p>
+          {form.formState.errors.root?.serverError.message && (
+            <p className='mb-6 text-red-500'>{form.formState.errors.root.serverError.message}</p>
           )}
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6' role='form'>

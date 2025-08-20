@@ -1,6 +1,7 @@
-import { env } from '@/lib/env';
 import type { MetadataRoute } from 'next';
+
 import { areas } from '@/features/weather/api/forecast';
+import { env } from '@/lib/env';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const areasResponse = await areas();
@@ -11,7 +12,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: `${env.NEXT_PUBLIC_BASE_URL}`,
+      url: env.NEXT_PUBLIC_BASE_URL,
       lastModified: new Date(),
     },
     {

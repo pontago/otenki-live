@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { expect, within } from '@storybook/test';
 
 import { PrefectureWeather } from '@/features/weather/components/prefecture-weather';
 import { WeatherForecast } from '@/features/weather/types/weather';
 import { handlers } from '@/mocks/handlers';
 import prefectureForecast from '@/mocks/handlers/prefecture-forecast.json';
-import { expect, within } from '@storybook/test';
 
 const meta = {
   component: PrefectureWeather,
@@ -22,20 +22,26 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    forecast: prefectureForecast.find((forecast) => forecast.areaCode === 'tokyo') as WeatherForecast,
+    forecasts: prefectureForecast.filter((forecast) => forecast.regionCode === 'kanto') as WeatherForecast[],
     region: 'kanto',
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const forecast = prefectureForecast.find((forecast) => forecast.areaCode === 'tokyo') as WeatherForecast;
+    const forecasts = prefectureForecast.filter((forecast) => forecast.regionCode === 'kanto') as WeatherForecast[];
 
-    const regionElement = await canvas.findByText(forecast.areaName);
-    expect(regionElement).toBeInTheDocument();
+    for (const forecast of forecasts) {
+      const prefElement = await canvas.findByText(forecast.areaName);
+      await expect(prefElement).toBeInTheDocument();
 
-    const maxTempElement = await canvas.findByText(`最高: ${forecast.tempMax}°C`);
-    expect(maxTempElement).toBeInTheDocument();
+      const cardElement = prefElement.closest('[data-slot="card"]');
+      await expect(cardElement).toBeInTheDocument();
 
-    const minTempElement = await canvas.findByText(`最低: ${forecast.tempMin}°C`);
-    expect(minTempElement).toBeInTheDocument();
+      const cardCanvas = within(cardElement as HTMLElement);
+      const maxTempElement = await cardCanvas.findByText(`最高: ${String(forecast.tempMax)}°C`);
+      await expect(maxTempElement).toBeInTheDocument();
+
+      const minTempElement = await cardCanvas.findByText(`最低: ${String(forecast.tempMin)}°C`);
+      await expect(minTempElement).toBeInTheDocument();
+    }
   },
 };

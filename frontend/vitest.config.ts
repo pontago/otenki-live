@@ -9,12 +9,7 @@ const dirname = typeof __dirname !== 'undefined' ? __dirname : path.dirname(file
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   test: {
-    // env: {
-    //   NODE_ENV: 'test',
-    //   NEXT_PUBLIC_API_BASE_URL: 'http://localhost:8000/api/v1',
-    //   USE_MSW: 'true',
-    // },
-    workspace: [
+    projects: [
       {
         extends: true,
         plugins: [

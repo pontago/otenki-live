@@ -8,6 +8,6 @@ export class ValidationErrors extends Error {
 
 export class NotFoundError extends Error {
   constructor() {
-    super();
+    super('Not Found');
   }
 }

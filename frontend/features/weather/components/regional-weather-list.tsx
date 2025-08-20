@@ -13,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { latestWeatherPop } from '@/features/weather/lib/weather';
 import { RegionalWeather } from '@/features/weather/types/weather';
@@ -29,10 +30,7 @@ export const RegionalWeatherList = ({ forecasts }: RegionalWeatherListProps) => 
           const pop = latestWeatherPop(forecast.weatherForecast);
 
           return (
-            <Card
-              key={forecast.regionCode}
-              className='shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col'
-            >
+            <Card key={forecast.regionCode} className='shadow-lg hover:shadow-xl flex flex-col'>
               <CardHeader>
                 <CardTitle className='flex flex-row'>
                   <div className='basis-1/2'>
@@ -82,7 +80,7 @@ export const RegionalWeatherList = ({ forecasts }: RegionalWeatherListProps) => 
                   <div className='flex justify-start'>
                     <div className='w-20 flex flex-col items-center text-center'>
                       <Image
-                        src={`/icons/weather/${forecast.weatherForecast.weatherCode.toString()}.png`}
+                        src={`/optimized/icons/weather/${forecast.weatherForecast.weatherCode.toString()}-36.png`}
                         alt={forecast.weatherForecast.weatherName}
                         width={36}
                         height={36}
@@ -139,6 +137,75 @@ export const RegionalWeatherList = ({ forecasts }: RegionalWeatherListProps) => 
             </Card>
           );
         })}
+      </div>
+    </div>
+  );
+};
+
+export const RegionalWeatherListSkeleton = () => {
+  return (
+    <div className='flex flex-col items-center'>
+      <div className='grid grid-cols-1 xl:grid-cols-2 gap-4'>
+        {Array.from({ length: 10 }).map((_, index) => (
+          <Card key={index} className='shadow-lg flex flex-col'>
+            <CardHeader>
+              <div className='flex flex-row'>
+                <div className='basis-1/2'>
+                  <Skeleton className='h-5 w-32' />
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className='flex flex-col pt-2 px-4'>
+              <div className='flex justify-start'>
+                {/* 天気アイコンと気温エリア */}
+                <div className='w-20 flex flex-col items-center text-center'>
+                  <Skeleton className='w-8 h-8 rounded-full my-1' />
+                  <Skeleton className='h-4 w-16 mt-1' />
+                  <Skeleton className='h-3 w-16 mt-1' />
+                </div>
+
+                {/* 気温情報エリア */}
+                <div className='text-xs flex justify-center items-center w-30'>
+                  <div className='space-y-1'>
+                    <div className='flex items-center'>
+                      <Skeleton className='w-3.5 h-3.5 mr-1' />
+                      <Skeleton className='h-3 w-16' />
+                    </div>
+                    <div className='flex items-center'>
+                      <Skeleton className='w-3.5 h-3.5 mr-1' />
+                      <Skeleton className='h-3 w-16' />
+                    </div>
+                    <div className='flex items-center'>
+                      <Skeleton className='w-3.5 h-3.5 mr-1' />
+                      <Skeleton className='h-3 w-16' />
+                    </div>
+                  </div>
+                </div>
+
+                {/* ライブデータエリア */}
+                <div className='text-xs flex justify-center items-center w-32'>
+                  <div className='space-y-1'>
+                    <div className='flex items-center'>
+                      <Skeleton className='w-3.5 h-3.5 mr-1.5' />
+                      <Skeleton className='h-3 w-20' />
+                    </div>
+                    <div className='flex items-center'>
+                      <Skeleton className='w-3.5 h-3.5 mr-1.5' />
+                      <Skeleton className='h-3 w-20' />
+                    </div>
+                    <div className='flex items-center'>
+                      <Skeleton className='w-3.5 h-3.5 mr-1.5' />
+                      <div className='flex flex-col'>
+                        <Skeleton className='h-3 w-16' />
+                        <Skeleton className='h-3 w-16 mt-1' />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );

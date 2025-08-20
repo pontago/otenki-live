@@ -1,5 +1,6 @@
 from aws_lambda_typing.context import Context
 from aws_lambda_typing.events import SQSEvent
+from loguru import logger
 from pydantic import ValidationError
 
 from app.core.di.container import Container
@@ -24,9 +25,13 @@ def lambda_handler(event: SQSEvent, context: Context | None = None):
     response = None
     if processed:
         channel_ids = [channel.channel_id for channel in processed]
-        response = {"statusCode": 200, "body": f"Processed channels: {channel_ids}."}
+        message = f"Processed channels: {channel_ids}."
+        logger.success(message)
+        response = {"statusCode": 200, "body": message}
     else:
-        response = {"statusCode": 500, "body": "No channels processed or an error occurred."}
+        message = "No channels processed or an error occurred."
+        logger.warning(message)
+        response = {"statusCode": 500, "body": message}
     return response
 
 

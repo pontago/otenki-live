@@ -9,7 +9,7 @@ from app.usecases.live_channel.active_live_channel_interactor import ActiveLiveC
 router = APIRouter(prefix="/live-channel", tags=[AppSettings.api_v1_prefix, "live-channels"])
 
 
-@router.get("/", response_model=LiveChannelsResponse)
+@router.get("", response_model=LiveChannelsResponse)
 async def list_live_channels():
     usecase = ActiveLiveChannelInteractor()
     try:

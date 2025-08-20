@@ -5,7 +5,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
-    model_config = SettingsConfigDict(env_file=".env.dev", env_nested_delimiter="_", env_nested_max_split=1)
+    model_config = SettingsConfigDict(
+        env_file=".env.dev", env_nested_delimiter="_", env_nested_max_split=1, extra="ignore"
+    )
 
     seed_path: str = str(Path(Path(__file__).parents[1], "infrastructure/seed/"))
 
@@ -21,6 +23,7 @@ class Settings(BaseSettings):
     region_name: str | None = None
     aws_access_key_id: str | None = None
     aws_secret_access_key: str | None = None
+    aws_session_token: str | None = None
     endpoint_url: str | None = None
 
     """
@@ -86,14 +89,3 @@ AppSettings = (
     Settings(_env_file=f".env.{os.environ.get('ENV', 'dev')}") if os.environ.get("ENV") != "prod" else Settings()  # type: ignore
 )
 AppAPIConfig = APIConfig()
-
-# print(os.environ.get("ENV", "dev"))
-# print(AppSettings.endpoint_url)
-# print(AppSettings.model_dump_json)
-
-# @lru_cache
-# def AppSettings() -> Settings:
-#     print(os.environ.get("ENV"))
-#     if os.environ.get("ENV", "dev") == "test":
-#         return Settings(_env_file=".env.test")  # type: ignore
-#     return Settings()

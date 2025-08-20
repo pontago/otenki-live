@@ -1,8 +1,17 @@
-import { ContactFormData, ContactResponse, ValidationError } from '@/features/contact/types/contact';
-import { ValidationErrors } from '@/lib/exceptions';
-import { env } from '@/lib/env';
 import camelcaseKeys from 'camelcase-keys';
-import { ResponseStatus } from '@/types/api';
+
+import { ContactFormData, ContactResponse, ValidationError } from '@/features/contact/types/contact';
+import { env } from '@/lib/env';
+import { ValidationErrors } from '@/lib/exceptions';
+
+type ApiErrorResponse = {
+  detail?: {
+    loc: [string, string];
+    msg: string;
+  }[];
+  status?: string;
+  message?: string;
+};
 
 export const sendContact = async (data: ContactFormData, token: string): Promise<ContactResponse> => {
   const response = await fetch(`${env.NEXT_PUBLIC_API_BASE_URL}/contact`, {
@@ -13,11 +22,11 @@ export const sendContact = async (data: ContactFormData, token: string): Promise
     body: JSON.stringify({ ...data, recaptcha_token: token }),
   });
 
-  const responseData = await response.json();
+  const responseData: ApiErrorResponse = await response.json();
 
   if (!response.ok) {
     if (response.status === 422 && responseData.detail) {
-      const errors: ValidationError[] = responseData.detail.map((err: any) => ({
+      const errors: ValidationError[] = responseData.detail.map((err) => ({
         field: err.loc[1],
         message: err.msg,
       }));
@@ -27,8 +36,8 @@ export const sendContact = async (data: ContactFormData, token: string): Promise
   }
 
   if (responseData.status === 'error') {
-    throw new Error(responseData.message);
+    throw new Error(responseData.message ?? 'Unknown error');
   }
 
-  return camelcaseKeys(responseData, { deep: true });
+  return camelcaseKeys(responseData as Record<string, unknown>, { deep: true }) as ContactResponse;
 };

@@ -11,7 +11,7 @@ from app.usecases.exceptions import WeatherForecastNotFoundError
 router = APIRouter(prefix="/area", tags=[AppSettings.api_v1_prefix, "areas"])
 
 
-@router.get("/", response_model=AreasResponse)
+@router.get("", response_model=AreasResponse)
 async def list_areas():
     usecase = ListAreaInteractor()
     try:

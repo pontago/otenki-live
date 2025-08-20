@@ -15,10 +15,10 @@ def lambda_handler(event: dict[str, Any], context: Context):
     usecase = UpdateForecastInteractor()
     update_count = usecase.execute()
 
-    return {
-        "statusCode": 200,
-        "body": f"Updated {update_count} forecasts."
-    }
+    message = f"Updated {update_count} forecasts."
+    logger.success(message)
+
+    return {"statusCode": 200, "body": message}
 
 
 if __name__ == "__main__":

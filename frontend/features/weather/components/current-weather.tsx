@@ -37,7 +37,7 @@ export const CurrentWeather = ({ forecast }: CurrentWeatherProps) => {
         <CardContent className='space-y-6 pt-2'>
           <div className='flex flex-col items-center space-y-2 text-center'>
             <Image
-              src={`/icons/weather/${forecast.weatherCode.toString()}.png`}
+              src={`/optimized/icons/weather/${forecast.weatherCode.toString()}-128.png`}
               alt={forecast.weatherName}
               width={128}
               height={128}
@@ -127,6 +127,60 @@ export const CurrentWeather = ({ forecast }: CurrentWeatherProps) => {
                 )}
               </>
             )}
+          </div>
+        </CardContent>
+      </Card>
+    </>
+  );
+};
+
+export const CurrentWeatherSkeleton = () => {
+  return (
+    <>
+      <Card className='w-full shadow-lg'>
+        <CardHeader>
+          <div className='h-8 bg-gray-200 rounded animate-pulse w-3/4'></div>
+          <div className='h-4 bg-gray-200 rounded animate-pulse w-1/2'></div>
+        </CardHeader>
+        <CardContent className='space-y-6 pt-2'>
+          <div className='flex flex-col items-center space-y-2 text-center'>
+            <div className='w-20 h-20 bg-gray-200 rounded-full animate-pulse'></div>
+            <div className='h-12 bg-gray-200 rounded animate-pulse w-20'></div>
+            <div className='h-6 bg-gray-200 rounded animate-pulse w-24'></div>
+          </div>
+
+          <div className='grid grid-cols-2 gap-4 text-sm'>
+            <div className='flex items-center space-x-2 p-3 bg-secondary/50 rounded-md'>
+              <div className='w-5 h-5 bg-gray-200 rounded animate-pulse'></div>
+              <div className='h-4 bg-gray-200 rounded animate-pulse w-20'></div>
+            </div>
+            <div className='flex items-center space-x-2 p-3 bg-secondary/50 rounded-md'>
+              <div className='w-5 h-5 bg-gray-200 rounded animate-pulse'></div>
+              <div className='h-4 bg-gray-200 rounded animate-pulse w-20'></div>
+            </div>
+            <div className='flex items-center space-x-2 p-3 bg-secondary/50 rounded-md col-span-2'>
+              <div className='w-5 h-5 bg-gray-200 rounded animate-pulse'></div>
+              <div className='grid grid-cols-4 gap-4 text-sm w-full'>
+                {[0, 1, 2, 3].map((index) => (
+                  <div key={index} className='flex flex-col items-center space-y-2'>
+                    <div className='h-4 bg-gray-200 rounded animate-pulse w-8'></div>
+                    <div className='h-4 bg-gray-200 rounded animate-pulse w-6'></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className='flex items-center space-x-2 p-3 bg-secondary/50 rounded-md col-span-2'>
+              <div className='w-7 h-7 bg-gray-200 rounded animate-pulse'></div>
+              <div className='h-4 bg-gray-200 rounded animate-pulse w-32'></div>
+            </div>
+            <div className='flex items-center space-x-2 p-3 bg-secondary/50 rounded-md'>
+              <div className='w-3.5 h-3.5 bg-gray-200 rounded animate-pulse'></div>
+              <div className='h-4 bg-gray-200 rounded animate-pulse w-16'></div>
+            </div>
+            <div className='flex items-center space-x-2 p-3 bg-secondary/50 rounded-md'>
+              <div className='w-3.5 h-3.5 bg-gray-200 rounded animate-pulse'></div>
+              <div className='h-4 bg-gray-200 rounded animate-pulse w-16'></div>
+            </div>
           </div>
         </CardContent>
       </Card>

@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { expect, within } from '@storybook/test';
+import { DateTime } from 'luxon';
 
 import { HourlyWeather } from '@/features/weather/components/hourly-weather';
+import { HourlyWeatherData } from '@/features/weather/types/weather';
 import { handlers } from '@/mocks/handlers';
 import hourlyForecast from '@/mocks/handlers/hourly-forecast.json';
-import { expect, within } from '@storybook/test';
-import { HourlyWeatherData } from '@/features/weather/types/weather';
-import { DateTime } from 'luxon';
 
 const meta = {
   component: HourlyWeather,
@@ -31,21 +31,21 @@ export const Default: Story = {
 
     for (const forecast of hourlyForecasts) {
       const timeElement = await canvas.findByText(DateTime.fromISO(forecast.dateTime).toFormat('HH:mm'));
-      expect(timeElement).toBeInTheDocument();
+      await expect(timeElement).toBeInTheDocument();
 
-      const tempElement = await canvas.findByText(`${forecast.temp}°C`);
-      expect(tempElement).toBeInTheDocument();
+      const tempElement = await canvas.findByText(`${forecast.temp.toString()}°C`);
+      await expect(tempElement).toBeInTheDocument();
 
       const cardElement = timeElement.closest('[data-slot="card"]');
-      expect(cardElement).toBeInTheDocument();
+      await expect(cardElement).toBeInTheDocument();
 
       const weatherElement = cardElement?.querySelector('img');
-      expect(weatherElement).toBeInTheDocument();
-      expect(weatherElement).toHaveAttribute(
+      await expect(weatherElement).toBeInTheDocument();
+      await expect(weatherElement).toHaveAttribute(
         'src',
-        expect.stringContaining(`/icons/weather/${forecast.weatherCode}.png`)
+        expect.stringContaining(`/optimized/icons/weather/${forecast.weatherCode.toString()}-36.png`)
       );
-      expect(weatherElement).toHaveAttribute('alt', forecast.weatherName);
+      await expect(weatherElement).toHaveAttribute('alt', forecast.weatherName);
     }
   },
 };

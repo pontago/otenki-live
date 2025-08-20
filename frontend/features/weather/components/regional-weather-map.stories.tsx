@@ -5,7 +5,6 @@ import { RegionalWeatherMap } from '@/features/weather/components/regional-weath
 import { RegionalWeather } from '@/features/weather/types/weather';
 import { handlers } from '@/mocks/handlers';
 import regionalForecast from '@/mocks/handlers/regional-forecast.json';
-import { userEvent } from '@storybook/test';
 
 const meta = {
   component: RegionalWeatherMap,
@@ -39,14 +38,14 @@ export const Default: Story = {
     for (const test of regionTests) {
       // リージョンの要素が存在することを確認
       const regionElement = await canvas.findByTitle(test.regionName);
-      expect(regionElement).toBeInTheDocument();
+      await expect(regionElement).toBeInTheDocument();
 
       // リージョンのリンクが正しく設定されているかテスト
       const regionLink = await canvas.findByRole('link', { name: new RegExp(test.regionName) });
-      expect(regionLink).toHaveAttribute('href', test.expectedHref);
+      await expect(regionLink).toHaveAttribute('href', test.expectedHref);
     }
 
     // 総合的な確認
-    expect(regionTests).toHaveLength(regionalForecast.length); // モックデータのリージョン数と一致することを確認
+    await expect(regionTests).toHaveLength(regionalForecast.length); // モックデータのリージョン数と一致することを確認
   },
 };

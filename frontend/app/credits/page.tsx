@@ -1,9 +1,11 @@
+import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
+
 import { Separator } from '@/components/ui/separator';
+
 import { liveChannels } from '@/features/weather/api/forecast';
 import { LiveChannelsResponse } from '@/features/weather/types/weather';
 import { NotFoundError } from '@/lib/exceptions';
-import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'クレジット',

@@ -19,8 +19,11 @@ class Container(containers.DeclarativeContainer):
 
     session = providers.Resource(
         boto3.session.Session,
-        aws_access_key_id=config.aws_access_key_id if config.aws_access_key_id else None,
-        aws_secret_access_key=config.aws_secret_access_key if config.aws_secret_access_key else None,
+        # aws_access_key_id=config.aws_access_key_id if config.aws_access_key_id else None,
+        # aws_secret_access_key=config.aws_secret_access_key if config.aws_secret_access_key else None,
+        aws_access_key_id=config.aws_access_key_id,
+        aws_secret_access_key=config.aws_secret_access_key,
+        aws_session_token=config.aws_session_token,
         region_name=config.region_name,
     )
 

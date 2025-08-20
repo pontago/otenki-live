@@ -1,5 +1,6 @@
-import { ThemeSwitch } from '@/components/theme-switch';
 import Link from 'next/link';
+
+import { ThemeSwitch } from '@/components/theme-switch';
 
 export const Footer = () => {
   return (

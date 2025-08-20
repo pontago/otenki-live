@@ -6,6 +6,6 @@ import { sleep } from '@/lib/utils';
 export const contactHandlers = [
   http.post<never, never, ContactResponse>('*/contact', async () => {
     await sleep(500);
-    return HttpResponse.json({ status: 'success' });
+    return HttpResponse.json({ status: 'success', message: '' });
   }),
 ];

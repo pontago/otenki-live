@@ -2,9 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { Card } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 import { latestWeatherPop } from '@/features/weather/lib/weather';
-import { PrefectureCode, RegionalWeather, RegionCode, WeatherForecast } from '@/features/weather/types/weather';
+import { RegionalWeather, RegionCode, WeatherForecast } from '@/features/weather/types/weather';
 
 type WeatherOverlayProps = {
   regionName: string;
@@ -66,7 +67,7 @@ const WeatherOverlay = ({ regionName, weatherForecast }: WeatherOverlayProps) =>
         {regionName}
       </div>
       <Image
-        src={`/icons/weather/${weatherForecast.weatherCode.toString()}.png`}
+        src={`/optimized/icons/weather/${weatherForecast.weatherCode.toString()}-28.png`}
         alt={weatherForecast.weatherName}
         width={28}
         height={28}
@@ -85,7 +86,7 @@ export const RegionalWeatherMap = ({ forecasts }: RegionalWeatherProps) => {
     <div className='flex flex-col items-center'>
       <div className='w-full max-w-4xl h-full items-center flex flex-col'>
         <div className='relative items-center flex flex-col'>
-          <Image src='/images/map.png' alt='日本地図' width={400} height={400} />
+          <Image src='/optimized/images/map-500.png' alt='日本地図' width={400} height={400} />
           {forecasts.map((forecast) => {
             const position = mapOverlayPositions[forecast.regionCode];
 
@@ -106,6 +107,23 @@ export const RegionalWeatherMap = ({ forecasts }: RegionalWeatherProps) => {
               )
             );
           })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const RegionalWeatherMapSkeleton = () => {
+  return (
+    <div className='flex flex-col items-center'>
+      <div className='w-full max-w-4xl h-full items-center flex flex-col'>
+        <div className='relative items-center flex flex-col'>
+          <Image src='/optimized/images/map-500.png' alt='日本地図' width={400} height={400} />
+          {(Object.entries(mapOverlayPositions) as [string, { top: string; left: string }][]).map(([key, position]) => (
+            <div key={key} className='absolute' style={{ top: position.top, left: position.left }}>
+              <Skeleton className='w-16 h-16 rounded-lg shadow-md' />
+            </div>
+          ))}
         </div>
       </div>
     </div>

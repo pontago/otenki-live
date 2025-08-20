@@ -13,7 +13,7 @@ from app.usecases.weather_forecast.regional_forecast_interactor import RegionalF
 router = APIRouter(prefix="/forecast", tags=[AppSettings.api_v1_prefix, "forecasts"])
 
 
-@router.get("/", response_model=RegionalWeatherResponse)
+@router.get("", response_model=RegionalWeatherResponse)
 async def list_regional_forecasts():
     usecase = RegionalForecastInteractor()
     try:

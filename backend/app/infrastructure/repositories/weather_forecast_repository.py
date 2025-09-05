@@ -1,4 +1,5 @@
 from datetime import UTC, date, datetime, timedelta
+from zoneinfo import ZoneInfo
 
 from app.core.settings import AppSettings
 from app.domain.entities.jma_forecast.entity import JmaForecast
@@ -55,7 +56,7 @@ class WeatherForecastRepository(IWeatherForecastRepository):
         return [to_hourly_entity(dto) for dto in dtos]
 
     def get_current_hourly_forecast(self, area_id: str) -> JmaHourlyForecast:
-        now = datetime.now()
+        now = datetime.now(ZoneInfo("Asia/Tokyo"))
         total_hour = now.hour + now.minute / 60
         rounded_hour = int(round(total_hour / 3) * 3) % 24
 
@@ -67,8 +68,7 @@ class WeatherForecastRepository(IWeatherForecastRepository):
         dtos = WeatherHourlyForecastDto.query(
             hash_key=area_id, range_key_condition=range_key_condition, scan_index_forward=False, limit=1
         )
-        dto = next(dtos)
-        return to_hourly_entity(dto)
+        return [to_hourly_entity(dto) for dto in dtos][0]
 
     def save(self, data: JmaForecast | JmaHourlyForecast):
         dto: WeatherForecastDto | WeatherHourlyForecastDto

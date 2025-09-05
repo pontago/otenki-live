@@ -12,6 +12,7 @@ from app.adapter.api.v1.schemas.forecast import (
 from app.core.utils import parallel
 from app.domain.entities.forecast_area.entity import ForecastArea
 from app.domain.entities.jma_forecast.entity import JmaForecast
+from app.domain.entities.jma_hourly_forecast.entity import JmaHourlyForecast
 from app.domain.repositories.jma_repository import IJmaRepository
 from app.domain.repositories.live_channel_repository import ILiveChannelRepository
 from app.domain.repositories.live_detect_repository import ILiveDetectRepository
@@ -51,7 +52,12 @@ class WeatherForecastService:
         self, area_code: str
     ) -> tuple[WeatherForecast, list[WeatherForecast], list[HourlyWeatherForecast], list[LiveDetectData]]:
         forecast_area = self.jma_repository.get_forecast_area_with_area_code(area_code)
-        forecast, daily_forecasts, hourly_forecasts, object_detections = await self._get_forecast_async(forecast_area)
+        (
+            forecast,
+            daily_forecasts,
+            hourly_forecasts,
+            object_detections,
+        ) = await self._get_forecast_async(forecast_area)
         return forecast.weather_forecast, daily_forecasts, hourly_forecasts, object_detections
 
     def _get_daily_forecasts(self, forecast_area: ForecastArea) -> list[WeatherForecast]:
@@ -81,6 +87,15 @@ class WeatherForecastService:
             )
             for forecast in sorted(forecasts, key=lambda item: item.date_time)
         ]
+
+    def _get_current_hourly_forecast(self, forecast_area: ForecastArea) -> HourlyWeatherForecast:
+        forecast = self.weather_forecast_repository.get_current_hourly_forecast(forecast_area.area_id)
+        return HourlyWeatherForecast(
+            date_time=forecast.date_time,
+            weather_code=forecast.weather_code,
+            weather_name=self.jma_repository.get_weather_name(forecast.weather_code),
+            temp=forecast.temp,
+        )
 
     def _get_object_detections(self, forecast_area: ForecastArea) -> list[LiveDetectData]:
         live_channels = self.live_channel_repository.get_active_channels_by_area(forecast_area.area_code)
@@ -123,31 +138,16 @@ class WeatherForecastService:
                     long_sleeve=latest_live_detect.long_sleeve,
                 )
 
-        weather_forecast = self._jma_forecast_to_weather_forecast(forecast_area, forecasts)
+        current_hourly_forecast = self.weather_forecast_repository.get_current_hourly_forecast(forecast_area.area_id)
+
+        weather_forecast = self._jma_forecast_to_weather_forecast(forecast_area, forecasts, current_hourly_forecast)
         weather_forecast.live_channel = live_channel
         weather_forecast.live_detect_data = live_detect_data
 
-        # temp_mins = [forecast.temp_min for forecast in forecasts if forecast.temp_min is not None]
-        # temp_maxs = [forecast.temp_max for forecast in forecasts if forecast.temp_max is not None]
         return RegionalWeather(
             region_code=forecast_area.region_code,
             region_name=forecast_area.region_name,
             weather_forecast=weather_forecast,
-            # weather_forecast=WeatherForecast(
-            #     date=forecasts[0].date_time,
-            #     area_id=forecasts[0].area_id,
-            #     area_name=forecast_area.area_name,
-            #     area_code=forecast_area.area_code,
-            #     weather_code=forecasts[0].weather_code,
-            #     weather_name=self.jma_repository.get_weather_name(forecasts[0].weather_code),
-            #     wind=forecasts[0].wind,
-            #     wave=forecasts[0].wave,
-            #     pops=[PopData(date_time=pop.date_time, pop=pop.pop) for pop in forecasts[0].pops],
-            #     temp_min=min(temp_mins) if temp_mins else None,
-            #     temp_max=max(temp_maxs) if temp_maxs else None,
-            #     live_channel=live_channel,
-            #     live_detect_data=live_detect_data,
-            # ),
         )
 
     async def _get_regional_weathers_async(self, forecast_areas: list[ForecastArea]) -> list[RegionalWeather]:
@@ -167,7 +167,10 @@ class WeatherForecastService:
         )
 
     def _jma_forecast_to_weather_forecast(
-        self, forecast_area: ForecastArea, jma_forecasts: list[JmaForecast]
+        self,
+        forecast_area: ForecastArea,
+        jma_forecasts: list[JmaForecast],
+        current_hourly_forecast: JmaHourlyForecast | None = None,
     ) -> WeatherForecast:
         temp_mins = [forecast.temp_min for forecast in jma_forecasts if forecast.temp_min is not None]
         temp_maxs = [forecast.temp_max for forecast in jma_forecasts if forecast.temp_max is not None]
@@ -182,6 +185,7 @@ class WeatherForecastService:
             wind=jma_forecasts[0].wind,
             wave=jma_forecasts[0].wave,
             pops=[PopData(date_time=pop.date_time, pop=pop.pop) for pop in jma_forecasts[0].pops],
+            temp=current_hourly_forecast.temp if current_hourly_forecast else None,
             temp_min=min(temp_mins) if temp_mins else None,
             temp_max=max(temp_maxs) if temp_maxs else None,
         )

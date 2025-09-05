@@ -10,6 +10,7 @@ export type WeatherForecast = {
   wind?: string;
   wave?: string;
   pops: PopData[];
+  temp?: number;
   tempMin?: number;
   tempMax?: number;
   liveChannel?: LiveChannel;

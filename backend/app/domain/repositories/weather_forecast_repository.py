@@ -25,6 +25,10 @@ class IWeatherForecastRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def get_current_hourly_forecast(self, area_id: str) -> JmaHourlyForecast:
+        raise NotImplementedError
+
+    @abstractmethod
     def save(self, data: JmaForecast | JmaHourlyForecast):
         raise NotImplementedError
 

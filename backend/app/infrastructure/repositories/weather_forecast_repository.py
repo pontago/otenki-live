@@ -54,6 +54,22 @@ class WeatherForecastRepository(IWeatherForecastRepository):
             dtos = WeatherHourlyForecastDto.scan(limit=limit)
         return [to_hourly_entity(dto) for dto in dtos]
 
+    def get_current_hourly_forecast(self, area_id: str) -> JmaHourlyForecast:
+        now = datetime.now()
+        total_hour = now.hour + now.minute / 60
+        rounded_hour = int(round(total_hour / 3) * 3) % 24
+
+        day_adjust = 1 if rounded_hour == 0 and now.hour >= 21 else 0
+        new_date = now.date() + timedelta(days=day_adjust)
+        date = datetime.combine(new_date, datetime.min.time()).replace(hour=rounded_hour)
+
+        range_key_condition = WeatherHourlyForecastDto.sk.startswith(date.strftime("%Y-%m-%d %H"))
+        dtos = WeatherHourlyForecastDto.query(
+            hash_key=area_id, range_key_condition=range_key_condition, scan_index_forward=False, limit=1
+        )
+        dto = next(dtos)
+        return to_hourly_entity(dto)
+
     def save(self, data: JmaForecast | JmaHourlyForecast):
         dto: WeatherForecastDto | WeatherHourlyForecastDto
 

@@ -21,6 +21,7 @@ class WeatherForecast(BaseModel):
     wind: str | None = None
     wave: str | None = None
     pops: list[PopData]
+    temp: int | None = None
     temp_min: int | None = None
     temp_max: int | None = None
     live_channel: LiveChannel | None = None

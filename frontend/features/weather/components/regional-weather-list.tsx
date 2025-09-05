@@ -86,7 +86,7 @@ export const RegionalWeatherList = ({ forecasts }: RegionalWeatherListProps) => 
                         height={36}
                         className='text-primary my-1'
                       />
-                      <p className='text-lg font-bold'>10°C</p>
+                      <p className='text-lg font-bold'>{forecast.weatherForecast.temp}°C</p>
                       <p className='text-xs text-muted-foreground'>{forecast.weatherForecast.weatherName}</p>
                     </div>
                     <div className='text-xs flex justify-center items-center w-30'>

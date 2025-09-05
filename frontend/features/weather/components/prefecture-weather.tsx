@@ -44,7 +44,7 @@ export const PrefectureWeather = ({ forecasts, region }: PrefectureWeatherProps)
                   height={36}
                   className='text-primary my-1'
                 />
-                <p className='text-3xl font-bold mt-1'>{forecast.tempMax}°C</p>
+                <p className='text-3xl font-bold mt-1'>{forecast.temp}°C</p>
                 <p className='text-sm text-muted-foreground capitalize'>{forecast.weatherName}</p>
 
                 <div className='mt-3 space-y-1 text-xs w-full px-2'>

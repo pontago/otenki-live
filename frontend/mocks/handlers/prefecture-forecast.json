@@ -14,6 +14,7 @@
         "pop": 15
       }
     ],
+    "temp": 13,
     "tempMin": 8,
     "tempMax": 18,
     "liveDetectData": {
@@ -39,6 +40,7 @@
         "pop": 20
       }
     ],
+    "temp": 15,
     "tempMin": 10,
     "tempMax": 20,
     "liveDetectData": {
@@ -64,6 +66,7 @@
         "pop": 18
       }
     ],
+    "temp": 16,
     "tempMin": 11,
     "tempMax": 21,
     "liveDetectData": {
@@ -89,6 +92,7 @@
         "pop": 22
       }
     ],
+    "temp": 17,
     "tempMin": 12,
     "tempMax": 22,
     "liveDetectData": {
@@ -114,6 +118,7 @@
         "pop": 19
       }
     ],
+    "temp": 15,
     "tempMin": 10,
     "tempMax": 20,
     "liveDetectData": {
@@ -139,6 +144,7 @@
         "pop": 21
       }
     ],
+    "temp": 16,
     "tempMin": 11,
     "tempMax": 21,
     "liveDetectData": {
@@ -164,6 +170,7 @@
         "pop": 23
       }
     ],
+    "temp": 18,
     "tempMin": 13,
     "tempMax": 23,
     "liveDetectData": {
@@ -189,6 +196,7 @@
         "pop": 24
       }
     ],
+    "temp": 19,
     "tempMin": 14,
     "tempMax": 24,
     "liveDetectData": {
@@ -214,6 +222,7 @@
         "pop": 25
       }
     ],
+    "temp": 18,
     "tempMin": 13,
     "tempMax": 23,
     "liveDetectData": {
@@ -239,6 +248,7 @@
         "pop": 26
       }
     ],
+    "temp": 17,
     "tempMin": 12,
     "tempMax": 22,
     "liveDetectData": {
@@ -264,6 +274,7 @@
         "pop": 27
       }
     ],
+    "temp": 20,
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
@@ -289,6 +300,7 @@
         "pop": 28
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -314,6 +326,7 @@
         "pop": 25
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -339,6 +352,7 @@
         "pop": 29
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -364,6 +378,7 @@
         "pop": 30
       }
     ],
+    "temp": 19,
     "tempMin": 14,
     "tempMax": 24,
     "liveDetectData": {
@@ -389,6 +404,7 @@
         "pop": 31
       }
     ],
+    "temp": 18,
     "tempMin": 13,
     "tempMax": 23,
     "liveDetectData": {
@@ -414,6 +430,7 @@
         "pop": 32
       }
     ],
+    "temp": 19,
     "tempMin": 14,
     "tempMax": 24,
     "liveDetectData": {
@@ -439,6 +456,7 @@
         "pop": 33
       }
     ],
+    "temp": 20,
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
@@ -464,6 +482,7 @@
         "pop": 34
       }
     ],
+    "temp": 18,
     "tempMin": 13,
     "tempMax": 23,
     "liveDetectData": {
@@ -489,6 +508,7 @@
         "pop": 35
       }
     ],
+    "temp": 17,
     "tempMin": 12,
     "tempMax": 22,
     "liveDetectData": {
@@ -514,6 +534,7 @@
         "pop": 36
       }
     ],
+    "temp": 19,
     "tempMin": 14,
     "tempMax": 24,
     "liveDetectData": {
@@ -539,6 +560,7 @@
         "pop": 37
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -564,6 +586,7 @@
         "pop": 38
       }
     ],
+    "temp": 20,
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
@@ -589,6 +612,7 @@
         "pop": 39
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -614,6 +638,7 @@
         "pop": 40
       }
     ],
+    "temp": 20,
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
@@ -639,6 +664,7 @@
         "pop": 41
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -664,6 +690,7 @@
         "pop": 42
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -689,6 +716,7 @@
         "pop": 43
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -714,6 +742,7 @@
         "pop": 44
       }
     ],
+    "temp": 20,
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
@@ -739,6 +768,7 @@
         "pop": 45
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -764,6 +794,7 @@
         "pop": 46
       }
     ],
+    "temp": 19,
     "tempMin": 14,
     "tempMax": 24,
     "liveDetectData": {
@@ -789,6 +820,7 @@
         "pop": 47
       }
     ],
+    "temp": 20,
     "tempMin": 15,
     "tempMax": 25,
     "liveDetectData": {
@@ -814,6 +846,7 @@
         "pop": 48
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -839,6 +872,7 @@
         "pop": 49
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -864,6 +898,7 @@
         "pop": 50
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -889,6 +924,7 @@
         "pop": 51
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -914,6 +950,7 @@
         "pop": 52
       }
     ],
+    "temp": 21,
     "tempMin": 16,
     "tempMax": 26,
     "liveDetectData": {
@@ -939,6 +976,7 @@
         "pop": 53
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -964,6 +1002,7 @@
         "pop": 54
       }
     ],
+    "temp": 23,
     "tempMin": 18,
     "tempMax": 28,
     "liveDetectData": {
@@ -989,6 +1028,7 @@
         "pop": 55
       }
     ],
+    "temp": 23,
     "tempMin": 18,
     "tempMax": 28,
     "liveDetectData": {
@@ -1014,6 +1054,7 @@
         "pop": 56
       }
     ],
+    "temp": 22,
     "tempMin": 17,
     "tempMax": 27,
     "liveDetectData": {
@@ -1039,6 +1080,7 @@
         "pop": 57
       }
     ],
+    "temp": 23,
     "tempMin": 18,
     "tempMax": 28,
     "liveDetectData": {
@@ -1064,6 +1106,7 @@
         "pop": 58
       }
     ],
+    "temp": 24,
     "tempMin": 19,
     "tempMax": 29,
     "liveDetectData": {
@@ -1089,6 +1132,7 @@
         "pop": 59
       }
     ],
+    "temp": 23,
     "tempMin": 18,
     "tempMax": 28,
     "liveDetectData": {
@@ -1114,6 +1158,7 @@
         "pop": 60
       }
     ],
+    "temp": 24,
     "tempMin": 19,
     "tempMax": 29,
     "liveDetectData": {
@@ -1139,6 +1184,7 @@
         "pop": 61
       }
     ],
+    "temp": 25,
     "tempMin": 20,
     "tempMax": 30,
     "liveDetectData": {
@@ -1164,6 +1210,7 @@
         "pop": 62
       }
     ],
+    "temp": 27,
     "tempMin": 22,
     "tempMax": 32,
     "liveDetectData": {

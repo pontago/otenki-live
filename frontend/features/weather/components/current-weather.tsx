@@ -43,7 +43,7 @@ export const CurrentWeather = ({ forecast }: CurrentWeatherProps) => {
               height={128}
               className='text-primary'
             />
-            <p className='text-5xl font-bold'>{forecast.tempMax}°C</p>
+            <p className='text-5xl font-bold'>{forecast.temp}°C</p>
             <p className='text-xl text-muted-foreground'>{forecast.weatherName}</p>
           </div>
 

@@ -28,7 +28,6 @@ export const ContactForm = () => {
   const onSubmit = async (data: ContactFormData) => {
     try {
       let token = '';
-      console.log(process.env);
       if (env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
         token = await grecaptcha.enterprise.execute(env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY, { action: 'contact' });
       }

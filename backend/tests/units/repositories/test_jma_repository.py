@@ -29,10 +29,7 @@ def test_get_weekly_forecast(repository):
 
     assert forecasts is not None
     assert len(forecasts) > 0
-    assert forecasts[0].date_time.date() == datetime.now(UTC).date()
-    # pprint.pprint(forecasts[0])
-    # print(forecasts[0].date_time.astimezone(UTC))
-    # print(datetime.now(UTC))
+    assert forecasts[0].date_time == datetime.now(UTC).date()
 
 
 def test_get_hourly_forecast(repository):

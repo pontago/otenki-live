@@ -1,4 +1,5 @@
 import camelcaseKeys from 'camelcase-keys';
+import { notFound } from 'next/navigation';
 
 import {
   AreasResponse,
@@ -32,7 +33,8 @@ export const prefectureForecasts = async (region: RegionCode): Promise<WeathersR
   const response = await apiFetch(`${env.NEXT_PUBLIC_API_BASE_URL}/forecast/${region}`);
 
   if (response.status === 404) {
-    throw new NotFoundError();
+    notFound();
+    // throw new NotFoundError();
   }
 
   if (!response.ok) {
@@ -47,7 +49,8 @@ export const detailedForecast = async (region: RegionCode, prefecture: Prefectur
   const response = await apiFetch(`${env.NEXT_PUBLIC_API_BASE_URL}/forecast/${region}/${prefecture}`);
 
   if (response.status === 404) {
-    throw new NotFoundError();
+    notFound();
+    // throw new NotFoundError();
   }
 
   if (!response.ok) {

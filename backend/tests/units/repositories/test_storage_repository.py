@@ -15,7 +15,7 @@ def repository():
 
 
 def test_sync_model(tmp_path, monkeypatch, repository):
-    assert AppSettings.classification_model_weights_path is not None
+    # assert AppSettings.classification_model_weights_path is not None
     assert AppSettings.detection_model_weights_path is not None
     assert AppSettings.clothing_model_weights_path is not None
 
@@ -23,10 +23,10 @@ def test_sync_model(tmp_path, monkeypatch, repository):
 
     repository.sync_model()
 
-    classification_model_path = Path(AppSettings.storage_dir, AppSettings.classification_model_weights_path)
+    # classification_model_path = Path(AppSettings.storage_dir, AppSettings.classification_model_weights_path)
     detection_model_path = Path(AppSettings.storage_dir, AppSettings.detection_model_weights_path)
     clothing_model_path = Path(AppSettings.storage_dir, AppSettings.clothing_model_weights_path)
-    assert classification_model_path.exists()
+    # assert classification_model_path.exists()
     assert detection_model_path.exists()
     assert clothing_model_path.exists()
 

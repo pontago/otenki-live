@@ -9,7 +9,7 @@ from app.infrastructure.repositories.ses_repository import SESRepository
 
 @pytest.fixture
 def repository():
-    session = boto3.session.Session(region_name=AppSettings.region_name)
+    session = boto3.session.Session(region_name=AppSettings.aws_region)
     return SESRepository(session=session)
 
 

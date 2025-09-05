@@ -5,12 +5,12 @@ import { verifySignature } from '@/lib/utils';
 
 // export const runtime = 'edge';
 
-export function GET(req: Request) {
+export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const title = searchParams.get('title');
   const signature = searchParams.get('hash');
 
-  if ((title && !signature) || (title && signature && !verifySignature(title, signature))) {
+  if ((title && !signature) || (title && signature && !(await verifySignature(title, signature)))) {
     return new Response('Unauthorized', { status: 401 });
   }
 

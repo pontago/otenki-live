@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: { params: Promise<RegionPageP
   }
 
   const description = `${title}をライブストリームから取得した情報で確認できます`;
-  const signature = generateSignature(title);
+  const signature = await generateSignature(title);
   return {
     title,
     description,

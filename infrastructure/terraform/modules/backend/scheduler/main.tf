@@ -10,8 +10,7 @@ resource "aws_scheduler_schedule" "update_weather_forecast" {
     mode = "OFF"
   }
 
-  schedule_expression          = "cron(10 5,11,17 * * ? *)"
-  # schedule_expression          = "at(2025-08-13T19:45:00)"
+  schedule_expression          = var.update_weather_forecast_schedule
   schedule_expression_timezone = "Asia/Tokyo"
 
   target {
@@ -28,8 +27,7 @@ resource "aws_scheduler_schedule" "queue_live_streams" {
     mode = "OFF"
   }
 
-  # schedule_expression          = "cron(*/30 * * * ? *)"
-  schedule_expression          = "at(2025-08-14T12:30:00)"
+  schedule_expression          = var.queue_live_streams_schedule
   schedule_expression_timezone = "Asia/Tokyo"
 
   target {
@@ -40,7 +38,7 @@ resource "aws_scheduler_schedule" "queue_live_streams" {
 
 
 resource "aws_iam_role" "lambda_scheduler" {
-  name = "lambda-scheduler-role"
+  name = "lambda-scheduler-role${local.suffix}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",

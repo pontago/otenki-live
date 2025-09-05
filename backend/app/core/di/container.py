@@ -24,7 +24,7 @@ class Container(containers.DeclarativeContainer):
         aws_access_key_id=config.aws_access_key_id,
         aws_secret_access_key=config.aws_secret_access_key,
         aws_session_token=config.aws_session_token,
-        region_name=config.region_name,
+        region_name=config.aws_region,
     )
 
     weather_forecast_repository = providers.Factory(WeatherForecastRepository)

@@ -1,3 +1,4 @@
+from google.auth import aws
 from google.cloud import recaptchaenterprise_v1
 from loguru import logger
 
@@ -7,9 +8,15 @@ from app.infrastructure.exceptions import RecaptchaVerificationError
 
 class CaptchaRepository(ICaptchaRepository):
     def verify_recaptcha(
-        self, project_id: str, recaptcha_site_key: str, token: str, action: str, user_ip: str | None = None
+        self,
+        project_id: str,
+        recaptcha_site_key: str,
+        token: str,
+        action: str,
+        user_ip: str | None = None,
+        credentials: aws.Credentials | None = None,
     ) -> float:
-        client = recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient()
+        client = recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient(credentials=credentials)
         parent = f"projects/{project_id}"
 
         event = recaptchaenterprise_v1.Event(

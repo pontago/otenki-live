@@ -23,7 +23,12 @@ output "lambda_api_url" {
   description = "URL of the Lambda function - otenki-live-api"
 }
 
-output "cloudfront_api_url" {
-  value = "https://${aws_cloudfront_distribution.api.domain_name}/"
-  description = "URL of the CloudFront distribution - otenki-live-api"
+output "lambda_api_function_name" {
+  value = aws_lambda_function.api.function_name
+  description = "Function name of the Lambda function - otenki-live-api"
+}
+
+output "lambda_api_url_id" {
+  value = aws_lambda_function_url.api.url_id
+  description = "URL ID of the Lambda function - otenki-live-api"
 }

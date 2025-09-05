@@ -17,13 +17,9 @@ container.wire(modules=[__name__, forecast, contact, live_channel, area])
 
 app = FastAPI(title=AppSettings.project_name)
 
-origins = [
-    "http://localhost:3000",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=AppSettings.cors.split(","),
     allow_methods=["*"],
     allow_headers=["*"],
 )

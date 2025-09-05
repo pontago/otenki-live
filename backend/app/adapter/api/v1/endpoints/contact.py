@@ -1,3 +1,5 @@
+import traceback
+
 from fastapi import APIRouter
 from loguru import logger
 
@@ -24,4 +26,5 @@ async def post(contact: ContactInput):
         return ContactResponse(status=ResponseStatus.ERROR, message="reCAPTCHAの検証に失敗しました")
     except Exception as e:
         logger.error(f"Error: {e}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
         raise InternalServerError()

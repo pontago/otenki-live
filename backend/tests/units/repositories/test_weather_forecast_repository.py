@@ -1,4 +1,4 @@
-from datetime import UTC, datetime
+from datetime import UTC, datetime, timedelta
 
 import pytest
 
@@ -43,8 +43,8 @@ def mock_forecasts():
 def mock_hourly_forecasts():
     forecasts = [
         JmaHourlyForecast(
-            report_date_time=datetime(2025, 3, 10, 12, 0, tzinfo=UTC),
-            date_time=datetime(2025, 3, 10, 12, 0, tzinfo=UTC),
+            report_date_time=datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(hours=1),
+            date_time=datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0),
             area_id="13000000",
             weather_code=101,
             temp=10,
@@ -52,8 +52,8 @@ def mock_hourly_forecasts():
             temp_max=20,
         ),
         JmaHourlyForecast(
-            report_date_time=datetime(2025, 3, 10, 13, 0, tzinfo=UTC),
-            date_time=datetime(2025, 3, 10, 13, 0, tzinfo=UTC),
+            report_date_time=datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0) - timedelta(hours=2),
+            date_time=datetime.now(UTC).replace(hour=0, minute=0, second=0, microsecond=0),
             area_id="13000000",
             weather_code=102,
             temp=10,
@@ -90,7 +90,7 @@ def test_get_hourly_forecasts(repository, mock_hourly_forecasts):
     for forecast in mock_hourly_forecasts:
         repository.save(forecast)
 
-    hourly_forecasts = repository.get_hourly_forecasts("13000000", datetime(2025, 3, 10).date())
+    hourly_forecasts = repository.get_hourly_forecasts("13000000", datetime.now().date())
     assert len(hourly_forecasts) == 2
 
 

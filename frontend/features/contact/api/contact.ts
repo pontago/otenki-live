@@ -3,6 +3,7 @@ import camelcaseKeys from 'camelcase-keys';
 import { ContactFormData, ContactResponse, ValidationError } from '@/features/contact/types/contact';
 import { env } from '@/lib/env';
 import { ValidationErrors } from '@/lib/exceptions';
+import { generatePayloadHash } from '@/lib/utils';
 
 type ApiErrorResponse = {
   detail?: {
@@ -14,12 +15,14 @@ type ApiErrorResponse = {
 };
 
 export const sendContact = async (data: ContactFormData, token: string): Promise<ContactResponse> => {
+  const body = JSON.stringify({ ...data, recaptcha_token: token });
   const response = await fetch(`${env.NEXT_PUBLIC_API_BASE_URL}/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'x-amz-content-sha256': await generatePayloadHash(body),
     },
-    body: JSON.stringify({ ...data, recaptcha_token: token }),
+    body: body,
   });
 
   const responseData: ApiErrorResponse = await response.json();

@@ -14,8 +14,12 @@ from app.infrastructure.exceptions import SESSendmailError, SESTemplateNotFoundE
 class SESRepository(ISESRepository):
     def __init__(self, session: boto3.Session):
         self.session = session
-        self.ses = self.session.client("ses", endpoint_url=AppSettings.endpoint_url)
-        self.ses.verify_email_identity(EmailAddress=AppSettings.contact_from_address)
+        self.ses = self.session.client("ses", endpoint_url=AppSettings.endpoint_url, region_name=AppSettings.aws_region)
+
+        if AppSettings.env == "test" or (
+            AppSettings.endpoint_url and AppSettings.endpoint_url.startswith("http://localhost")
+        ):
+            self.ses.verify_email_identity(EmailAddress=AppSettings.contact_from_address)
 
         self.seed_loader()
 
@@ -31,13 +35,16 @@ class SESRepository(ISESRepository):
             raise SESTemplateNotFoundError(f"Template not found: {type}")
         return template
 
-    def sendmail(self, from_address: str, to_address: str, subject: str, body: str) -> str:
+    def sendmail(
+        self, from_address: str, to_address: str, subject: str, body: str, reply_to_address: str | None = None
+    ) -> str:
         try:
             response = self.ses.send_email(
                 Source=from_address,
                 Destination={
                     "ToAddresses": [to_address],
                 },
+                ReplyToAddresses=[reply_to_address] if reply_to_address else [],
                 Message={
                     "Subject": {"Data": subject},
                     "Body": {"Text": {"Data": body}},

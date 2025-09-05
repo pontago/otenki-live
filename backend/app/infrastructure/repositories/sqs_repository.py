@@ -9,7 +9,7 @@ from app.infrastructure.exceptions import SQSGetQueueError, SQSSendMessageError
 class SQSRepository(ISQSRepository):
     def __init__(self, session: boto3.Session):
         self.session = session
-        self.sqs = self.session.client("sqs", endpoint_url=AppSettings.endpoint_url)
+        self.sqs = self.session.client("sqs", endpoint_url=AppSettings.endpoint_url, region_name=AppSettings.aws_region)
 
     def send_message(self, queue_name: str, body: str) -> str:
         try:

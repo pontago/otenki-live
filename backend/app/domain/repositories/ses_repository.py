@@ -14,5 +14,7 @@ class ISESRepository(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def sendmail(self, from_address: str, to_address: str, subject: str, body: str) -> str:
+    def sendmail(
+        self, from_address: str, to_address: str, subject: str, body: str, reply_to_address: str | None = None
+    ) -> str:
         raise NotImplementedError

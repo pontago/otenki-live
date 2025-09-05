@@ -27,7 +27,7 @@ def test_verify_recaptcha(mock_client, repository):
     )
 
     score = repository.verify_recaptcha(
-        project_id=AppSettings.recaptcha_project_id,
+        project_id=AppSettings.gcp_project_id,
         recaptcha_site_key=AppSettings.recaptcha_site_key,
         token=token,
         action=AppSettings.recaptcha_action,
@@ -50,7 +50,7 @@ def test_verify_recaptcha_low_score(mock_client, repository):
 
     with pytest.raises(RecaptchaVerificationError):
         repository.verify_recaptcha(
-            project_id=AppSettings.recaptcha_project_id,
+            project_id=AppSettings.gcp_project_id,
             recaptcha_site_key=AppSettings.recaptcha_site_key,
             token=token,
             action=AppSettings.recaptcha_action,

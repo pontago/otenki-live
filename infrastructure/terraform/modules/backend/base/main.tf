@@ -21,6 +21,10 @@ provider "aws" {
 
 data "aws_region" "current" {}
 
+data "google_project" "project" {
+  project_id = var.gcp_project_id
+}
+
 #
 # ECR
 #
@@ -99,7 +103,7 @@ resource "null_resource" "build_backend" {
 # Lambda
 #
 resource "aws_iam_role" "backend_lambda" {
-  name = "backend-lambda-role"
+  name = "backend-lambda-role${local.suffix}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -121,7 +125,7 @@ resource "aws_iam_role_policy_attachment" "backend_lambda" {
 }
 
 resource "aws_iam_policy" "backend_lambda_access_policy" {
-  name = "backend-lambda-access-policy"
+  name = "backend-lambda-access-policy${local.suffix}"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -130,26 +134,54 @@ resource "aws_iam_policy" "backend_lambda_access_policy" {
         Effect = "Allow"
         Action = [
           "dynamodb:*",
-          "s3:*",
-          "logs:CreateLogGroup",
-          "logs:CreateLogStream",
-          "logs:PutLogEvents",
           "sqs:ReceiveMessage",
           "sqs:DeleteMessage",
           "sqs:GetQueueAttributes",
           "sqs:GetQueueUrl",
           "sqs:SendMessage",
+        ]
+        Resource = "*",
+        Condition = {
+          StringEquals = {
+            "aws:ResourceTag/Environment" = var.env,
+            "aws:ResourceTag/Project"     = var.project,
+          }
+        }
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:*",
+        ]
+        Resource = [
+          "${aws_s3_bucket.backend.arn}/*",
+        ],
+      },
+      {
+        Effect = "Allow"
+        Action = [
           "ses:SendEmail",
         ]
-        Resource = "*"
-      }
+        Resource = [
+          "${aws_ses_email_identity.backend.arn}",
+        ],
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:CreateLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+        ]
+        Resource = "*",
+      },
     ]
   })
 }
 
 # live_weather_forecast
 resource "aws_lambda_function" "live_weather_forecast" {
-  function_name  = "otenki-live-weather-forecast${local.suffix}"
+  function_name  = "${var.project}-weather-forecast${local.suffix}"
   role           = aws_iam_role.backend_lambda.arn
   package_type   = "Image"
   image_uri      = "${aws_ecr_repository.backend.repository_url}:latest"
@@ -165,6 +197,7 @@ resource "aws_lambda_function" "live_weather_forecast" {
   environment {
     variables = {
       LOGURU_LEVEL = var.log_level
+      ENV          = var.env
     }
   }
 
@@ -173,7 +206,7 @@ resource "aws_lambda_function" "live_weather_forecast" {
 
 # queue_live_streams
 resource "aws_lambda_function" "queue_live_streams" {
-  function_name  = "otenki-live-queue-live-streams${local.suffix}"
+  function_name  = "${var.project}-queue-live-streams${local.suffix}"
   role           = aws_iam_role.backend_lambda.arn
   package_type   = "Image"
   image_uri      = "${aws_ecr_repository.backend.repository_url}:latest"
@@ -189,6 +222,7 @@ resource "aws_lambda_function" "queue_live_streams" {
   environment {
     variables = {
       LOGURU_LEVEL = var.log_level
+      ENV          = var.env
     }
   }
 
@@ -197,7 +231,7 @@ resource "aws_lambda_function" "queue_live_streams" {
 
 # live_object_detection
 resource "aws_lambda_function" "live_object_detection" {
-  function_name  = "otenki-live-object-detection${local.suffix}"
+  function_name  = "${var.project}-object-detection${local.suffix}"
   role           = aws_iam_role.backend_lambda.arn
   package_type   = "Image"
   image_uri      = "${aws_ecr_repository.backend.repository_url}:latest"
@@ -217,6 +251,7 @@ resource "aws_lambda_function" "live_object_detection" {
       DETECTION_MODEL_WEIGHTS_PATH = var.detection_model_weights_path
       YOUTUBE_COOKIES_PATH         = var.youtube_cookies_path
       LOGURU_LEVEL                 = var.log_level
+      ENV                          = var.env
     }
   }
 
@@ -225,7 +260,7 @@ resource "aws_lambda_function" "live_object_detection" {
 
 # api
 resource "aws_lambda_function" "api" {
-  function_name  = "otenki-live-api${local.suffix}"
+  function_name  = "${var.project}-api${local.suffix}"
   role           = aws_iam_role.backend_lambda.arn
   package_type   = "Image"
   image_uri      = "${aws_ecr_repository.backend.repository_url}:latest"
@@ -240,7 +275,15 @@ resource "aws_lambda_function" "api" {
 
   environment {
     variables = {
-      LOGURU_LEVEL = var.log_level
+      LOGURU_LEVEL              = var.log_level
+      ENV                       = var.env
+      CORS                      = var.cors
+      RECAPTCHA_SITE_KEY        = var.recaptcha_site_key
+      GCP_PROJECT_ID            = var.gcp_project_id
+      GCP_PROJECT_NUMBER        = data.google_project.project.number
+      GCP_SERVICE_ACCOUNT_EMAIL = var.gcp_service_account_email
+      GCP_POOL_ID               = var.gcp_pool_id
+      GCP_PROVIDER_ID           = var.gcp_provider_id
     }
   }
 
@@ -253,79 +296,10 @@ resource "aws_lambda_function_url" "api" {
 }
 
 #
-# CloudFront
-#
-resource "aws_cloudfront_origin_access_control" "backend_lambda_oac" {
-  name                              = "backend-lambda-oac"
-  origin_access_control_origin_type = "lambda"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
-}
-
-data "aws_cloudfront_origin_request_policy" "all_except_host" {
-  name = "Managed-AllViewerExceptHostHeader"
-}
-
-data "aws_cloudfront_cache_policy" "caching_disabled" {
-  name = "Managed-CachingDisabled"
-}
-
-data "aws_cloudfront_cache_policy" "caching_optimized" {
-  name = "Managed-CachingOptimized"
-}
-
-resource "aws_cloudfront_distribution" "api" {
-  enabled = true
-
-  origin {
-    domain_name              = "${aws_lambda_function_url.api.url_id}.lambda-url.${data.aws_region.current.name}.on.aws"
-    origin_id                = "api"
-    origin_access_control_id = aws_cloudfront_origin_access_control.backend_lambda_oac.id
-    custom_origin_config {
-      origin_protocol_policy = "https-only"
-      http_port              = 80
-      https_port             = 443
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
-
-  default_cache_behavior {
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "POST", "PUT", "DELETE", "PATCH"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id       = "api"
-    viewer_protocol_policy = "redirect-to-https"
-
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_except_host.id
-    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
-  }
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
-
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
-
-  # aliases = ["api.example.com"]
-}
-
-resource "aws_lambda_permission" "api" {
-  statement_id           = "AllowExecutionFromCloudFront"
-  action                 = "lambda:InvokeFunctionUrl"
-  function_name          = aws_lambda_function.api.function_name
-  principal              = "cloudfront.amazonaws.com"
-  source_arn             = aws_cloudfront_distribution.api.arn
-  function_url_auth_type = "AWS_IAM"
-}
-
-#
 # SQS
 #
 resource "aws_sqs_queue" "queue_live_streams" {
-  name                       = "otenki-live-queue-live-streams${local.suffix}"
+  name                       = "${var.project}-queue-live-streams${local.suffix}"
   #message_retention_seconds = 60 * 8
   message_retention_seconds  = 60 * 5
   visibility_timeout_seconds = 215 # lambda_timeout + batch_window + 30s (3min)

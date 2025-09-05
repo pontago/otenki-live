@@ -1,6 +1,8 @@
 from dependency_injector.wiring import Provide, inject
+from google.auth import aws
 
 from app.adapter.api.v1.schemas.contact import ContactInput
+from app.core.aws_security_credentials_supplier import CustomAwsSecurityCredentialsSupplier
 from app.core.di.container import Container
 from app.core.settings import AppSettings
 from app.domain.entities.mail_template.mail_template_type import MailTemplateType
@@ -21,12 +23,25 @@ class ContactInteractor:
     def execute(self, contact: ContactInput) -> list[str]:
         if AppSettings.recaptcha_site_key is None:
             raise ValueError("Recaptcha site key is not set")
+        if AppSettings.gcp_project_id is None:
+            raise ValueError("GCP project ID is not set")
+
+        credentials = None
+        if AppSettings.gcp_service_account_email:
+            supplier = CustomAwsSecurityCredentialsSupplier()
+            credentials = aws.Credentials(
+                audience=f"//iam.googleapis.com/projects/{AppSettings.gcp_project_number}/locations/global/workloadIdentityPools/{AppSettings.gcp_pool_id}/providers/{AppSettings.gcp_provider_id}",
+                subject_token_type="urn:ietf:params:aws:token-type:aws4_request",
+                aws_security_credentials_supplier=supplier,
+                service_account_impersonation_url=f"https://iamcredentials.googleapis.com/v1/projects/-/serviceAccounts/{AppSettings.gcp_service_account_email}:generateAccessToken",
+            )
 
         self.captcha_repository.verify_recaptcha(
-            project_id=AppSettings.recaptcha_project_id,
+            project_id=AppSettings.gcp_project_id,
             recaptcha_site_key=AppSettings.recaptcha_site_key,
             token=contact.recaptcha_token,
             action=AppSettings.recaptcha_action,
+            credentials=credentials,
         )
 
         confirm_template = self.ses_repository.get_template(MailTemplateType.CONFIRM)
@@ -48,6 +63,7 @@ class ContactInteractor:
         admin_message_id = self.ses_repository.sendmail(
             from_address=AppSettings.contact_from_address,
             to_address=AppSettings.contact_from_address,
+            reply_to_address=contact.email,
             subject=admin_template.subject,
             body=admin_template.body.format(
                 name=contact.name,

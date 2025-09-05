@@ -3,17 +3,23 @@ locals {
 
   frontend_files = concat(
     [
-      for f in fileset("${var.frontend_dir}", "app/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
+      for f in fileset("${var.frontend_dir}", ".next/standalone/.next/**/*") : abspath("${var.frontend_dir}/${f}")
     ],
     [
-      for f in fileset("${var.frontend_dir}", "features/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
+      for f in fileset("${var.frontend_dir}", ".next/standalone/*.{json,js}") : abspath("${var.frontend_dir}/${f}")
     ],
-    [
-      for f in fileset("${var.frontend_dir}", "{lib,components,types,styles}/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
-    ],
-    [
-      for f in fileset("${var.frontend_dir}", "{mocks,tests,.storybook}/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
-    ],
+    # [
+    #   for f in fileset("${var.frontend_dir}", "app/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
+    # ],
+    # [
+    #   for f in fileset("${var.frontend_dir}", "features/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
+    # ],
+    # [
+    #   for f in fileset("${var.frontend_dir}", "{lib,components,types,styles}/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
+    # ],
+    # [
+    #   for f in fileset("${var.frontend_dir}", "{mocks,tests,.storybook}/**/*.{ts,tsx}") : abspath("${var.frontend_dir}/${f}")
+    # ],
     [
       for f in fileset("${var.frontend_dir}", "*.{ts,mjs,json,md,yaml,yml,sh}") : abspath("${var.frontend_dir}/${f}")
     ],
@@ -87,7 +93,7 @@ resource "null_resource" "build_frontend" {
 # Lambda
 #
 resource "aws_iam_role" "frontend_lambda" {
-  name = "frontend-lambda-role"
+  name = "frontend-lambda-role${local.suffix}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -109,7 +115,7 @@ resource "aws_iam_role_policy_attachment" "frontend_lambda" {
 }
 
 resource "aws_iam_policy" "frontend_lambda_access_policy" {
-  name = "frontend-lambda-access-policy"
+  name = "frontend-lambda-access-policy${local.suffix}"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -122,13 +128,13 @@ resource "aws_iam_policy" "frontend_lambda_access_policy" {
           "logs:PutLogEvents",
         ]
         Resource = "*"
-      }
+      },
     ]
   })
 }
 
 resource "aws_lambda_function" "frontend" {
-  function_name    = "otenki-live-frontend${local.suffix}"
+  function_name    = "${var.project}-frontend${local.suffix}"
   role             = aws_iam_role.frontend_lambda.arn
   package_type     = "Image"
   image_uri        = "${aws_ecr_repository.frontend.repository_url}:latest"
@@ -140,11 +146,7 @@ resource "aws_lambda_function" "frontend" {
 
   environment {
     variables = {
-      NEXT_PUBLIC_BASE_URL            = var.base_url
-      NEXT_PUBLIC_API_BASE_URL        = var.api_url
-      SECRET_KEY                      = var.param_secret_key
-      NEXT_PUBLIC_RECAPTCHA_SITE_KEY  = var.recaptcha_site_key
-      NEXT_PUBLIC_GOOGLE_ANALYTICS_ID = var.google_analytics_id
+      SECRET_KEY = var.param_secret_key
     }
   }
 
@@ -155,121 +157,6 @@ resource "aws_lambda_function_url" "frontend" {
   function_name      = aws_lambda_function.frontend.function_name
   authorization_type = "AWS_IAM"
   invoke_mode        = "RESPONSE_STREAM"
-}
-
-#
-# CloudFront
-#
-resource "aws_cloudfront_origin_access_identity" "frontend" {}
-
-resource "aws_cloudfront_origin_access_control" "frontend_lambda_oac" {
-  name                              = "frontend-lambda-oac"
-  origin_access_control_origin_type = "lambda"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
-}
-
-resource "aws_cloudfront_origin_access_control" "frontend_s3_oac" {
-  name                              = "frontend-s3-oac"
-  origin_access_control_origin_type = "s3"
-  signing_behavior                  = "always"
-  signing_protocol                  = "sigv4"
-}
-
-data "aws_cloudfront_origin_request_policy" "all_except_host" {
-  name = "Managed-AllViewerExceptHostHeader"
-}
-
-data "aws_cloudfront_cache_policy" "caching_disabled" {
-  name = "Managed-CachingDisabled"
-}
-
-data "aws_cloudfront_cache_policy" "caching_optimized" {
-  name = "Managed-CachingOptimized"
-}
-
-resource "aws_cloudfront_distribution" "frontend" {
-  enabled = true
-
-  origin {
-    domain_name              = "${aws_lambda_function_url.frontend.url_id}.lambda-url.${data.aws_region.current.name}.on.aws"
-    origin_id                = "frontend"
-    origin_access_control_id = aws_cloudfront_origin_access_control.frontend_lambda_oac.id
-    custom_origin_config {
-      origin_protocol_policy = "https-only"
-      http_port              = 80
-      https_port             = 443
-      origin_ssl_protocols   = ["TLSv1.2"]
-    }
-  }
-
-  origin {
-    domain_name              = aws_s3_bucket.frontend.bucket_regional_domain_name
-    origin_id                = "frontend-static"
-    origin_access_control_id = aws_cloudfront_origin_access_control.frontend_s3_oac.id
-    origin_path              = "/public"
-  }
-
-  origin {
-    domain_name              = aws_s3_bucket.frontend.bucket_regional_domain_name
-    origin_id                = "frontend-nextjs"
-    origin_access_control_id = aws_cloudfront_origin_access_control.frontend_s3_oac.id
-  }
-
-  default_cache_behavior {
-    allowed_methods        = ["GET", "HEAD", "OPTIONS", "POST", "PUT", "DELETE", "PATCH"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
-    target_origin_id       = "frontend"
-    viewer_protocol_policy = "redirect-to-https"
-
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_except_host.id
-    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_disabled.id
-  }
-
-  ordered_cache_behavior {
-    path_pattern           = "/optimized/*"
-    target_origin_id       = "frontend-static"
-    viewer_protocol_policy = "redirect-to-https"
-
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
-
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_except_host.id
-    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_optimized.id
-  }
-
-  ordered_cache_behavior {
-    path_pattern           = "/_next/static/*"
-    target_origin_id       = "frontend-nextjs"
-    viewer_protocol_policy = "redirect-to-https"
-
-    allowed_methods        = ["GET", "HEAD", "OPTIONS"]
-    cached_methods         = ["GET", "HEAD", "OPTIONS"]
-
-    origin_request_policy_id = data.aws_cloudfront_origin_request_policy.all_except_host.id
-    cache_policy_id          = data.aws_cloudfront_cache_policy.caching_optimized.id
-  }
-
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
-
-  viewer_certificate {
-    cloudfront_default_certificate = true
-  }
-
-  # aliases = ["api.example.com"]
-}
-
-resource "aws_lambda_permission" "frontend" {
-  statement_id           = "AllowExecutionFromCloudFront"
-  action                 = "lambda:InvokeFunctionUrl"
-  function_name          = aws_lambda_function.frontend.function_name
-  principal              = "cloudfront.amazonaws.com"
-  source_arn             = aws_cloudfront_distribution.frontend.arn
-  function_url_auth_type = "AWS_IAM"
 }
 
 #

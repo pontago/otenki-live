@@ -30,5 +30,6 @@ COPY --from=builder /opt/patch.txt /sys/devices/system/cpu/possible
 COPY --from=builder /opt/patch.txt /sys/devices/system/cpu/present
 
 COPY --from=builder ${LAMBDA_TASK_ROOT%/}/packages/ $LAMBDA_TASK_ROOT
+COPY ./app/ ${LAMBDA_TASK_ROOT%/}/app/
 COPY --from=ffmpeg /opt/ffmpeg-build/lib/* /lib64/
 COPY --from=ffmpeg /opt/ffmpeg-build/bin/ffmpeg /usr/bin/

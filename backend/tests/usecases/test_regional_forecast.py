@@ -43,8 +43,8 @@ def usecase(container: Container):
     return usecase
 
 
-def test_execute(usecase, repository, mock_forecasts):
-    regional_weathers = usecase.execute()
-    print(regional_weathers)
+@pytest.mark.asyncio
+async def test_execute(usecase, repository, mock_forecasts):
+    regional_weathers = await usecase.execute()
 
-    assert len(regional_weathers) > 0
+    assert len(regional_weathers.data) > 0

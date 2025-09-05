@@ -14,7 +14,7 @@ terraform {
 
   backend "s3" {
     bucket  = "otenki-live-terraform"
-    key     = "dev/terraform.tfstate"
+    key     = "prod/terraform.tfstate"
     encrypt = true
     region  = "ap-northeast-1"
   }
@@ -22,7 +22,7 @@ terraform {
 
 
 locals {
-  env      = "dev"
+  env      = "prod"
   project  = "otenki-live"
   suffix   = local.env == "prod" ? "" : "-${local.env}"
 }
@@ -41,11 +41,6 @@ provider "aws" {
 provider "google" {
   project = var.gcp_project_id
   region  = var.gcp_region
-
-  default_labels = {
-    environment = local.env
-    project     = local.project
-  }
 }
 
 data "aws_caller_identity" "current" {}
@@ -72,7 +67,7 @@ module "backend" {
   docker_dir                   = abspath("${path.root}/../../../docker")
   ecr_backend_name             = "${local.project}${local.suffix}/backend"
   ecr_ffmpeg_name              = "${local.project}${local.suffix}/ffmpeg"
-  log_level                    = "DEBUG"
+  log_level                    = "INFO"
   ses_sender_email             = "app@greenstudio.jp"
   clothing_model_weights_path  = "checkpoints/weights-efficientnetv2-2025050301.pth"
   detection_model_weights_path = "checkpoints/yolov8n.onnx"
@@ -100,8 +95,9 @@ module "backend_scheduler" {
   env                              = local.env
   lambda_live_weather_forecast_arn = module.backend.lambda_live_weather_forecast_arn
   lambda_queue_live_streams_arn    = module.backend.lambda_queue_live_streams_arn
-  update_weather_forecast_schedule = "at(2025-08-13T19:45:00)"
-  queue_live_streams_schedule      = "at(2025-08-14T12:30:00)"
+  update_weather_forecast_schedule = "cron(10 5,11,17 * * ? *)"
+  # queue_live_streams_schedule      = "at(2025-08-14T12:30:00)"
+  queue_live_streams_schedule          = "cron(10,40 * * * ? *)"
 }
 
 module "cdn" {
@@ -110,8 +106,17 @@ module "cdn" {
   project        = local.project
   backend_fqdn   = "${module.backend.lambda_api_url_id}.lambda-url.${var.aws_region}.on.aws"
   frontend_fqdn  = "${module.frontend.lambda_frontend_url_id}.lambda-url.${var.aws_region}.on.aws"
+  cert_arn       = module.cert.cert_arn
+  fqdn           = var.fqdn
 
   lambda_api_function_name             = module.backend.lambda_api_function_name
   lambda_frontend_function_name        = module.frontend.lambda_frontend_function_name
   frontend_bucket_regional_domain_name = module.frontend.frontend_bucket_regional_domain_name
+}
+
+module "cert" {
+  source                    = "../../modules/cert"
+  env                       = local.env
+  domain_name               = var.domain_name
+  subject_alternative_names = [var.fqdn]
 }

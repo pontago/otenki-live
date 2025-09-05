@@ -22,28 +22,24 @@ def setup():
 
 
 @mock_aws
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture(scope="module", autouse=True)
 def mock_dynamodb():
-    from app.infrastructure.dto.dynamodb.live_channel.model import LiveChannelDto
-    from app.infrastructure.dto.dynamodb.live_detect_data.model import LiveDetectDataDto
-    from app.infrastructure.dto.dynamodb.weather_forecast.model import WeatherForecastDto
-
     mock = mock_aws()
     mock.start()
 
-    if not WeatherForecastDto.exists():
-        WeatherForecastDto.create_table(wait=True)
+    # if not WeatherForecastDto.exists():
+    #     WeatherForecastDto.create_table(wait=True)
 
-    if not LiveChannelDto.exists():
-        LiveChannelDto.create_table(wait=True)
+    # if not LiveChannelDto.exists():
+    #     LiveChannelDto.create_table(wait=True)
 
-    if not LiveDetectDataDto.exists():
-        LiveDetectDataDto.create_table(wait=True)
+    # if not LiveDetectDataDto.exists():
+    #     LiveDetectDataDto.create_table(wait=True)
 
-    sqs = boto3.client("sqs", region_name=AppSettings.region_name)
+    sqs = boto3.client("sqs", region_name=AppSettings.aws_region)
     sqs.create_queue(QueueName=AppSettings.live_streams_queue_name)
 
-    s3 = boto3.client("s3", region_name=AppSettings.region_name)
+    s3 = boto3.client("s3", region_name=AppSettings.aws_region)
     s3.create_bucket(Bucket=AppSettings.bucket_name)
 
     # assert AppSettings.classification_model_weights_path is not None

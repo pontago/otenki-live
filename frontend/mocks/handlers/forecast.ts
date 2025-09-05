@@ -40,6 +40,10 @@ export const prefectureForecastHandlers = [
     const forecast = prefectureForecast.filter((item) => item.regionCode === region);
     const data = forecast.map(({ ...attr }) => ({ ...attr }));
 
+    if (forecast.length === 0) {
+      return HttpResponse.json({} as WeathersResponse, { status: 404 });
+    }
+
     return HttpResponse.json({
       status: 'success',
       data: data as WeatherForecast[],
@@ -59,6 +63,10 @@ export const detailedForecastHandlers = [
       const { region, prefecture } = params;
       const forecast = prefectureForecast.filter((item) => item.areaCode === prefecture);
       const current = forecast.map(({ ...attr }) => ({ ...attr }));
+
+      if (forecast.length === 0) {
+        return HttpResponse.json({} as WeatherResponse, { status: 404 });
+      }
 
       return HttpResponse.json({
         status: 'success',

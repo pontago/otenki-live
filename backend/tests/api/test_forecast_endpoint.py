@@ -1,4 +1,5 @@
-from datetime import UTC, datetime
+from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import pytest
 from fastapi.testclient import TestClient
@@ -8,6 +9,7 @@ from app.adapter.api.v1.schemas.base import ResponseStatus
 from app.core.settings import AppSettings
 from app.domain.entities.jma_forecast.entity import JmaForecast
 from app.domain.entities.jma_forecast.pop_data import PopData
+from app.domain.entities.jma_hourly_forecast.entity import JmaHourlyForecast
 from app.infrastructure.repositories.jma_repository import JmaRepository
 from app.infrastructure.repositories.weather_forecast_repository import WeatherForecastRepository
 
@@ -18,8 +20,8 @@ def repository():
 
 
 @pytest.fixture
-def mock_forecasts(repository):
-    today = datetime.now(UTC)
+def mock_forecasts(repository: WeatherForecastRepository):
+    today = datetime.now(ZoneInfo("Asia/Tokyo"))
     forecast_areas = JmaRepository().get_forecast_areas()
 
     for forecast_area in forecast_areas:
@@ -39,12 +41,32 @@ def mock_forecasts(repository):
 
 
 @pytest.fixture
+def mock_hourly_forecasts(repository: WeatherForecastRepository):
+    today = datetime.now(ZoneInfo("Asia/Tokyo"))
+    forecast_areas = JmaRepository().get_forecast_areas()
+
+    for forecast_area in forecast_areas:
+        for i in range(0, 9):
+            jma_hourly_forecast = JmaHourlyForecast(
+                report_date_time=today,
+                date_time=today.replace(hour=0, minute=0, second=0, microsecond=0) + timedelta(hours=i * 3),
+                area_id=forecast_area.area_id,
+                weather_code=101,
+                temp=10,
+                temp_min=10,
+                temp_max=20,
+            )
+            repository.save(jma_hourly_forecast)
+
+
+@pytest.fixture
 def client():
     return TestClient(app)
 
 
-def test_get_regional_weathers(client, mock_forecasts):
+def test_get_regional_weathers(client: TestClient, mock_forecasts, mock_hourly_forecasts):
     response = client.get(f"{AppSettings.api_v1_prefix}/forecast")
+
     assert response.status_code == 200
 
     json = response.json()

@@ -1,0 +1,264 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - develop
+    paths:
+      - "backend/**"
+      - "frontend/**"
+      - "infrastructure/**"
+  workflow_dispatch:
+
+env:
+  ENV: ${{ vars.ENV }}
+  SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
+
+jobs:
+  changes:
+    name: Change Detection
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      ci-container: ${{ steps.filter.outputs.ci-container }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3.0.2
+        id: filter
+        with:
+          base: ${{ github.ref }}
+          predicate-quantifier: "every"
+          filters: |
+            shared: &shared
+              - '!**/*.md'
+            ci-container:
+              - 'infrastructure/docker/ci/**'
+            backend:
+              - *shared
+              - 'backend/**'
+            frontend:
+              - *shared
+              - 'frontend/**'
+
+  build-ci-container:
+    name: Build CI Container
+    needs: [changes]
+    if: needs.changes.outputs.ci-container == 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ghcr.io/${{ github.repository }}/ci-container
+          tags: |
+            type=raw,value=latest
+            type=sha,prefix=,suffix=,format=short
+      - uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./infrastructure/docker/ci/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  backend:
+    name: Backend CI
+    needs: [build-ci-container, changes]
+    if: always() && needs.changes.outputs.backend == 'true' && needs.build-ci-container.outputs.status != 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+      id-token: write
+    container:
+      image: ghcr.io/${{ github.repository }}/ci-container:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+      - name: Download data files
+        run: |
+          aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }}
+          aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.DETECTION_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.DETECTION_MODEL_WEIGHTS_PATH }}
+          aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.YOUTUBE_COOKIES_PATH }} ./tests/data/${{ vars.YOUTUBE_COOKIES_PATH }}
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v6
+        id: setup-uv
+        with:
+          enable-cache: true
+          working-directory: backend
+      - name: Install dependencies
+        run: uv sync --locked --all-extras --dev --link-mode=copy
+      - name: Run lint
+        run: uv run ruff check
+      - name: Run tests
+        run: uv run pytest tests/units/repositories/
+        env:
+          AWS_REGION: "us-east-1"
+          AWS_ACCESS_KEY_ID: "test"
+          AWS_SECRET_ACCESS_KEY: "test"
+          CLOTHING_MODEL_WEIGHTS_PATH: ${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }}
+          DETECTION_MODEL_WEIGHTS_PATH: ${{ vars.DETECTION_MODEL_WEIGHTS_PATH }}
+          YOUTUBE_COOKIES_PATH: ${{ vars.YOUTUBE_COOKIES_PATH }}
+          STORAGE_DIR: "./tests/data/"
+          RECAPTCHA_SITE_KEY: ${{ vars.RECAPTCHA_SITE_KEY }}
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+
+  frontend:
+    name: Frontend CI
+    needs: [build-ci-container, changes]
+    if: always() && needs.changes.outputs.frontend == 'true' && needs.build-ci-container.outputs.status != 'failure'
+    runs-on: ubuntu-latest
+    permissions:
+      packages: read
+    container:
+      image: ghcr.io/${{ github.repository }}/ci-container:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      VOLTA_FEATURE_PNPM: 1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup volta
+        uses: volta-cli/action@v4
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install chromium
+      - name: Run lint
+        run: pnpm lint
+      - name: Run tests
+        run: |
+          pnpm test
+          pnpm test:e2e
+        env:
+          NEXT_PUBLIC_BASE_URL: http://localhost:3000
+          NEXT_PUBLIC_API_BASE_URL: http://localhost:8000/api/v1
+          USE_MSW: true
+          SECRET_KEY: dummy
+
+  deploy:
+    name: Deploy Backend and Frontend
+    runs-on: ubuntu-latest
+    needs: [backend, frontend]
+    if: always() && (needs.backend.outputs.status || '') != 'failure' && (needs.frontend.outputs.status || '') != 'failure'
+    permissions:
+      id-token: write
+    container:
+      image: ghcr.io/${{ github.repository }}/ci-container:latest
+      credentials:
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+    env:
+      VOLTA_FEATURE_PNPM: 1
+      TF_VAR_AWS_REGION: ${{ vars.AWS_REGION }}
+      TF_VAR_GCP_REGION: ${{ vars.GCP_REGION }}
+      TF_VAR_GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+      TF_VAR_BASE_URL: ${{ vars.BASE_URL }}
+      TF_VAR_PARAM_SECRET_KEY: ${{ secrets.PARAM_SECRET_KEY }}
+      TF_VAR_CLOTHING_MODEL_WEIGHTS_PATH: ${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }}
+      TF_VAR_DETECTION_MODEL_WEIGHTS_PATH: ${{ vars.DETECTION_MODEL_WEIGHTS_PATH }}
+      TF_VAR_YOUTUBE_COOKIES_PATH: ${{ vars.YOUTUBE_COOKIES_PATH }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
+      - name: Configure GCP Credentials (JSON)
+        if: ${{ env.ACT }}
+        id: gcp-auth-json
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+      - name: Configure GCP Credentials (WIF)
+        if: ${{ !env.ACT }}
+        id: gcp-auth-wif
+        uses: google-github-actions/auth@v3
+        with:
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+          workload_identity_provider: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ secrets.GCP_POOL_ID }}/providers/${{ secrets.GCP_PROVIDER_ID }}"
+      - name: Print Auth Info
+        run: |
+          echo "Service Account: ${{ steps.gcp-auth-json.outputs.project_id }}"
+          echo "Access Token: ${{ steps.gcp-auth-json.outputs.auth_token }}"
+          echo "Service Account: ${{ steps.gcp-auth-wif.outputs.project_id }}"
+          echo "Access Token: ${{ steps.gcp-auth-wif.outputs.auth_token }}"
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3
+      - name: Setup volta
+        if: needs.changes.outputs.frontend == 'true'
+        uses: volta-cli/action@v4
+      - name: Cache pnpm store
+        if: needs.changes.outputs.frontend == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+      - name: Install dependencies
+        if: needs.changes.outputs.frontend == 'true'
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+      - name: Build frontend
+        if: needs.changes.outputs.frontend == 'true'
+        run: pnpm build
+        working-directory: frontend
+        env:
+          NEXT_PUBLIC_BASE_URL: ${{ vars.BASE_URL }}
+          NEXT_PUBLIC_API_BASE_URL: ${{ vars.API_BASE_URL }}
+          NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ vars.RECAPTCHA_SITE_KEY }}
+          NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
+          SECRET_KEY: ${{ secrets.PARAM_SECRET_KEY }}
+      - name: Initialize terraform
+        run: |
+          terraform fmt -check
+          terraform init -input=false
+          terraform validate -no-color
+        working-directory: infrastructure/terraform/environments/${{ vars.ENV }}
+      - name: Run terraform plan
+        run: terraform plan
+        working-directory: infrastructure/terraform/environments/${{ vars.ENV }}
+      - name: Run terraform apply
+        run: terraform apply -auto-approve
+        working-directory: infrastructure/terraform/environments/${{ vars.ENV }}

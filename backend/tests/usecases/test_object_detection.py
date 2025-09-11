@@ -24,12 +24,10 @@ def usecase(container: Container):
     return usecase
 
 
-def test_object_detection(usecase, mock_payloads):
+def test_object_detection(usecase: ObjectDetectionInteractor, mock_payloads):
     usecase.execute(mock_payloads)
 
     detects = list(LiveDetectDataDto.scan())
-
-    print(detects)
 
     assert detects
     assert len(detects) == 1

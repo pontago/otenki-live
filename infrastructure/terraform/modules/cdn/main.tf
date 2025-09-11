@@ -1,5 +1,6 @@
 locals {
-  suffix = var.env == "prod" ? "" : "-${var.env}"
+  suffix        = var.env == "prod" ? "" : "-${var.env}"
+  restrict_host = var.fqdn != null ? var.fqdn : ""
 }
 
 #
@@ -41,7 +42,7 @@ function handler(event) {
     var request = event.request;
     var headers = request.headers;
 
-    if (headers.host.value !== "${var.fqdn}") {
+    if (headers.host.value !== "${local.restrict_host}") {
         return {
             statusCode: 403,
             statusDescription: "Forbidden"

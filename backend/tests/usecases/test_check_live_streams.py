@@ -11,7 +11,7 @@ def usecase(container: Container):
     return usecase
 
 
-def test_check_live_streams(usecase):
+def test_check_live_streams(usecase: CheckLiveStreamsInteractor):
     messageIds = usecase.execute()
 
     assert messageIds

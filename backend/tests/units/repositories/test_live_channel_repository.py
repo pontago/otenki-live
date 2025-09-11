@@ -38,7 +38,7 @@ def mock_channels(repository: LiveChannelRepository):
     return channels
 
 
-def test_save(repository, mock_channels):
+def test_save(repository: LiveChannelRepository, mock_channels):
     for mock_channel in mock_channels:
         repository.save(mock_channel)
 
@@ -49,7 +49,7 @@ def test_save(repository, mock_channels):
     assert filter(lambda x: x.pk == mock_channels[0].channel_id, channels)
 
 
-def test_get_active_channels(repository, mock_channels):
+def test_get_active_channels(repository: LiveChannelRepository, mock_channels):
     for mock_channel in mock_channels:
         repository.save(mock_channel)
 
@@ -60,7 +60,7 @@ def test_get_active_channels(repository, mock_channels):
     assert channels[0].channel_id == mock_channels[1].channel_id
 
 
-def test_get_channels(repository, mock_channels):
+def test_get_channels(repository: LiveChannelRepository, mock_channels):
     for mock_channel in mock_channels:
         repository.save(mock_channel)
 
@@ -71,7 +71,7 @@ def test_get_channels(repository, mock_channels):
     assert len(channels) == 2
 
 
-def test_update_status(repository, mock_channels):
+def test_update_status(repository: LiveChannelRepository, mock_channels):
     for mock_channel in mock_channels:
         repository.save(mock_channel)
 
@@ -82,7 +82,7 @@ def test_update_status(repository, mock_channels):
     assert updated_channel.status == LiveChannelStatus.PROCESSING.value
 
 
-def test_get_active_channels_by_area(repository, mock_channels):
+def test_get_active_channels_by_area(repository: LiveChannelRepository, mock_channels):
     for mock_channel in mock_channels:
         repository.save(mock_channel)
 

@@ -9,7 +9,6 @@ RUN dnf install -y \
     make \
     wget \
     tar \
-    git \
     yasm \
     pkgconf \
     zlib-devel \

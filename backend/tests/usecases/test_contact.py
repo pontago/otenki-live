@@ -17,7 +17,7 @@ def usecase(container: Container):
 
 
 @patch("google.cloud.recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient")
-def test_contact(mock_client, usecase):
+def test_contact(mock_client, usecase: ContactInteractor):
     token = "1000000000000000000000000000000000000000"
     mock_client.return_value.create_assessment.return_value = recaptchaenterprise_v1.Assessment(
         token_properties=recaptchaenterprise_v1.TokenProperties(valid=True, action=AppSettings.recaptcha_action),

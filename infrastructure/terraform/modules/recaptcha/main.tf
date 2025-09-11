@@ -2,6 +2,8 @@ locals {
   suffix = var.env == "prod" ? "" : "-${var.env}"
 }
 
+data "aws_caller_identity" "current" {}
+
 #
 # Enable Services
 #
@@ -62,7 +64,7 @@ resource "google_iam_workload_identity_pool_provider" "aws_provider" {
   description  = "Allow AWS Lambda to impersonate GCP service account"
 
   aws {
-    account_id = var.aws_account_id
+    account_id = data.aws_caller_identity.current.account_id
   }
 }
 

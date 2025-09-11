@@ -11,16 +11,6 @@ from app.core.di.container import Container
 from app.core.settings import AppSettings
 
 
-@pytest.fixture(scope="session", autouse=True)
-def setup():
-    pass
-    # AppSettings.dynamodb_endpoint_url = ""
-    # AppSettings = Settings(_env_file=".env.test")  # type: ignore
-    # AppSettings = Settings(_env_file=".env.test")  # type: ignore
-    # print(AppSettings.dict())
-    # print(AppSettings.dynamodb_endpoint_url)
-
-
 @mock_aws
 @pytest.fixture(scope="module", autouse=True)
 def mock_dynamodb():
@@ -81,8 +71,4 @@ def mock_dynamodb():
 @pytest.fixture
 def container():
     container = Container()
-    # container.config.from_pydantic(Settings(_env_file=".env.test"))  # type: ignore
-    # container.wire(modules=[__name__])
-    # print(container.config.dynamodb_endpoint_url())
-    # print(AppSettings.endpoint_url)
     return container

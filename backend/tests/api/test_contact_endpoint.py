@@ -14,7 +14,7 @@ def client():
     return TestClient(app)
 
 
-def test_post_contact_invalid_request(client):
+def test_post_contact_invalid_request(client: TestClient):
     payload = {
         "email": "test@example.com",
     }
@@ -36,7 +36,7 @@ def test_post_contact_invalid_request(client):
 
 
 @patch("google.cloud.recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient")
-def test_post_contact_valid_request(mock_client, client):
+def test_post_contact_valid_request(mock_client, client: TestClient):
     token = "1000000000000000000000000000000000000000"
     mock_client.return_value.create_assessment.return_value = recaptchaenterprise_v1.Assessment(
         token_properties=recaptchaenterprise_v1.TokenProperties(valid=True, action=AppSettings.recaptcha_action),

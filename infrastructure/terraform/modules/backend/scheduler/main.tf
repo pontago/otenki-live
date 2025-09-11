@@ -50,15 +50,23 @@ resource "aws_iam_role" "lambda_scheduler" {
   })
 }
 
-resource "aws_iam_role_policy" "lambda_scheduler_policy" {
-  role = aws_iam_role.lambda_scheduler.id
+resource "aws_iam_policy" "lambda_scheduler_policy" {
+  name = "lambda-scheduler-policy${local.suffix}"
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
       Effect   = "Allow",
       Action   = "lambda:InvokeFunction",
-      Resource = "*"
+      Resource = [
+        var.lambda_live_weather_forecast_arn,
+        var.lambda_queue_live_streams_arn
+      ]
     }]
   })
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_scheduler" {
+  role       = aws_iam_role.lambda_scheduler.name
+  policy_arn = aws_iam_policy.lambda_scheduler_policy.arn
 }

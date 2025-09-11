@@ -12,7 +12,7 @@ def repository():
     return SQSRepository(session=session)
 
 
-def test_send_message(repository):
+def test_send_message(repository: SQSRepository):
     with pytest.raises(SQSGetQueueError):
         repository.send_message("test-queue", "test")
 

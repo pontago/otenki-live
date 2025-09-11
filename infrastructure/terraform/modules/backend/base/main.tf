@@ -20,7 +20,7 @@ provider "aws" {
 }
 
 data "aws_region" "current" {}
-
+data "aws_caller_identity" "current" {}
 data "google_project" "project" {
   project_id = var.gcp_project_id
 }
@@ -134,13 +134,25 @@ resource "aws_iam_policy" "backend_lambda_access_policy" {
         Effect = "Allow"
         Action = [
           "dynamodb:*",
+        ]
+        Resource = "arn:aws:dynamodb:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:table/*",
+        Condition = {
+          StringEquals = {
+            "aws:ResourceTag/Environment" = var.env,
+            "aws:ResourceTag/Project"     = var.project,
+          }
+        }
+      },
+      {
+        Effect = "Allow"
+        Action = [
           "sqs:ReceiveMessage",
           "sqs:DeleteMessage",
           "sqs:GetQueueAttributes",
           "sqs:GetQueueUrl",
           "sqs:SendMessage",
         ]
-        Resource = "*",
+        Resource = "arn:aws:sqs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:*",
         Condition = {
           StringEquals = {
             "aws:ResourceTag/Environment" = var.env,
@@ -173,7 +185,7 @@ resource "aws_iam_policy" "backend_lambda_access_policy" {
           "logs:CreateLogStream",
           "logs:PutLogEvents",
         ]
-        Resource = "*",
+        Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:*",
       },
     ]
   })

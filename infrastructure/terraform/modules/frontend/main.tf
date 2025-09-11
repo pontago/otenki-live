@@ -38,6 +38,7 @@ locals {
 }
 
 data "aws_region" "current" {}
+data "aws_caller_identity" "current" {}
 
 #
 # ECR
@@ -127,7 +128,7 @@ resource "aws_iam_policy" "frontend_lambda_access_policy" {
           "logs:CreateLogStream",
           "logs:PutLogEvents",
         ]
-        Resource = "*"
+        Resource = "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:*",
       },
     ]
   })

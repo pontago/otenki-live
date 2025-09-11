@@ -28,7 +28,8 @@
         "args": ["-c", "source .venv/bin/activate.fish; exec fish"]
       }
     },
-    "terminal.integrated.defaultProfile.osx": "venv-shell"
+    "terminal.integrated.defaultProfile.osx": "venv-shell",
+    "python.languageServer": "None"
   },
   "extensions": {}
 }

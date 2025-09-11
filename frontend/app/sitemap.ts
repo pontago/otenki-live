@@ -3,6 +3,8 @@ import type { MetadataRoute } from 'next';
 import { areas } from '@/features/weather/api/forecast';
 import { env } from '@/lib/env';
 
+export const dynamic = 'force-dynamic';
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const areasResponse = await areas();
   const areaMaps = areasResponse.data.map((area) => ({

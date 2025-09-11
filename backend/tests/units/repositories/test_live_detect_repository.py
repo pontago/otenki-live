@@ -29,7 +29,7 @@ def mock_detects(repository: LiveDetectRepository):
     return data
 
 
-def test_save(repository, mock_detects):
+def test_save(repository: LiveDetectRepository, mock_detects):
     for mock_detect in mock_detects:
         repository.save(mock_detect)
 
@@ -40,7 +40,7 @@ def test_save(repository, mock_detects):
     assert filter(lambda x: x.pk == mock_detects[0].channel_id, data)
 
 
-def test_get_latest_data(repository, mock_detects):
+def test_get_latest_data(repository: LiveDetectRepository, mock_detects):
     for mock_detect in mock_detects:
         repository.save(mock_detect)
 

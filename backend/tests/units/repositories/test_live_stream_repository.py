@@ -38,7 +38,7 @@ def repository():
     return LiveStreamRepository()
 
 
-def test_get_latest_image(repository, mock_channels):
+def test_get_latest_image(repository: LiveStreamRepository, mock_channels):
     with pytest.raises(LiveStreamGetInfoError):
         repository.get_latest_image(mock_channels[0])
 

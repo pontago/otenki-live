@@ -15,11 +15,11 @@ def repository():
 
 
 @pytest.fixture
-def client(repository):
+def client(repository: LiveChannelRepository):
     return TestClient(app)
 
 
-def test_get_live_channels(client):
+def test_get_live_channels(client: TestClient):
     response = client.get(f"{AppSettings.api_v1_prefix}/live-channel")
     assert response.status_code == 200
 

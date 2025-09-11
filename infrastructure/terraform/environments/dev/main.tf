@@ -3,11 +3,11 @@ terraform {
 
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 5.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
       version = "~> 7.1"
     }
   }
@@ -22,9 +22,9 @@ terraform {
 
 
 locals {
-  env      = "dev"
-  project  = "otenki-live"
-  suffix   = local.env == "prod" ? "" : "-${local.env}"
+  env     = "dev"
+  project = "otenki-live"
+  suffix  = local.env == "prod" ? "" : "-${local.env}"
 }
 
 provider "aws" {
@@ -48,8 +48,6 @@ provider "google" {
   }
 }
 
-data "aws_caller_identity" "current" {}
-
 #
 # Modules
 #
@@ -60,7 +58,6 @@ module "recaptcha" {
   region          = var.gcp_region
   gcp_project_id  = var.gcp_project_id
   allowed_domains = var.recaptcha_allowed_domains
-  aws_account_id  = data.aws_caller_identity.current.account_id
 }
 
 
@@ -74,9 +71,9 @@ module "backend" {
   ecr_ffmpeg_name              = "${local.project}${local.suffix}/ffmpeg"
   log_level                    = "DEBUG"
   ses_sender_email             = "app@greenstudio.jp"
-  clothing_model_weights_path  = "checkpoints/weights-efficientnetv2-2025050301.pth"
-  detection_model_weights_path = "checkpoints/yolov8n.onnx"
-  youtube_cookies_path         = "cookies/www.youtube.com_cookies.txt"
+  clothing_model_weights_path  = var.clothing_model_weights_path
+  detection_model_weights_path = var.detection_model_weights_path
+  youtube_cookies_path         = var.youtube_cookies_path
   cors                         = var.base_url
   recaptcha_site_key           = module.recaptcha.recaptcha_site_key
   gcp_project_id               = var.gcp_project_id
@@ -86,13 +83,13 @@ module "backend" {
 }
 
 module "frontend" {
-  source              = "../../modules/frontend"
-  env                 = local.env
-  project             = local.project
-  param_secret_key    = var.param_secret_key
-  frontend_dir        = abspath("${path.root}/../../../../frontend")
-  docker_dir          = abspath("${path.root}/../../../docker")
-  ecr_frontend_name   = "${local.project}${local.suffix}/frontend"
+  source            = "../../modules/frontend"
+  env               = local.env
+  project           = local.project
+  param_secret_key  = var.param_secret_key
+  frontend_dir      = abspath("${path.root}/../../../../frontend")
+  docker_dir        = abspath("${path.root}/../../../docker")
+  ecr_frontend_name = "${local.project}${local.suffix}/frontend"
 }
 
 module "backend_scheduler" {
@@ -105,13 +102,21 @@ module "backend_scheduler" {
 }
 
 module "cdn" {
-  source         = "../../modules/cdn"
-  env            = local.env
-  project        = local.project
-  backend_fqdn   = "${module.backend.lambda_api_url_id}.lambda-url.${var.aws_region}.on.aws"
-  frontend_fqdn  = "${module.frontend.lambda_frontend_url_id}.lambda-url.${var.aws_region}.on.aws"
+  source        = "../../modules/cdn"
+  env           = local.env
+  project       = local.project
+  backend_fqdn  = "${module.backend.lambda_api_url_id}.lambda-url.${var.aws_region}.on.aws"
+  frontend_fqdn = "${module.frontend.lambda_frontend_url_id}.lambda-url.${var.aws_region}.on.aws"
 
   lambda_api_function_name             = module.backend.lambda_api_function_name
   lambda_frontend_function_name        = module.frontend.lambda_frontend_function_name
   frontend_bucket_regional_domain_name = module.frontend.frontend_bucket_regional_domain_name
+}
+
+module "github" {
+  source            = "../../modules/github"
+  env               = local.env
+  github_repository = "pontago/otenki-live"
+  project           = local.project
+  gcp_project_id    = var.gcp_project_id
 }

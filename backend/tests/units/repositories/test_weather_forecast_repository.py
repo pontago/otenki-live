@@ -63,7 +63,7 @@ def repository():
     return WeatherForecastRepository()
 
 
-def test_save(repository, mock_forecasts, mock_hourly_forecasts):
+def test_save(repository: WeatherForecastRepository, mock_forecasts, mock_hourly_forecasts):
     for forecast in mock_forecasts:
         repository.save(forecast)
 
@@ -80,15 +80,15 @@ def test_save(repository, mock_forecasts, mock_hourly_forecasts):
     assert len(hourly_forecasts) == len(mock_hourly_forecasts)
 
 
-def test_get_hourly_forecasts(repository, mock_hourly_forecasts):
+def test_get_hourly_forecasts(repository: WeatherForecastRepository, mock_hourly_forecasts):
     for forecast in mock_hourly_forecasts:
         repository.save(forecast)
 
-    hourly_forecasts = repository.get_hourly_forecasts("13000000", datetime.now().date())
+    hourly_forecasts = repository.get_hourly_forecasts("13000000", datetime.now(ZoneInfo("Asia/Tokyo")).date())
     assert len(hourly_forecasts) == 8
 
 
-def test_get_latest_hourly_forecasts(repository, mock_hourly_forecasts):
+def test_get_latest_hourly_forecasts(repository: WeatherForecastRepository, mock_hourly_forecasts):
     for forecast in mock_hourly_forecasts:
         repository.save(forecast)
 
@@ -96,7 +96,7 @@ def test_get_latest_hourly_forecasts(repository, mock_hourly_forecasts):
     assert len(hourly_forecasts) == len(mock_hourly_forecasts)
 
 
-def test_get_forecasts(repository, mock_forecasts):
+def test_get_forecasts(repository: WeatherForecastRepository, mock_forecasts):
     for forecast in mock_forecasts:
         repository.save(forecast)
 
@@ -107,7 +107,7 @@ def test_get_forecasts(repository, mock_forecasts):
     assert len(forecasts) == 2
 
 
-def test_get_current_hourly_forecast(repository, mock_hourly_forecasts):
+def test_get_current_hourly_forecast(repository: WeatherForecastRepository, mock_hourly_forecasts):
     for forecast in mock_hourly_forecasts:
         repository.save(forecast)
 

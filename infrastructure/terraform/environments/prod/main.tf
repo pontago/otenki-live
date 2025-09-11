@@ -43,8 +43,6 @@ provider "google" {
   region  = var.gcp_region
 }
 
-data "aws_caller_identity" "current" {}
-
 #
 # Modules
 #
@@ -55,7 +53,6 @@ module "recaptcha" {
   region          = var.gcp_region
   gcp_project_id  = var.gcp_project_id
   allowed_domains = var.recaptcha_allowed_domains
-  aws_account_id  = data.aws_caller_identity.current.account_id
 }
 
 
@@ -119,4 +116,12 @@ module "cert" {
   env                       = local.env
   domain_name               = var.domain_name
   subject_alternative_names = [var.fqdn]
+}
+
+module "github" {
+  source            = "../../modules/github"
+  env               = local.env
+  github_repository = "pontago/otenki-live"
+  project           = local.project
+  gcp_project_id    = var.gcp_project_id
 }

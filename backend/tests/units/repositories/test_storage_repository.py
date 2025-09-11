@@ -14,7 +14,7 @@ def repository():
     return StorageRepository(session=session)
 
 
-def test_sync_model(tmp_path, monkeypatch, repository):
+def test_sync_model(tmp_path: str, monkeypatch, repository: StorageRepository):
     # assert AppSettings.classification_model_weights_path is not None
     assert AppSettings.detection_model_weights_path is not None
     assert AppSettings.clothing_model_weights_path is not None
@@ -35,7 +35,7 @@ def test_sync_model(tmp_path, monkeypatch, repository):
         repository.sync_model()
 
 
-def test_download_cookies(tmp_path, monkeypatch, repository):
+def test_download_cookies(tmp_path: str, monkeypatch, repository: StorageRepository):
     assert AppSettings.youtube_cookies_path is not None
 
     AppSettings.storage_dir = str(tmp_path)

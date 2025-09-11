@@ -14,7 +14,10 @@ def repository():
 
 
 @patch("google.cloud.recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient")
-def test_verify_recaptcha(mock_client, repository):
+def test_verify_recaptcha(mock_client, repository: CaptchaRepository):
+    assert AppSettings.gcp_project_id
+    assert AppSettings.recaptcha_site_key
+
     token = "1000000000000000000000000000000000000000"
     mock_client.return_value.create_assessment.return_value = recaptchaenterprise_v1.Assessment(
         token_properties=recaptchaenterprise_v1.TokenProperties(valid=True, action=AppSettings.recaptcha_action),
@@ -36,7 +39,10 @@ def test_verify_recaptcha(mock_client, repository):
 
 
 @patch("google.cloud.recaptchaenterprise_v1.RecaptchaEnterpriseServiceClient")
-def test_verify_recaptcha_low_score(mock_client, repository):
+def test_verify_recaptcha_low_score(mock_client, repository: CaptchaRepository):
+    assert AppSettings.gcp_project_id
+    assert AppSettings.recaptcha_site_key
+
     token = "1000000000000000000000000000000000000000"
     mock_client.return_value.create_assessment.return_value = recaptchaenterprise_v1.Assessment(
         token_properties=recaptchaenterprise_v1.TokenProperties(valid=True, action=AppSettings.recaptcha_action),

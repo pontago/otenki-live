@@ -1,5 +1,6 @@
 import asyncio
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 from app.adapter.api.v1.schemas.forecast import (
     HourlyWeatherForecast,
@@ -62,7 +63,7 @@ class WeatherForecastService:
 
     def _get_daily_forecasts(self, forecast_area: ForecastArea) -> list[WeatherForecast]:
         results: list[WeatherForecast] = []
-        now = datetime.now().date()
+        now = datetime.now(ZoneInfo("Asia/Tokyo")).date()
 
         for i in range(1, 6):
             forecasts = self.weather_forecast_repository.get_forecasts(
@@ -118,7 +119,7 @@ class WeatherForecastService:
 
     def _get_regional_weather(self, forecast_area: ForecastArea) -> RegionalWeather:
         forecasts = self.weather_forecast_repository.get_forecasts(
-            area_id=forecast_area.area_id, date=datetime.now().date(), limit=3
+            area_id=forecast_area.area_id, date=datetime.now(ZoneInfo("Asia/Tokyo")).date(), limit=3
         )
         if len(forecasts) == 0:
             raise WeatherForecastNotFoundError

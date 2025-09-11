@@ -30,3 +30,5 @@ backend/docker/data/
 .mypy_cache
 
 *.log
+.secrets
+.pnpm-store/

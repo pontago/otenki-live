@@ -13,7 +13,7 @@ def usecase(container: Container):
     return usecase
 
 
-def test_active_live_channel(usecase):
+def test_active_live_channel(usecase: ActiveLiveChannelInteractor):
     response = usecase.execute()
 
     assert response.status == ResponseStatus.SUCCESS

@@ -12,8 +12,9 @@ def usecase(container: Container):
     return usecase
 
 
-def test_execute(usecase):
+def test_execute(usecase: ListAreaInteractor):
     areas = usecase.execute()
     assert areas.status == ResponseStatus.SUCCESS
+    assert areas.meta
     assert areas.meta["count"] == 47
     assert len(areas.data) == 47

@@ -32,3 +32,15 @@ variable "recaptcha_allowed_domains" {
   type = list(string)
   default = []
 }
+
+variable "clothing_model_weights_path" {
+  type = string
+}
+
+variable "detection_model_weights_path" {
+  type = string
+}
+
+variable "youtube_cookies_path" {
+  type = string
+}

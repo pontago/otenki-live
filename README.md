@@ -62,5 +62,3 @@
 - CLOTHING_MODEL_WEIGHTS_PATH=服装分類モデルのパス
 - DETECTION_MODEL_WEIGHTS_PATH=物体検出モデルのパス
 - YOUTUBE_COOKIES_PATH=YouTubeクッキーパス
-
-## License

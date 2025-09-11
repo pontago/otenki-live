@@ -9,10 +9,14 @@ on:
       - "frontend/**"
       - "infrastructure/**"
   workflow_dispatch:
+    inputs:
+      environment:
+        type: environment
+        description: "The environment to deploy to"
 
-env:
-  ENV: ${{ vars.ENV }}
-  SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
+# env:
+#   ENV: ${{ vars.ENV }}
+#   SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
 
 jobs:
   changes:
@@ -87,6 +91,9 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/develop' && 'dev') || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
+    env:
+      SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
     defaults:
       run:
         working-directory: backend
@@ -140,6 +147,7 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/develop' && 'dev') || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
     defaults:
       run:
         working-directory: frontend
@@ -184,6 +192,7 @@ jobs:
       credentials:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/develop' && 'dev') || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
     env:
       VOLTA_FEATURE_PNPM: 1
       TF_VAR_AWS_REGION: ${{ vars.AWS_REGION }}

@@ -83,7 +83,7 @@ resource "null_resource" "build_frontend" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      docker build --provenance false -t ${aws_ecr_repository.frontend.repository_url}:latest -f ${var.docker_dir}/frontend/Dockerfile ${var.frontend_dir} && \
+      docker build --provenance false --platform linux/arm64 -t ${aws_ecr_repository.frontend.repository_url}:latest -f ${var.docker_dir}/frontend/Dockerfile ${var.frontend_dir} && \
       docker login -u AWS -p ${data.aws_ecr_authorization_token.token.password} ${data.aws_ecr_authorization_token.token.proxy_endpoint} && \
       docker push ${aws_ecr_repository.frontend.repository_url}:latest
     EOT

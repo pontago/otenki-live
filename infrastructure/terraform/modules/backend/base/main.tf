@@ -76,7 +76,7 @@ resource "null_resource" "build_ffmpeg" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      docker build --provenance false -t ${aws_ecrpublic_repository.ffmpeg.repository_uri}:latest -f ${var.docker_dir}/ffmpeg/Dockerfile . && \
+      docker build --provenance false --platform linux/arm64 -t ${aws_ecrpublic_repository.ffmpeg.repository_uri}:latest -f ${var.docker_dir}/ffmpeg/Dockerfile . && \
       docker login -u AWS -p ${data.aws_ecrpublic_authorization_token.token.password} public.ecr.aws && \
       docker push ${aws_ecrpublic_repository.ffmpeg.repository_uri}:latest
     EOT
@@ -92,7 +92,7 @@ resource "null_resource" "build_backend" {
 
   provisioner "local-exec" {
     command = <<-EOT
-      docker build --provenance false -t ${aws_ecr_repository.backend.repository_url}:latest -f ${var.docker_dir}/backend/Dockerfile ${var.backend_dir} && \
+      docker build --provenance false --platform linux/arm64 -t ${aws_ecr_repository.backend.repository_url}:latest -f ${var.docker_dir}/backend/Dockerfile ${var.backend_dir} && \
       docker login -u AWS -p ${data.aws_ecr_authorization_token.token.password} ${data.aws_ecr_authorization_token.token.proxy_endpoint} && \
       docker push ${aws_ecr_repository.backend.repository_url}:latest
     EOT

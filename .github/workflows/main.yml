@@ -14,10 +14,6 @@ on:
         type: environment
         description: "The environment to deploy to"
 
-# env:
-#   ENV: ${{ vars.ENV }}
-#   SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
-
 jobs:
   changes:
     name: Change Detection
@@ -94,8 +90,6 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GITHUB_TOKEN }}
     environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/develop' && 'dev') || (github.ref == 'refs/heads/main' && 'prod') || 'dev' }}
-    env:
-      SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
     defaults:
       run:
         working-directory: backend
@@ -120,6 +114,8 @@ jobs:
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }}
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.DETECTION_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.DETECTION_MODEL_WEIGHTS_PATH }}
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.YOUTUBE_COOKIES_PATH }} ./tests/data/${{ vars.YOUTUBE_COOKIES_PATH }}
+        env:
+          SUFFIX: ${{ vars.ENV == 'prod' && '' || format('-{0}', vars.ENV) }}
       - name: Setup uv
         uses: astral-sh/setup-uv@v6
         id: setup-uv

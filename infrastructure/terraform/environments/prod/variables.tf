@@ -11,7 +11,7 @@ variable "gcp_project_id" {
 }
 
 variable "domain_name" {
-  type = string
+  type    = string
   default = null
 }
 
@@ -29,7 +29,7 @@ variable "param_secret_key" {
 }
 
 variable "recaptcha_allowed_domains" {
-  type = list(string)
+  type    = list(string)
   default = []
 }
 

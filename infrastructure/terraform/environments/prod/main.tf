@@ -3,11 +3,11 @@ terraform {
 
   required_providers {
     aws = {
-      source = "hashicorp/aws"
+      source  = "hashicorp/aws"
       version = "~> 5.0"
     }
     google = {
-      source = "hashicorp/google"
+      source  = "hashicorp/google"
       version = "~> 7.1"
     }
   }
@@ -22,9 +22,9 @@ terraform {
 
 
 locals {
-  env      = "prod"
-  project  = "otenki-live"
-  suffix   = local.env == "prod" ? "" : "-${local.env}"
+  env     = "prod"
+  project = "otenki-live"
+  suffix  = local.env == "prod" ? "" : "-${local.env}"
 }
 
 provider "aws" {
@@ -78,13 +78,13 @@ module "backend" {
 }
 
 module "frontend" {
-  source              = "../../modules/frontend"
-  env                 = local.env
-  project             = local.project
-  param_secret_key    = var.param_secret_key
-  frontend_dir        = abspath("${path.root}/../../../../frontend")
-  docker_dir          = abspath("${path.root}/../../../docker")
-  ecr_frontend_name   = "${local.project}${local.suffix}/frontend"
+  source            = "../../modules/frontend"
+  env               = local.env
+  project           = local.project
+  param_secret_key  = var.param_secret_key
+  frontend_dir      = abspath("${path.root}/../../../../frontend")
+  docker_dir        = abspath("${path.root}/../../../docker")
+  ecr_frontend_name = "${local.project}${local.suffix}/frontend"
 }
 
 module "backend_scheduler" {
@@ -94,17 +94,17 @@ module "backend_scheduler" {
   lambda_queue_live_streams_arn    = module.backend.lambda_queue_live_streams_arn
   update_weather_forecast_schedule = "cron(10 5,11,17 * * ? *)"
   # queue_live_streams_schedule      = "at(2025-08-14T12:30:00)"
-  queue_live_streams_schedule          = "cron(10,40 * * * ? *)"
+  queue_live_streams_schedule = "cron(10,40 * * * ? *)"
 }
 
 module "cdn" {
-  source         = "../../modules/cdn"
-  env            = local.env
-  project        = local.project
-  backend_fqdn   = "${module.backend.lambda_api_url_id}.lambda-url.${var.aws_region}.on.aws"
-  frontend_fqdn  = "${module.frontend.lambda_frontend_url_id}.lambda-url.${var.aws_region}.on.aws"
-  cert_arn       = module.cert.cert_arn
-  fqdn           = var.fqdn
+  source        = "../../modules/cdn"
+  env           = local.env
+  project       = local.project
+  backend_fqdn  = "${module.backend.lambda_api_url_id}.lambda-url.${var.aws_region}.on.aws"
+  frontend_fqdn = "${module.frontend.lambda_frontend_url_id}.lambda-url.${var.aws_region}.on.aws"
+  cert_arn      = module.cert.cert_arn
+  fqdn          = var.fqdn
 
   lambda_api_function_name             = module.backend.lambda_api_function_name
   lambda_frontend_function_name        = module.frontend.lambda_frontend_function_name

@@ -251,13 +251,17 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
           "s3:PutBucketPolicy",
           "s3:PutBucketPublicAccessBlock",
           "s3:PutBucketTagging",
+          "s3:ListBucket",
           "s3:GetObject",
           "s3:GetObjectTagging",
-          "s3:ListBucket",
           "s3:PutObject",
+          "s3:PutObjectTagging",
           "s3:DeleteObject",
         ]
-        Resource = "arn:aws:s3:::*"
+        Resource = [
+          "arn:aws:s3:::*",
+          "arn:aws:s3:::*/*",
+        ]
       },
 
       # SQS

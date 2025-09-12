@@ -55,6 +55,7 @@ RUN dnf install -y \
   mesa-libGL \ 
   nodejs \
   awscli \
+  docker \
   unzip \
   tar \
   gzip \

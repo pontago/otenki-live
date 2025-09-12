@@ -57,6 +57,8 @@
 - GCP_PROJECT_ID=GCPプロジェクトID
 - BASE_URL=サイトURL
 - API_BASE_URL=API URL
+- DOMAIN_NAME=ドメイン
+- FQDN=サイトドメイン（サブドメイン）
 - RECAPTCHA_SITE_KEY=reCAPTCHAサイトキー
 - GOOGLE_ANALYTICS_ID=Google AnalyticsのトラッキングID
 - CLOTHING_MODEL_WEIGHTS_PATH=服装分類モデルのパス

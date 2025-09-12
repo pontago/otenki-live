@@ -195,6 +195,7 @@ jobs:
     needs: [backend, frontend]
     if: always() && (needs.backend.outputs.status || '') != 'failure' && (needs.frontend.outputs.status || '') != 'failure'
     permissions:
+      packages: read
       id-token: write
     container:
       image: ghcr.io/${{ github.repository }}/ci-container:latest

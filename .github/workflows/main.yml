@@ -218,6 +218,8 @@ jobs:
       TF_VAR_youtube_cookies_path: ${{ vars.YOUTUBE_COOKIES_PATH }}
     steps:
       - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-qemu-action@v3
       - name: Configure AWS Credentials (act)
         if: ${{ env.ACT }}
         uses: aws-actions/configure-aws-credentials@v4

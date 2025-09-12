@@ -101,14 +101,20 @@ jobs:
         working-directory: backend
     steps:
       - uses: actions/checkout@v4
+      - name: Configure AWS Credentials (act)
+        if: ${{ env.ACT }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Configure AWS Credentials
+        if: ${{ !env.ACT }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Download data files
         run: |
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }}
@@ -179,7 +185,6 @@ jobs:
         env:
           NEXT_PUBLIC_BASE_URL: http://localhost:3000
           NEXT_PUBLIC_API_BASE_URL: http://localhost:8000/api/v1
-          NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${{ vars.RECAPTCHA_SITE_KEY }}
           NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ${{ vars.GOOGLE_ANALYTICS_ID }}
           USE_MSW: true
           SECRET_KEY: dummy
@@ -209,14 +214,20 @@ jobs:
       TF_VAR_YOUTUBE_COOKIES_PATH: ${{ vars.YOUTUBE_COOKIES_PATH }}
     steps:
       - uses: actions/checkout@v4
+      - name: Configure AWS Credentials (act)
+        if: ${{ env.ACT }}
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ vars.AWS_REGION }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Configure AWS Credentials
+        if: ${{ !env.ACT }}
         uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE }}
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Configure GCP Credentials (JSON)
         if: ${{ env.ACT }}
         id: gcp-auth-json

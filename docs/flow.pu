@@ -1,8 +1,8 @@
 ```uml
-@startuml OtenkiApp
-package "フロントエンド" {
+@startuml flow
+package "エンドユーザー" {
   [Webブラウザ] as WebBrowser
-  [スマホ{Flutter}] as SmartPhone
+  [スマホ{アプリ}] as SmartPhone
 }
 
 cloud {

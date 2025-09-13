@@ -1,122 +1,183 @@
-@startuml Database
+@startuml database
 package Entity <<Rectangle>> {
   package JMA <<Rectangle>> {
-    entity WeatherForecast {
+    entity JmaForecast {
+      * 発表日時: DateTime
       * 予報日: Date
-      --
-      # エリアコード: String
-      エリア名: String
-      天気コード: Number
+      * エリアコード: String
+      * 天気コード: Number
       風: String
       波: String
-      降水確率: Map <<ForecastDataPop>>
-      気温: Map <<ForecastDataTemp>>
-      発表日時: DateTime 
-      登録日時: DateTime
-    }
-
-    entity ForecastDataWeather <<Map>> {
-      日時: DateTime
-      天気コード: Number
-      風: String
-      波: String
-    }
-
-    entity ForecastDataPop <<Map>> {
-      日時: DateTime
-      降水量: Number
-    }
-
-    entity ForecastDataTemp <<Map>> {
-      日時: DateTime
-      最高気温: Number
+      * 降水確率: List <<PopData>>
       最低気温: Number
+      最高気温: Number
     }
 
-    WeatherForecast ||--|| ForecastDataWeather
-    WeatherForecast ||--|| ForecastDataPop
-    WeatherForecast ||--|| ForecastDataTemp
+    entity PopData {
+      * 日時: DateTime
+      * 降水量: Number
+    }
 
-    hide <<Map>> circle
+    entity ForecastArea {
+      * エリアID: String
+      * エリアコード: String
+      * エリア名: String
+      * エリアスポットID: String
+      * 週ID: String
+      * 地域コード: String
+      * 地域名: String
+      * アメダスコード: String
+    }
+
+    entity ForecastTelop {
+      * 天気コード: Number
+      * 天気名: String
+    }
+
+    entity JmaHourlyForecast {
+      * 発表日時: DateTime
+      * 日時: DateTime
+      * エリアID: String
+      * 天気コード: Number
+      * 気温: Number
+      最低気温: Number
+      最高気温: Number
+    }
+
+    JmaForecast ||--|{ PopData
   }
 
   package YouTube <<Rectangle>> {
     entity LiveChannel {
       * チャンネルID: String
-      --
-      # エリアコード: String
-      チャンネル名: String
-      ストリームURL: String
-      ステータス: Number
-      最終更新日時: DateTime
-      登録日時: DateTime
+      * 有効状態: Boolean
+      * エリアコード: String
+      * チャンネル名: String
+      * ステータス: LiveChannelStatus
+      * 最終処理日時: DateTime
+      * 更新日時: DateTime
     }
 
-    entity LiveStreamDetect {
-      * ID: Number
-      - チャンネルID: String
-      --
-      傘人数: Number
-      半袖人数: Number
-      長袖人数: Number
-      人数: Number
-      登録日時: DateTime
+    enum LiveChannelStatus {
+      NONE
+      PROCESSING
+      FAILED
     }
+
+    entity LiveDetectData <<DetectObject>> {
+      * チャンネルID: String
+      * 登録日時: DateTime
+    }
+
+    entity DetectObject {
+      * 歩行者人数: Number
+      * 傘利用人数: Number
+      * 半袖人数: Number
+      * ジャケット人数: Number
+      * 長袖人数: Number
+      * アウター人数: Number
+    }
+
+    LiveChannel ||--|| LiveChannelStatus
+    LiveDetectData ..|> DetectObject
   }
 
 }
 
 package DynamoDB <<Rectangle>> {
+  ' JMA
   entity WeatherForecast {
     * PK: String <<Partition key>> [エリアコード]
     * SK: String <<Sort key>> [予報日#発表日時]
     --
-    data: Map [データ]
-    createdAt: DateTime [登録日時]
+    * data: Map <<ForecastData>> [データ]
+    * createdAt: DateTime [登録日時]
+    * expiresAt: DateTime [有効期限]
   }
 
+  entity ForecastData <<Map>> {
+    * weatherCode: Number [天気コード]
+    wind: String [風]
+    wave: String [波]
+    * pops: List <<ForecastDataPop>> [降水確率]
+    tempMin: Number [最低気温]
+    tempMax: Number [最高気温]
+  }
+
+  entity ForecastDataPop <<Map>> {
+    * dateTime: DateTime [日時]
+    * pop: Number [降水確率]
+  }
+
+  entity WeatherHourlyForecast {
+    * PK: String <<Partition key>> [エリアコード]
+    * SK: String <<Sort key>> [予報日#発表日時]
+    --
+    * reportDateTime: DateTime [発表日時]
+    * weatherCode: Number [天気コード]
+    * temp: Number [気温]
+    tempMin: Number [最低気温]
+    tempMax: Number [最高気温]
+    * createdAt: DateTime [登録日時]
+    * expiresAt: DateTime [有効期限]
+  }
+
+  entity ReportDateIndex <<GSI>> {
+    * PK: String <<Partition key>> [エリアコード]
+    * reportDateTime: String <<Sort key>> [発表日時]
+  }
+
+  WeatherForecast ||--|| ForecastData
+  ForecastData ||--|{ ForecastDataPop
+  WeatherHourlyForecast ||--|| ReportDateIndex
+
+  ' YouTube
   entity LiveChannel {
     * PK: String <<Partition key>> [チャンネルID]
-    * SK: String <<Sort key>> [ステータス]
+    * SK: Number <<Sort key>> [有効状態]
     --
-    areaCode: String [エリアコード]
-    name: String [チャンネル名]
-    streamUrl: String [ストリームURL]
-    processedAt: DateTime [最終更新日時]
-    updatedAt: DateTime [更新日時]
+    * areaCode: String [エリアコード]
+    * name: String [チャンネル名]
+    * status: Number [ステータス]
+    * processedAt: DateTime [最終更新日時]
+    * updatedAt: DateTime [更新日時]
   }
 
-  entity LiveStreamDetect {
+  entity ActiveIndex <<GSI>> {
+    * PK: Number <<Partition key>> [有効状態]
+  }
+
+  entity AreaIndex <<GSI>> {
     * PK: String <<Partition key>> [エリアコード]
-    * SK: String <<Sort key>> [登録日時]
+    * SK: Number <<Sort key>> [有効状態]
+  }
+
+  entity StatusIndex <<GSI>> {
+    * PK: Number <<Partition key>> [ステータス]
+  }
+
+  entity LiveDetectData {
+    * PK: String <<Partition key>> [チャンネルID]
+    * SK: DateTime <<Sort key>> [登録日時]
     --
-    channelId: String [チャンネルID]
-    umbrella: Number [傘人数]
-    tshirt: Number [半袖人数]
-    longSleeve: Number [長袖人数]
-    total: Number [人数]
+    * person: Number [歩行者人数]
+    * umbrella: Number [傘利用人数]
+    * tshirt: Number [半袖人数]
+    * jacket: Number [ジャケット人数]
+    * longSleeve: Number [長袖人数]
+    * outer: Number [アウター人数]
   }
 
-  object WeatherForecastTable {
-    <#lightgray,#black>|=PK|=SK|=data|
-    <#white>|1300000|2025-05-01#2025-05-01T12:00:00|{}|
-    <#white>|1300000|2025-05-01#2025-05-01T13:00:00|{}|
-  }
+  LiveChannel ||--|| ActiveIndex
+  LiveChannel ||--|| AreaIndex
+  LiveChannel ||--|| StatusIndex
 
-  object LiveChannelTable {
-    <#lightgray,#black>|=PK|=SK|=areaCode|=name|=streamUrl|=processedAt|=updatedAt|
-    <#white>|1234|1|1300000|テストチャンネル|https://localhost/|2025-05-01T12:00:00|2025-05-01T12:00:00|
-  }
+  Entity.JMA.JmaForecast ... WeatherForecast
+  Entity.JMA.JmaHourlyForecast ... WeatherHourlyForecast
+  Entity.YouTube.LiveChannel ... LiveChannel
+  Entity.YouTube.LiveDetectData ... LiveDetectData
 
-  object LiveStreamDetectTable {
-    <#lightgray,#black>|=PK|=SK|=channelId|=umbrella|=tshirt|=longSleeve|=total|
-    <#white>|1300000|2025-05-01T12:00:00|1234|1|1|1|3|
-  }
-
-  WeatherForecast ||--|| WeatherForecastTable
-  LiveChannel ||--|| LiveChannelTable
-  LiveStreamDetect ||--|| LiveStreamDetectTable
-
-  Entity.JMA.WeatherForecast ||----|| WeatherForecast
+  hide <<Map>> circle
+  hide <<GSI>> circle
 }
 @enduml

@@ -2,10 +2,16 @@
 
 気象庁の天気予報データとライブストリーミング動画を組み合わせた天気予報サービスのテストです。物体検出による服装推論機能を提供します。
 
+[お天気ライブデモ](https://otenki.pontago.net/)
+
 - FastAPI + Next.js + AWS Serverless
 - EfficientNetV2 + YOLO + SAHI
 - Terraform
 - Clean Architecture
+
+![](./docs/infra.svg)
+![](./docs/flow.svg)
+![](./docs/database.svg)
 
 ## Backend
 [Backend - README](./backend/README.md)

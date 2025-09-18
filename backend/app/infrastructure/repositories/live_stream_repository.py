@@ -7,7 +7,12 @@ from loguru import logger
 from app.core.settings import AppSettings
 from app.domain.entities.live_channel.entity import LiveChannel
 from app.domain.repositories.live_stream_repository import ILiveStreamRepository
-from app.infrastructure.exceptions import CookiePathNotSetError, LiveStreamFFmpegError, LiveStreamGetInfoError
+from app.infrastructure.exceptions import (
+    CookiePathNotSetError,
+    LiveStreamFFmpegError,
+    LiveStreamGetInfoError,
+    LiveStreamNotReadyError,
+)
 
 
 class LiveStreamRepository(ILiveStreamRepository):
@@ -36,6 +41,8 @@ class LiveStreamRepository(ILiveStreamRepository):
                     raise LiveStreamGetInfoError
         except (yt_dlp.utils.ExtractorError, yt_dlp.utils.DownloadError) as e:
             logger.error(f"Failed to extract info. [{e}]")
+            if "This live event will begin in a few moments." in str(e):
+                raise LiveStreamNotReadyError from e
             raise LiveStreamGetInfoError from e
 
         try:

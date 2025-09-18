@@ -2,8 +2,8 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Settings } from 'luxon';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
-
 import '@/styles/globals.css';
+
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { ThemeProvider } from '@/components/theme-provider';
@@ -41,6 +41,9 @@ export const metadata: Metadata = {
     images: ['/og'],
     title: CONSTANTS.APP_NAME,
     description,
+  },
+  verification: {
+    google: 'rGxwXaQ05fKvmSJTv-3CvnYv5ZVN3baQJjzHywa590Y',
   },
 };
 

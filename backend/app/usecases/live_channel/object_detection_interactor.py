@@ -15,6 +15,7 @@ from app.domain.repositories.sqs_repository import ISQSRepository
 from app.domain.repositories.storage_repository import IStorageRepository
 from app.domain.services.object_detection_service import ObjectDetectionService
 from app.infrastructure.dto.sqs.live_stream_payload import LiveStreamPayload
+from app.infrastructure.exceptions import LiveStreamNotReadyError
 
 
 @inject
@@ -73,6 +74,8 @@ class ObjectDetectionInteractor:
                 )
 
                 self.live_detect_repository.save(live_detect_data)
+                self.live_channel_repository.update_status(channel.inactive())
+            except LiveStreamNotReadyError:
                 self.live_channel_repository.update_status(channel.inactive())
             except Exception:
                 self.live_channel_repository.update_status(channel.failed())

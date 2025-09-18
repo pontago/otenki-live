@@ -37,6 +37,10 @@ class LiveStreamGetInfoError(InfraError):
     pass
 
 
+class LiveStreamNotReadyError(InfraError):
+    pass
+
+
 class ModelPathNotSetError(InfraError):
     pass
 

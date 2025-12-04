@@ -67,6 +67,7 @@ resource "aws_iam_policy" "github_actions_deploy_policy" {
           "sts:GetCallerIdentity",
           "sts:GetServiceBearerToken",
           "iam:GetOpenIDConnectProvider",
+          "iam:TagOpenIDConnectProvider",
           "scheduler:GetSchedule"
         ]
         Resource = "*"

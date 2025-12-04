@@ -8,14 +8,14 @@ export const env = createEnv({
   },
   shared: {
     NODE_ENV: z.enum(['development', 'production', 'test']),
-    NEXT_PUBLIC_BASE_URL: z.string().url(),
-    NEXT_PUBLIC_API_BASE_URL: z.string().url(),
+    NEXT_PUBLIC_BASE_URL: z.url(),
+    NEXT_PUBLIC_API_BASE_URL: z.url(),
     NEXT_PUBLIC_RECAPTCHA_SITE_KEY: z.string().optional(),
     NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: z.string(),
     USE_MSW: z
       .string()
       .transform((val) => val === 'true')
-      .default('false'),
+      .default(false),
   },
   experimental__runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,

@@ -15,7 +15,7 @@ export const env = createEnv({
     USE_MSW: z
       .string()
       .transform((val) => val === 'true')
-      .default('false'),
+      .default(false),
   },
   experimental__runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,

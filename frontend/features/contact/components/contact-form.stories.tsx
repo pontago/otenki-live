@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { userEvent, waitFor, expect, within } from '@storybook/test';
+import { userEvent, waitFor, expect, within } from 'storybook/test';
 
 import { ContactForm } from '@/features/contact/components/contact-form';
 import { handlers } from '@/mocks/handlers';

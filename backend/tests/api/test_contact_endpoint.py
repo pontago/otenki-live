@@ -19,7 +19,7 @@ def test_post_contact_invalid_request(client: TestClient):
         "email": "test@example.com",
     }
     response = client.post(f"{AppSettings.api_v1_prefix}/contact", json=payload)
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
 
     payload = {
         "name": "test" * 100,
@@ -29,7 +29,7 @@ def test_post_contact_invalid_request(client: TestClient):
     }
     response = client.post(f"{AppSettings.api_v1_prefix}/contact", json=payload)
     json = response.json()
-    assert response.status_code == status.HTTP_422_UNPROCESSABLE_ENTITY
+    assert response.status_code == status.HTTP_422_UNPROCESSABLE_CONTENT
     assert json["detail"][0]["type"] == "string_too_long"
     assert json["detail"][1]["type"] == "value_error"
     assert json["detail"][2]["type"] == "string_too_long"

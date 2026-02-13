@@ -111,6 +111,8 @@ jobs:
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE }}
+      - name: Setup deno
+        uses: denoland/setup-deno@v2
       - name: Download data files
         run: |
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.CLOTHING_MODEL_WEIGHTS_PATH }}

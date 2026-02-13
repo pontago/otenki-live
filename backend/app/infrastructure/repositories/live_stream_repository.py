@@ -30,6 +30,7 @@ class LiveStreamRepository(ILiveStreamRepository):
             "format": "best[ext=mp4]/best",
             "extractor_retries": 1,
             "cookiefile": str(youtube_cookies_path),
+            "extractor_args": {"youtube": {"skip": ["authcheck"]}, "youtubetab": {"skip": ["authcheck"]}},
             # "proxy": "http://",
         }
 

@@ -3,8 +3,8 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
-import { FlatCompat } from '@eslint/eslintrc';
 import eslint from '@eslint/js';
+import nextVitals from 'eslint-config-next/core-web-vitals';
 import eslintConfigPrettier from 'eslint-config-prettier';
 import importPlugin from 'eslint-plugin-import';
 import storybook from 'eslint-plugin-storybook';
@@ -14,21 +14,18 @@ import tseslint from 'typescript-eslint';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const compat = new FlatCompat({
-  baseDirectory: __dirname,
-});
-
+// eslint-disable-next-line @typescript-eslint/no-deprecated
 export default tseslint.config(
   {
     files: ['*.ts', '*.tsx'],
   },
   {
-    ignores: ['**/.next/**/*', 'public/**/*'],
+    ignores: ['**/.next/**/*', 'public/**/*', 'coverage/**/*', 'storybook-static/**/*'],
   },
   eslint.configs.recommended,
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
-  ...compat.extends('next/core-web-vitals'),
+  nextVitals,
   {
     languageOptions: {
       parser: tseslint.parser,

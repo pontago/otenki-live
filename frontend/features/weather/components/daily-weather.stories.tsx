@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, within } from 'storybook/test';
 import { DateTime } from 'luxon';
+import { expect, within } from 'storybook/test';
 
 import { DailyWeather } from '@/features/weather/components/daily-weather';
 import { WeatherForecast } from '@/features/weather/types/weather';

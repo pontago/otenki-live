@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/nextjs-vite';
-import { expect, within } from 'storybook/test';
 import { DateTime } from 'luxon';
+import { expect, within } from 'storybook/test';
 
 import { WeatherObjectDetection } from '@/features/weather/components/weather-object-detection';
 import { handlers } from '@/mocks/handlers';

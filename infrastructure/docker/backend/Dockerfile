@@ -1,6 +1,7 @@
 FROM public.ecr.aws/lambda/python:3.13-arm64 AS base
 FROM ghcr.io/astral-sh/uv:0.7.12 AS uv
 FROM public.ecr.aws/b3j7a7m1/otenki-live/ffmpeg:latest AS ffmpeg
+FROM denoland/deno:bin-2.6.9 as deno
 
 FROM base AS builder
 
@@ -33,3 +34,4 @@ COPY --from=builder ${LAMBDA_TASK_ROOT%/}/packages/ $LAMBDA_TASK_ROOT
 COPY ./app/ ${LAMBDA_TASK_ROOT%/}/app/
 COPY --from=ffmpeg /opt/ffmpeg-build/lib/* /lib64/
 COPY --from=ffmpeg /opt/ffmpeg-build/bin/ffmpeg /usr/bin/
+COPY --from=deno /deno /usr/bin/deno

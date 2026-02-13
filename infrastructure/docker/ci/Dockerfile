@@ -1,4 +1,6 @@
-FROM public.ecr.aws/amazonlinux/amazonlinux:2023-minimal AS base
+FROM public.ecr.aws/amazonlinux/amazonlinux:2023 AS base
+
+ENV CI_VERSION=0.0.2
 
 FROM base AS builder
 WORKDIR /opt
@@ -51,28 +53,32 @@ FROM base AS runner
 
 RUN curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
 
+RUN dnf -y install dnf-plugins-core \
+  && dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \
+  && sed -i 's/$releasever/9/g' /etc/yum.repos.d/docker-ce.repo \
+  && dnf -y install docker-ce-cli
+
 RUN dnf install -y \
-  mesa-libGL \ 
-  nodejs \
-  awscli \
-  docker \
-  unzip \
-  tar \
-  gzip \
-  nss \
-  dbus-libs \
-  atk \
-  at-spi2-atk \
-  cups-libs \
-  libxkbcommon \
-  at-spi2-core \
-  libXcomposite \
-  libXdamage \
-  libXrandr \
-  cairo \
-  pango \
-  systemd-libs \
-  alsa-lib
+    mesa-libGL \ 
+    nodejs \
+    awscli \
+    unzip \
+    tar \
+    gzip \
+    nss \
+    dbus-libs \
+    atk \
+    at-spi2-atk \
+    cups-libs \
+    libxkbcommon \
+    at-spi2-core \
+    libXcomposite \
+    libXdamage \
+    libXrandr \
+    cairo \
+    pango \
+    systemd-libs \
+    alsa-lib
 
 RUN npm install -g playwright && playwright install chromium
 RUN dnf clean all && rm -rf /var/cache/dnf

@@ -11,7 +11,8 @@ dependencies = [
     "ffmpeg-python>=0.2.0",
     "loguru>=0.7.3",
     "pynamodb>=6.0.2",
-    "requests>=2.32.3",
+    "requests>=2.33.0",
+    "urllib3>=2.7.0",
     "yt-dlp[default]>=2026.03.03",
     "aws-lambda-typing>=2.20.0",
     "types-requests>=2.32.0.20250328",
@@ -23,26 +24,34 @@ dependencies = [
     "torch>=2.7.0",
     "packaging>=25.0",
     "ultralytics>=8.3.152",
-    "onnx>=1.18.0",
+    "onnx>=1.21.0",
     "onnxruntime>=1.22.0",
+    "pillow>=12.2.0",
+    "pyasn1>=0.6.3",
+    "python-dotenv>=1.2.2",
+    "python-multipart>=0.0.27",
     "google-cloud-recaptcha-enterprise>=1.28.2",
     "mangum>=0.19.0",
     "google-auth>=2.40.3",
+    "ujson>=5.12.1",
 ]
 
 [dependency-groups]
 dev = [
     "boto3-stubs-custom",
     "memory-profiler>=0.61.0",
-    "memray>=1.17.2",
+    "memray>=1.19.2",
     "moto>=5.1.4",
     "mypy>=1.15.0",
     "psutil>=7.0.0",
-    "pytest>=8.3.5",
+    "pytest>=9.0.3",
     "pytest-asyncio>=1.1.0",
     "pytest-memray>=1.7.0",
+    "cryptography>=46.0.7",
+    "pygments>=2.20.0",
     "ruff>=0.11.8",
     "types-psutil>=7.0.0.20250601",
+    "werkzeug>=3.1.6",
 ]
 
 

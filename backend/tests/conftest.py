@@ -11,9 +11,8 @@ from app.core.di.container import Container
 from app.core.settings import AppSettings
 
 
-@mock_aws
 @pytest.fixture(scope="module", autouse=True)
-def mock_dynamodb():
+def mock_aws_env():
     mock = mock_aws()
     mock.start()
 

@@ -128,8 +128,13 @@ jobs:
         run: uv sync --locked --all-extras --dev --link-mode=copy
       - name: Run lint
         run: uv run ruff check
+      # test_get_latest_image は yt-dlp で実際に YouTube へアクセスするが、
+      # GitHub Actions のデータセンター IP は cookies があっても bot 判定され
+      # ("Sign in to confirm you're not a bot") formats が空になるため CI では実行しない。
       - name: Run tests
-        run: uv run pytest tests/units/repositories/
+        run: >-
+          uv run pytest tests/units/repositories/
+          --deselect tests/units/repositories/test_live_stream_repository.py::test_get_latest_image
         env:
           AWS_REGION: "us-east-1"
           AWS_ACCESS_KEY_ID: "test"

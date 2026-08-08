@@ -27,8 +27,8 @@ jobs:
       frontend: ${{ steps.filter.outputs.frontend }}
       workflows: ${{ steps.filter.outputs.workflows }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3.0.2
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@v4.0.3
         id: filter
         with:
           # pull_request では base を指定しなければ PR のベースブランチが使われる。
@@ -69,8 +69,8 @@ jobs:
       RECAPTCHA_SITE_KEY: "dummy-site-key"
       GCP_PROJECT_ID: "dummy-project"
     steps:
-      - uses: actions/checkout@v4
-      - uses: astral-sh/setup-uv@v6
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
           working-directory: backend
@@ -111,11 +111,11 @@ jobs:
       USE_MSW: true
       SECRET_KEY: dummy
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Setup volta
-        uses: volta-cli/action@v4
+        uses: volta-cli/action@v5
       - name: Cache pnpm store
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}

@@ -10,6 +10,6 @@ export const apiFetch = async (url: string) => {
     });
   } catch (error) {
     logger.error(error);
-    throw new Error('APIリクエストエラー');
+    throw new Error('APIリクエストエラー', { cause: error });
   }
 };

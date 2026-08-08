@@ -19,7 +19,11 @@ RUN dnf install -y \
     mesa-libGL-devel \
     cmake
 
-RUN git clone https://git.ffmpeg.org/ffmpeg.git ffmpeg
+ARG FFMPEG_VERSION=n7.1.1
+RUN wget -O ffmpeg.tar.gz https://github.com/FFmpeg/FFmpeg/archive/refs/tags/${FFMPEG_VERSION}.tar.gz \
+    && mkdir ffmpeg \
+    && tar -xzf ffmpeg.tar.gz -C ffmpeg --strip-components=1 \
+    && rm ffmpeg.tar.gz
 WORKDIR /opt/ffmpeg
 
 RUN ./configure \

@@ -1812,7 +1812,7 @@ requires-dist = [
     { name = "boto3", specifier = ">=1.43.64" },
     { name = "boto3-stubs", extras = ["boto3", "s3", "dynamodb", "sqs", "ses"], specifier = ">=1.43.64" },
     { name = "dependency-injector", specifier = ">=4.49.1" },
-    { name = "fastapi", extras = ["all"], specifier = ">=0.115.12" },
+    { name = "fastapi", extras = ["all"], specifier = ">=0.141.1" },
     { name = "ffmpeg-python", specifier = ">=0.2.0" },
     { name = "google-auth", specifier = ">=2.56.2" },
     { name = "google-cloud-recaptcha-enterprise", specifier = ">=1.32.0" },

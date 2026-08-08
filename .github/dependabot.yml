@@ -1,0 +1,84 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      # バージョンを揃える必要があるパッケージ群は 1 PR に集約する
+      next:
+        patterns:
+          - "next"
+          - "@next/*"
+          - "eslint-config-next"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook/*"
+          - "*-storybook-addon"
+          - "eslint-plugin-storybook"
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint/*"
+          - "eslint-*"
+          - "typescript-eslint"
+          - "@typescript-eslint/*"
+      radix:
+        patterns:
+          - "@radix-ui/*"
+      playwright:
+        patterns:
+          - "playwright"
+          - "@playwright/*"
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "uv"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      ml:
+        patterns:
+          - "torch"
+          - "torchvision"
+          - "onnx"
+          - "onnxruntime"
+          - "ultralytics"
+          - "sahi"
+      aws:
+        patterns:
+          - "boto3"
+          - "boto3-stubs*"
+          - "aws-lambda-typing"
+          - "mangum"
+      fastapi:
+        patterns:
+          - "fastapi"
+          - "starlette"
+          - "pydantic*"
+          - "uvicorn"
+      dev:
+        dependency-type: "development"
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns:
+          - "*"

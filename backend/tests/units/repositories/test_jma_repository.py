@@ -1,4 +1,5 @@
-from datetime import UTC, datetime
+from datetime import datetime
+from zoneinfo import ZoneInfo
 
 import pytest
 
@@ -29,7 +30,7 @@ def test_get_weekly_forecast(repository: JmaRepository):
 
     assert forecasts is not None
     assert len(forecasts) > 0
-    assert forecasts[0].date_time == datetime.now(UTC).date()
+    assert forecasts[0].date_time == datetime.now(ZoneInfo("Asia/Tokyo")).date()
 
 
 def test_get_hourly_forecast(repository: JmaRepository):

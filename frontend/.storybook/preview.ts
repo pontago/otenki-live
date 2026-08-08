@@ -1,11 +1,11 @@
 import type { Preview } from '@storybook/nextjs-vite';
 import { Settings } from 'luxon';
-import { initialize, mswLoader } from 'msw-storybook-addon';
+import { mswLoader } from 'msw-storybook-addon/csf3';
 
 import '../styles/globals.css';
 
-initialize();
-
+// msw-storybook-addon 3.0 で initialize() は廃止され、addon 側が worker の
+// 生成と起動を行うようになった (main.ts の addons に登録する)
 Settings.defaultZone = 'Asia/Tokyo';
 Settings.defaultLocale = 'ja-JP';
 
@@ -25,7 +25,7 @@ const preview: Preview = {
       test: 'todo',
     },
   },
-  loaders: [mswLoader],
+  loaders: [mswLoader()],
 };
 
 export default preview;

@@ -1,0 +1,127 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    ignore:
+      # eslint 10 は eslint-config-next の推移依存が未対応で lint が実行時に落ちる。
+      #   TypeError: contextOrFilename.getFilename is not a function
+      #     at resolveBasedir (eslint-plugin-react/lib/util/version.js)
+      # eslint-plugin-react@7.37.5 (最新) の peer は `^9.7` まで、
+      # eslint-plugin-import@2.32.0 (最新) の peer は `^9` まで。
+      # 両者が eslint 10 に対応したらこの ignore を外す。
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+    groups:
+      # バージョンを揃える必要があるパッケージ群は 1 PR に集約する。
+      #
+      # スコープ付きパッケージは `@scope/*` 形式のパターンでマッチしなかった実績が
+      # あるため (#55/#61/#62/#64 で @next/* @storybook/* @typescript-eslint/*
+      # @playwright/* が全て取りこぼされ minor-and-patch 側に落ちた)、
+      # スラッシュを含まない `@scope*` 形式と明示的なパッケージ名を併記する。
+      next:
+        patterns:
+          - "next"
+          - "@next*"
+          - "@next/third-parties"
+          - "@next/eslint-plugin-next"
+          - "eslint-config-next"
+      vitest:
+        patterns:
+          - "vitest"
+          - "@vitest*"
+          - "@vitest/browser"
+          - "@vitest/browser-playwright"
+          - "@vitest/coverage-v8"
+      storybook:
+        patterns:
+          - "storybook"
+          - "@storybook*"
+          - "@storybook/addon-a11y"
+          - "@storybook/addon-docs"
+          - "@storybook/addon-onboarding"
+          - "@storybook/addon-vitest"
+          - "@storybook/nextjs-vite"
+          - "@chromatic-com/storybook"
+          - "msw-storybook-addon"
+          - "eslint-plugin-storybook"
+      eslint:
+        patterns:
+          - "eslint"
+          - "@eslint*"
+          - "@eslint/eslintrc"
+          - "@eslint/js"
+          - "@eslint/plugin-kit"
+          - "eslint-*"
+          - "typescript-eslint"
+          - "@typescript-eslint*"
+          - "@typescript-eslint/eslint-plugin"
+          - "@typescript-eslint/parser"
+      radix:
+        patterns:
+          - "@radix-ui*"
+      playwright:
+        patterns:
+          - "playwright"
+          - "@playwright*"
+          - "@playwright/test"
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+      # security update も 1 PR に集約する (既定では単発 PR になる)
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: "uv"
+    directory: "/backend"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      ml:
+        patterns:
+          - "torch"
+          - "torchvision"
+          - "onnx"
+          - "onnxruntime"
+          - "ultralytics"
+          - "ultralytics-thop"
+          - "sahi"
+          - "opencv-python"
+      aws:
+        patterns:
+          - "boto3"
+          - "boto3-stubs*"
+          - "aws-lambda-typing"
+          - "mangum"
+      fastapi:
+        patterns:
+          - "fastapi"
+          - "starlette"
+          - "pydantic*"
+          - "uvicorn"
+      dev:
+        dependency-type: "development"
+      minor-and-patch:
+        update-types:
+          - "minor"
+          - "patch"
+      # security update も 1 PR に集約する (既定では単発 PR になる)
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      actions:
+        patterns:
+          - "*"

@@ -1,0 +1,135 @@
+name: PR Verify
+
+# main.yml は push:main のみで起動するため、PR に対して CI が走らない。
+# Dependabot PR にはリポジトリ Secrets が渡らないので、AWS / GHCR を一切使わず
+# lint とテストだけを実行する検証用ワークフローを分離している。
+# deploy は従来どおり main.yml (push:main) が担当する。
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  changes:
+    name: Change Detection
+    runs-on: ubuntu-latest
+    outputs:
+      backend: ${{ steps.filter.outputs.backend }}
+      frontend: ${{ steps.filter.outputs.frontend }}
+      workflows: ${{ steps.filter.outputs.workflows }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@v4.0.3
+        id: filter
+        with:
+          # pull_request では base を指定しなければ PR のベースブランチが使われる。
+          # predicate-quantifier: every のため 1 つのフィルタに backend/** と
+          # .github/workflows/** を混ぜると両方を同時に満たせず常に false になる。
+          # ワークフロー変更は独立したフィルタにして job 側で OR を取る。
+          predicate-quantifier: "every"
+          filters: |
+            shared: &shared
+              - '!**/*.md'
+            backend:
+              - *shared
+              - 'backend/**'
+            frontend:
+              - *shared
+              - 'frontend/**'
+            workflows:
+              - '.github/workflows/**'
+
+  backend:
+    name: Backend Verify
+    needs: [changes]
+    if: needs.changes.outputs.backend == 'true' || needs.changes.outputs.workflows == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      AWS_REGION: "us-east-1"
+      AWS_ACCESS_KEY_ID: "test"
+      AWS_SECRET_ACCESS_KEY: "test"
+      STORAGE_DIR: "./tests/data/"
+      CLOTHING_MODEL_WEIGHTS_PATH: "checkpoints/clothing.pth"
+      DETECTION_MODEL_WEIGHTS_PATH: "checkpoints/detection.onnx"
+      YOUTUBE_COOKIES_PATH: "cookies/cookies.txt"
+      # reCAPTCHA / GCP を使うテストはクライアントを全てモックしており、
+      # 設定値が空でないことしか見ていないためダミーで足りる
+      RECAPTCHA_SITE_KEY: "dummy-site-key"
+      GCP_PROJECT_ID: "dummy-project"
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+          working-directory: backend
+      - name: Install dependencies
+        run: uv sync --locked --all-extras --dev
+      # conftest はモデルファイルを moto のモック S3 にアップロードするだけで
+      # 中身を読まないため、実重みの代わりにダミーで足りる
+      - name: Create model fixtures
+        run: |
+          mkdir -p tests/data/checkpoints tests/data/cookies
+          : > "tests/data/${CLOTHING_MODEL_WEIGHTS_PATH}"
+          : > "tests/data/${DETECTION_MODEL_WEIGHTS_PATH}"
+          printf '# Netscape HTTP Cookie File\n' > "tests/data/${YOUTUBE_COOKIES_PATH}"
+      - name: Run lint
+        run: uv run ruff check
+      # test_get_latest_image は yt-dlp で実際に YouTube へアクセスし、
+      # S3 から落とす本物の cookies を必要とするため PR では実行できない。
+      # このテストは push:main の main.yml 側で従来どおりカバーされる。
+      - name: Run tests
+        run: >-
+          uv run pytest tests/units/ tests/api/
+          --deselect tests/units/repositories/test_live_stream_repository.py::test_get_latest_image
+
+  frontend:
+    name: Frontend Verify
+    needs: [changes]
+    if: needs.changes.outputs.frontend == 'true' || needs.changes.outputs.workflows == 'true'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      VOLTA_FEATURE_PNPM: 1
+      NEXT_PUBLIC_BASE_URL: http://localhost:3000
+      NEXT_PUBLIC_API_BASE_URL: http://localhost:8000/api/v1
+      NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ""
+      NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: ""
+      USE_MSW: true
+      SECRET_KEY: dummy
+    steps:
+      - uses: actions/checkout@v7
+      - name: Setup volta
+        uses: volta-cli/action@v5
+      - name: Cache pnpm store
+        uses: actions/cache@v6
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-pnpm-${{ hashFiles('frontend/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm exec playwright install --with-deps chromium
+      - name: Run lint
+        run: pnpm lint
+      - name: Run tests
+        run: |
+          pnpm test
+          pnpm test:e2e
+      - name: Build
+        run: pnpm build

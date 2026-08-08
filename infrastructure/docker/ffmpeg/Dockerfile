@@ -4,6 +4,7 @@ WORKDIR /opt
 
 RUN dnf install -y \
     git \
+    diffutils \
     gcc \
     gcc-c++ \
     make \
@@ -19,7 +20,7 @@ RUN dnf install -y \
     mesa-libGL-devel \
     cmake
 
-ARG FFMPEG_VERSION=n7.1.1
+ARG FFMPEG_VERSION=n7.1.5
 RUN wget -O ffmpeg.tar.gz https://github.com/FFmpeg/FFmpeg/archive/refs/tags/${FFMPEG_VERSION}.tar.gz \
     && mkdir ffmpeg \
     && tar -xzf ffmpeg.tar.gz -C ffmpeg --strip-components=1 \

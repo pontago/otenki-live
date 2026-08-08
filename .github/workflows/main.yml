@@ -25,8 +25,8 @@ jobs:
       frontend: ${{ steps.filter.outputs.frontend }}
       ci-container: ${{ steps.filter.outputs.ci-container }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: dorny/paths-filter@v3.0.2
+      - uses: actions/checkout@v7
+      - uses: dorny/paths-filter@v4.0.3
         id: filter
         with:
           base: ${{ github.ref }}
@@ -52,21 +52,21 @@ jobs:
       contents: read
       packages: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/login-action@v4
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/metadata-action@v5
+      - uses: docker/metadata-action@v6
         id: meta
         with:
           images: ghcr.io/${{ github.repository }}/ci-container
           tags: |
             type=raw,value=latest
             type=sha,prefix=,suffix=,format=short
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v7
         with:
           context: .
           file: ./infrastructure/docker/ci/Dockerfile
@@ -96,10 +96,10 @@ jobs:
       run:
         working-directory: backend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Configure AWS Credentials (act)
         if: ${{ env.ACT }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: ${{ vars.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -107,7 +107,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Configure AWS Credentials
         if: ${{ !env.ACT }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE }}
@@ -119,7 +119,7 @@ jobs:
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.DETECTION_MODEL_WEIGHTS_PATH }} ./tests/data/${{ vars.DETECTION_MODEL_WEIGHTS_PATH }}
           aws s3 cp s3://otenki-live-backend${{ env.SUFFIX }}/${{ vars.YOUTUBE_COOKIES_PATH }} ./tests/data/${{ vars.YOUTUBE_COOKIES_PATH }}
       - name: Setup uv
-        uses: astral-sh/setup-uv@v6
+        uses: astral-sh/setup-uv@v7
         id: setup-uv
         with:
           enable-cache: true
@@ -160,11 +160,11 @@ jobs:
     env:
       VOLTA_FEATURE_PNPM: 1
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Setup volta
-        uses: volta-cli/action@v4
+        uses: volta-cli/action@v5
       - name: Cache pnpm store
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
@@ -215,12 +215,12 @@ jobs:
       TF_VAR_detection_model_weights_path: ${{ vars.DETECTION_MODEL_WEIGHTS_PATH }}
       TF_VAR_youtube_cookies_path: ${{ vars.YOUTUBE_COOKIES_PATH }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/setup-qemu-action@v3
+      - uses: actions/checkout@v7
+      - uses: docker/setup-buildx-action@v4
+      - uses: docker/setup-qemu-action@v4
       - name: Configure AWS Credentials (act)
         if: ${{ env.ACT }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: ${{ vars.AWS_REGION }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -228,7 +228,7 @@ jobs:
           aws-session-token: ${{ secrets.AWS_SESSION_TOKEN }}
       - name: Configure AWS Credentials
         if: ${{ !env.ACT }}
-        uses: aws-actions/configure-aws-credentials@v4
+        uses: aws-actions/configure-aws-credentials@v6
         with:
           aws-region: ${{ vars.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE }}
@@ -246,11 +246,11 @@ jobs:
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
           workload_identity_provider: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ secrets.GCP_POOL_ID }}/providers/${{ secrets.GCP_PROVIDER_ID }}"
       - name: Setup terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: hashicorp/setup-terraform@v4
       - name: Setup volta
-        uses: volta-cli/action@v4
+        uses: volta-cli/action@v5
       - name: Cache pnpm store
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: ~/.pnpm-store
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}

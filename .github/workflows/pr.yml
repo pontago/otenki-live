@@ -88,7 +88,8 @@ jobs:
         run: uv run ruff check
       # test_get_latest_image は yt-dlp で実際に YouTube へアクセスし、
       # S3 から落とす本物の cookies を必要とするため PR では実行できない。
-      # このテストは push:main の main.yml 側で従来どおりカバーされる。
+      # main.yml 側でも同じ理由（データセンター IP の bot 判定）で除外しており、
+      # このテストはローカル実行でのみカバーされる。
       - name: Run tests
         run: >-
           uv run pytest tests/units/ tests/api/

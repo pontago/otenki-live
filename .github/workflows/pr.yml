@@ -64,6 +64,10 @@ jobs:
       CLOTHING_MODEL_WEIGHTS_PATH: "checkpoints/clothing.pth"
       DETECTION_MODEL_WEIGHTS_PATH: "checkpoints/detection.onnx"
       YOUTUBE_COOKIES_PATH: "cookies/cookies.txt"
+      # reCAPTCHA / GCP を使うテストはクライアントを全てモックしており、
+      # 設定値が空でないことしか見ていないためダミーで足りる
+      RECAPTCHA_SITE_KEY: "dummy-site-key"
+      GCP_PROJECT_ID: "dummy-project"
     steps:
       - uses: actions/checkout@v4
       - uses: astral-sh/setup-uv@v6
@@ -82,8 +86,13 @@ jobs:
           printf '# Netscape HTTP Cookie File\n' > "tests/data/${YOUTUBE_COOKIES_PATH}"
       - name: Run lint
         run: uv run ruff check
+      # test_get_latest_image は yt-dlp で実際に YouTube へアクセスし、
+      # S3 から落とす本物の cookies を必要とするため PR では実行できない。
+      # このテストは push:main の main.yml 側で従来どおりカバーされる。
       - name: Run tests
-        run: uv run pytest tests/units/ tests/api/
+        run: >-
+          uv run pytest tests/units/ tests/api/
+          --deselect tests/units/repositories/test_live_stream_repository.py::test_get_latest_image
 
   frontend:
     name: Frontend Verify

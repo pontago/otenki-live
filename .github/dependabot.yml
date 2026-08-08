@@ -5,6 +5,15 @@ updates:
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5
+    ignore:
+      # eslint 10 は eslint-config-next の推移依存が未対応で lint が実行時に落ちる。
+      #   TypeError: contextOrFilename.getFilename is not a function
+      #     at resolveBasedir (eslint-plugin-react/lib/util/version.js)
+      # eslint-plugin-react@7.37.5 (最新) の peer は `^9.7` まで、
+      # eslint-plugin-import@2.32.0 (最新) の peer は `^9` まで。
+      # 両者が eslint 10 に対応したらこの ignore を外す。
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
     groups:
       # バージョンを揃える必要があるパッケージ群は 1 PR に集約する。
       #

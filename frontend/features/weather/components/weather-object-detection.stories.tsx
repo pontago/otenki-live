@@ -24,7 +24,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    data: objectDetectionData as LiveDetectData[],
+    data: objectDetectionData,
   },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

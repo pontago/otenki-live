@@ -40,6 +40,11 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      # security update も 1 PR に集約する (既定では単発 PR になる)
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "uv"
     directory: "/backend"
@@ -73,6 +78,11 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      # security update も 1 PR に集約する (既定では単発 PR になる)
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"

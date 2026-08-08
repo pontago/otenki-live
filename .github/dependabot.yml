@@ -6,40 +6,67 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 5
     groups:
-      # バージョンを揃える必要があるパッケージ群は 1 PR に集約する
+      # バージョンを揃える必要があるパッケージ群は 1 PR に集約する。
+      #
+      # スコープ付きパッケージは `@scope/*` 形式のパターンでマッチしなかった実績が
+      # あるため (#55/#61/#62/#64 で @next/* @storybook/* @typescript-eslint/*
+      # @playwright/* が全て取りこぼされ minor-and-patch 側に落ちた)、
+      # スラッシュを含まない `@scope*` 形式と明示的なパッケージ名を併記する。
       next:
         patterns:
           - "next"
-          - "@next/*"
+          - "@next*"
+          - "@next/third-parties"
+          - "@next/eslint-plugin-next"
           - "eslint-config-next"
       vitest:
         patterns:
           - "vitest"
-          - "@vitest/*"
+          - "@vitest*"
+          - "@vitest/browser"
+          - "@vitest/browser-playwright"
+          - "@vitest/coverage-v8"
       storybook:
         patterns:
           - "storybook"
-          - "@storybook/*"
-          - "*-storybook-addon"
+          - "@storybook*"
+          - "@storybook/addon-a11y"
+          - "@storybook/addon-docs"
+          - "@storybook/addon-onboarding"
+          - "@storybook/addon-vitest"
+          - "@storybook/nextjs-vite"
+          - "@chromatic-com/storybook"
+          - "msw-storybook-addon"
           - "eslint-plugin-storybook"
       eslint:
         patterns:
           - "eslint"
-          - "@eslint/*"
+          - "@eslint*"
+          - "@eslint/eslintrc"
+          - "@eslint/js"
+          - "@eslint/plugin-kit"
           - "eslint-*"
           - "typescript-eslint"
-          - "@typescript-eslint/*"
+          - "@typescript-eslint*"
+          - "@typescript-eslint/eslint-plugin"
+          - "@typescript-eslint/parser"
       radix:
         patterns:
-          - "@radix-ui/*"
+          - "@radix-ui*"
       playwright:
         patterns:
           - "playwright"
-          - "@playwright/*"
+          - "@playwright*"
+          - "@playwright/test"
       minor-and-patch:
         update-types:
           - "minor"
           - "patch"
+      # security update も 1 PR に集約する (既定では単発 PR になる)
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "uv"
     directory: "/backend"
@@ -54,7 +81,9 @@ updates:
           - "onnx"
           - "onnxruntime"
           - "ultralytics"
+          - "ultralytics-thop"
           - "sahi"
+          - "opencv-python"
       aws:
         patterns:
           - "boto3"
@@ -73,6 +102,11 @@ updates:
         update-types:
           - "minor"
           - "patch"
+      # security update も 1 PR に集約する (既定では単発 PR になる)
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"

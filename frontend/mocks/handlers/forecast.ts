@@ -3,7 +3,6 @@ import { http, HttpResponse } from 'msw';
 import {
   Area,
   AreasResponse,
-  LiveChannel,
   LiveChannelsResponse,
   PrefectureCode,
   RegionalWeather,
@@ -91,7 +90,7 @@ export const liveChannelsHandlers = [
   http.get<never, never, LiveChannelsResponse>('*/live-channel', () => {
     return HttpResponse.json({
       status: 'success',
-      data: liveChannels as LiveChannel[],
+      data: liveChannels,
       meta: {
         count: liveChannels.length,
       },

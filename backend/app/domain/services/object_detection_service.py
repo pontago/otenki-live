@@ -39,7 +39,10 @@ class ObjectDetectionService:
         self.sahi_detection_model = sahi.AutoDetectionModel.from_pretrained(
             # model_type="torchvision",
             # model=self.fasterrcnn_model,
-            model_type="yolov8onnx",
+            # sahi 0.12.0 で yolov8onnx が廃止され、ONNX は ultralytics に統合された。
+            # ONNX には task メタデータが無い場合があるため明示する。
+            model_type="ultralytics",
+            task="detect",
             model_path=self.detection_model,
             category_mapping=CATEGORY_MAPPING,
             # confidence_threshold=0.8,

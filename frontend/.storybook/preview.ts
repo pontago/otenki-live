@@ -1,13 +1,12 @@
 import type { Preview } from '@storybook/nextjs-vite';
-import { Settings } from 'luxon';
 import { mswLoader } from 'msw-storybook-addon/csf3';
 
+// luxon の既定のタイムゾーン・ロケール (Asia/Tokyo, ja-JP) を設定する
+import '../lib/luxon';
 import '../styles/globals.css';
 
 // msw-storybook-addon 3.0 で initialize() は廃止され、addon 側が worker の
 // 生成と起動を行うようになった (main.ts の addons に登録する)
-Settings.defaultZone = 'Asia/Tokyo';
-Settings.defaultLocale = 'ja-JP';
 
 const preview: Preview = {
   parameters: {

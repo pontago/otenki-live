@@ -1,7 +1,6 @@
 'use client';
 
 import { Thermometer } from 'lucide-react';
-import { DateTime } from 'luxon';
 import Image from 'next/image';
 import type * as React from 'react';
 import { useEffect, useRef } from 'react';
@@ -10,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 
 import { HourlyWeatherData } from '@/features/weather/types/weather';
+import { DateTime } from '@/lib/luxon';
 
 type HourlyWeatherProps = {
   data: HourlyWeatherData[];

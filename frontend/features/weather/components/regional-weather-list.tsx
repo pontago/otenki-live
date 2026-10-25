@@ -1,5 +1,4 @@
 import { Shirt, ThermometerSnowflake, ThermometerSun, Umbrella, Users } from 'lucide-react';
-import { DateTime } from 'luxon';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -17,6 +16,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 import { latestWeatherPop } from '@/features/weather/lib/weather';
 import { RegionalWeather } from '@/features/weather/types/weather';
+import { DateTime } from '@/lib/luxon';
 
 type RegionalWeatherListProps = {
   forecasts: RegionalWeather[];

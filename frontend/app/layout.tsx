@@ -1,5 +1,4 @@
 import { GoogleAnalytics } from '@next/third-parties/google';
-import { Settings } from 'luxon';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import '@/styles/globals.css';
@@ -10,9 +9,6 @@ import { ThemeProvider } from '@/components/theme-provider';
 
 import { CONSTANTS } from '@/lib/constants';
 import { env } from '@/lib/env';
-
-Settings.defaultZone = 'Asia/Tokyo';
-Settings.defaultLocale = 'ja-JP';
 
 if (process.env.NEXT_RUNTIME === 'nodejs' && env.USE_MSW) {
   const { server } = await import('@/mocks/server');

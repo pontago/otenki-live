@@ -1,5 +1,4 @@
 import { Thermometer, Umbrella } from 'lucide-react';
-import { DateTime } from 'luxon';
 import Image from 'next/image';
 import type * as React from 'react';
 
@@ -8,6 +7,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
 
 import { WeatherForecast } from '@/features/weather/types/weather';
+import { DateTime } from '@/lib/luxon';
 
 type DailyForecastProps = {
   data: WeatherForecast[];

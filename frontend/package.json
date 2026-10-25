@@ -93,7 +93,7 @@
   },
   "volta": {
     "node": "26.12.1",
-    "pnpm": "10.14.0"
+    "pnpm": "10.34.8"
   },
   "msw": {
     "workerDirectory": [

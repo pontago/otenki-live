@@ -58,7 +58,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/grecaptcha": "^3.0.9",
     "@types/luxon": "^3.7.6",
-    "@types/node": "^22.19.13",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@types/yargs": "^17.0.35",
@@ -92,7 +92,7 @@
     "yargs": "^18.2.0"
   },
   "volta": {
-    "node": "22.18.0",
+    "node": "26.12.1",
     "pnpm": "10.14.0"
   },
   "msw": {

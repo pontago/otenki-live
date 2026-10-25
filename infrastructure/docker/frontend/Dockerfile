@@ -5,6 +5,12 @@ ENV VOLTA_HOME=/opt/volta
 ENV PATH=$VOLTA_HOME/bin:$PATH
 ENV VOLTA_VERSION=2.0.2
 
+# Node.js 26 以降の公式バイナリは libatomic.so.1 を必要とするが、2023-minimal には含まれない。
+# builder (node --version) と runner (node server.js) の両方で必要なため base で入れる。
+RUN --mount=type=cache,target=/var/cache/dnf \
+    --mount=type=cache,target=/var/lib/dnf \
+    dnf install -y libatomic
+
 FROM base AS builder
 WORKDIR /app
 

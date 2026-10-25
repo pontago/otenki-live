@@ -4,3 +4,21 @@ onlyBuiltDependencies:
   - msw
   - sharp
   - unrs-resolver
+
+# package.json の pnpm.overrides に置くと、Dependabot が pnpm-lock.yaml を再生成する際に
+# lockfile の overrides セクションを落とし、CI の `pnpm install --frozen-lockfile` が
+# ERR_PNPM_LOCKFILE_CONFIG_MISMATCH で失敗する (#104/#113)。
+# また pnpm v11 以降は package.json の pnpm フィールドを読まないため、ここで管理する。
+overrides:
+  '@babel/core@^7': 7.29.7
+  brace-expansion@^1: 1.1.21
+  brace-expansion@^2: 2.1.7
+  brace-expansion@^5: 5.0.12
+  flatted: 3.4.2
+  js-yaml@^4: 4.3.2
+  picomatch@^2: 2.3.2
+  picomatch@^4: 4.0.4
+  postcss: 8.5.26
+  sharp@^0.34: 0.35.3
+  vite: 8.3.5
+  ws@^8: 8.21.3

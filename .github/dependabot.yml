@@ -14,6 +14,14 @@ updates:
       # 両者が eslint 10 に対応したらこの ignore を外す。
       - dependency-name: "eslint"
         update-types: ["version-update:semver-major"]
+      # @types/node は実行環境の Node (package.json の volta.node) のメジャーに合わせる。
+      # Node 自体を上げるときに手動で更新する。
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # typescript 7 は typescript-eslint@8.72 (最新) の peer `>=4.8.4 <6.1.0` 外。
+      # typescript-eslint が対応したらこの ignore を外す。
+      - dependency-name: "typescript"
+        versions: [">=7.0.0"]
     groups:
       # バージョンを揃える必要があるパッケージ群は 1 PR に集約する。
       #

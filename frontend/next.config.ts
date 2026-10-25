@@ -4,7 +4,9 @@ import type { NextConfig } from 'next';
 import { env } from './lib/env';
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ['pino-pretty', 'pino'],
+  // msw 3 (ESM-only) は SSR でバンドルされると msw/node の読み込みで
+  // ERR_INVALID_ARG_TYPE になるため、Node.js から直接読み込ませる。
+  serverExternalPackages: ['pino-pretty', 'pino', 'msw'],
   output: 'standalone',
   images: {
     unoptimized: true,

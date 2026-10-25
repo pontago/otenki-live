@@ -56,7 +56,7 @@ RUN ./configure \
 
 FROM base AS runner
 
-RUN curl -fsSL https://rpm.nodesource.com/setup_20.x | bash -
+RUN curl -fsSL https://rpm.nodesource.com/setup_26.x | bash -
 
 RUN dnf -y install dnf-plugins-core \
   && dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo \

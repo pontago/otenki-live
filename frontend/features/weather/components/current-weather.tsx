@@ -1,5 +1,4 @@
 import { Shirt, Thermometer, Umbrella, Users, Wind } from 'lucide-react';
-import { DateTime } from 'luxon';
 import Image from 'next/image';
 import type * as React from 'react';
 
@@ -15,6 +14,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { WeatherForecast } from '@/features/weather/types/weather';
+import { DateTime } from '@/lib/luxon';
 
 type CurrentWeatherProps = {
   forecast: WeatherForecast;

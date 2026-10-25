@@ -1,13 +1,14 @@
 'use client';
 
 import { Shirt, Umbrella, Users } from 'lucide-react';
-import { DateTime } from 'luxon';
 import type * as React from 'react';
 import { useEffect, useRef } from 'react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { Skeleton } from '@/components/ui/skeleton';
+
+import { DateTime } from '@/lib/luxon';
 
 import { LiveDetectData } from '../types/weather';
 

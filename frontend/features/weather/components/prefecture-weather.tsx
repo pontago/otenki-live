@@ -1,5 +1,4 @@
 import { Shirt, ThermometerSnowflake, ThermometerSun, Umbrella, Users } from 'lucide-react';
-import { DateTime } from 'luxon';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,6 +15,7 @@ import {
 
 import { latestWeatherPop } from '@/features/weather/lib/weather';
 import { WeatherForecast } from '@/features/weather/types/weather';
+import { DateTime } from '@/lib/luxon';
 
 type PrefectureWeatherProps = {
   forecasts: WeatherForecast[];

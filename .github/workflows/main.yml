@@ -250,6 +250,11 @@ jobs:
         with:
           service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
           workload_identity_provider: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/${{ secrets.GCP_POOL_ID }}/providers/${{ secrets.GCP_PROVIDER_ID }}"
+      # 匿名 pull だと共有ランナーの IP 単位で ECR Public のデータ上限 (429 Data limit exceeded)
+      # に当たり、docker build が失敗するため認証して pull する。失敗時は匿名 pull で続行する。
+      - name: Login to Amazon ECR Public
+        continue-on-error: true
+        run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws
       - name: Setup terraform
         uses: hashicorp/setup-terraform@v4
       - name: Setup volta
